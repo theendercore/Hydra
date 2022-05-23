@@ -1,29 +1,31 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "twitchmod",
   "version": "${version}",
 
-  "name": "Example Mod",
+  "name": "twitchmod",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
     "Me!"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://fabricmc.net/"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/twitchmod/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "com.theendercore.twitchmod.TwitchMod"
+    ],
+    "modmenu": [
+      "com.theendercore.twitchmod.config.ModMenuCompat"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "twitchmod.mixins.json"
   ],
 
   "depends": {

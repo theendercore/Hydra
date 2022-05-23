@@ -1,0 +1,11 @@
+{
+  "config.twitchmod.title": "Twitch Integrations Mod",
+  "config.twitchmod.credentials.username": "Username",
+  "config.twitchmod.credentials.oauthKey": "OauthKey",
+
+  "config.twitchmod.category.credentials": "Credentials",
+
+
+  "config.twitchmod.credentials.username.tooltip":"Enter ur twih here",
+  "config.twitchmod.credentials.oauthKey.tooltip": "aouth key here"
+}
