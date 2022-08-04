@@ -28,7 +28,7 @@ public class TwitchCommand implements Command<ServerCommandSource> {
             chatMessage(Text.literal("twitch bot is already on").formatted(Formatting.BLUE));
         }
 
-//        twitchClient.getPubSub().listenForChannelPointsRedemptionEvents(credential, ModConfig.getConfig().getUsername());
+        twitchClient.getPubSub().listenForChannelPointsRedemptionEvents(credential, ModConfig.getConfig().getUsername());
 
 //        twitchClient.getEventManager().onEvent(FollowingEvent.class, eventListener::followingEventListener);
         twitchClient.getEventManager().onEvent(RewardRedeemedEvent.class, eventListener::rewardRedeemedListener);
