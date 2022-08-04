@@ -2,6 +2,8 @@ package com.theendercore.twitchmod;
 
 import com.github.twitch4j.TwitchClientBuilder;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
+import com.github.twitch4j.helix.domain.UserList;
+import com.github.twitch4j.pubsub.events.PubSubListenResponseEvent;
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
@@ -11,6 +13,8 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
+import java.util.Arrays;
+
 import static com.theendercore.twitchmod.TwitchMod.*;
 
 public class TwitchCommand implements Command<ServerCommandSource> {
@@ -18,17 +22,22 @@ public class TwitchCommand implements Command<ServerCommandSource> {
     public int run(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
         ModConfig config = ModConfig.getConfig();
 
-        TwitchMod.LOGGER.info(context.getSource().getPlayer().getName().getString());
         if (twitchClient == null) {
             chatMessage(Text.literal("twitch connecting...").formatted(Formatting.DARK_GRAY));
-            twitchClient = TwitchClientBuilder.builder().withEnableHelix(true).withEnablePubSub(true).withEnableChat(true).withChatAccount(credential).build();
+            twitchClient = TwitchClientBuilder.builder()
+                    .withEnableHelix(true)
+                    .withEnablePubSub(true)
+                    .withEnableChat(true)
+                    .withChatAccount(credential)
+                    .build();
             chatMessage(Text.literal("twitch bot enable").formatted(Formatting.DARK_GRAY));
-        }
-        else {
-            chatMessage(Text.literal("twitch bot is already on").formatted(Formatting.BLUE));
+        } else {
+            chatMessage(Text.literal("twitch bot is already on").formatted(Formatting.GRAY));
         }
 
-        twitchClient.getPubSub().listenForChannelPointsRedemptionEvents(credential, ModConfig.getConfig().getUsername());
+        UserList resultList = twitchClient.getHelix().getUsers(null, null, Arrays.asList(config.getUsername())).execute();
+
+        twitchClient.getPubSub().listenForChannelPointsRedemptionEvents(credential, resultList.getUsers().get(0).getId());
 
 //        twitchClient.getEventManager().onEvent(FollowingEvent.class, eventListener::followingEventListener);
         twitchClient.getEventManager().onEvent(RewardRedeemedEvent.class, eventListener::rewardRedeemedListener);
