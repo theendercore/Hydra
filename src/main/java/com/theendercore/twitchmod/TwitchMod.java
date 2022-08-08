@@ -61,6 +61,7 @@ public class TwitchMod implements ModInitializer {
             dispatcher.getRoot().addChild(twitchNode);
             twitchNode.addChild(enableNode);
             twitchNode.addChild(disableNode);
+            LOGGER.info("pp");
         });
     }
 }
