@@ -1,31 +1,31 @@
 {
   "schemaVersion": 1,
-  "id": "twitchmod",
+  "id": "hydra",
   "version": "${version}",
 
-  "name": "twitchmod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Hydra",
+  "description": "A mod to make ur life a bit more of hell",
   "authors": [
-    "Me!"
+    "Ender"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/twitchmod/icon.png",
+  "icon": "assets/hydra/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.theendercore.twitchmod.TwitchMod"
+      "com.theendercore.hydra.HydraMod"
     ],
     "modmenu": [
-      "com.theendercore.twitchmod.config.ModMenuCompat"
+      "com.theendercore.hydra.config.ModMenuCompat"
     ]
   },
   "mixins": [
-    "twitchmod.mixins.json"
+    "hydra.mixins.json"
   ],
 
   "depends": {

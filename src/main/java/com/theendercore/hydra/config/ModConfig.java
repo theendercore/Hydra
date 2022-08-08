@@ -1,4 +1,4 @@
-package com.theendercore.twitchmod.config;
+package com.theendercore.hydra.config;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.Locale;
 
-import static com.theendercore.twitchmod.TwitchMod.MODID;
+import static com.theendercore.hydra.HydraMod.MODID;
 
 public class ModConfig {
 

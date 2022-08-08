@@ -1,13 +1,14 @@
-package com.theendercore.twitchmod;
+package com.theendercore.hydra;
 
 import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.twitch4j.TwitchClient;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import com.theendercore.twitchmod.config.ModConfig;
-import com.theendercore.twitchmod.twitch.TwitchCommands;
+import com.theendercore.hydra.config.ModConfig;
+import com.theendercore.hydra.twitch.TwitchCommands;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.MutableText;
@@ -21,8 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class TwitchMod implements ModInitializer {
-    public static final String MODID = "twitchchat";
+public class HydraMod implements ModInitializer {
+    public static final String MODID = "hydra";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
     public static TwitchClient twitchClient;
     public static OAuth2Credential credential;
@@ -45,11 +46,12 @@ public class TwitchMod implements ModInitializer {
     }
 
     public static void titleMessage(@Nullable Text text, @Nullable Text smallText) {
+        InGameHud hud = MinecraftClient.getInstance().inGameHud;
         if (!(text == null)) {
-            MinecraftClient.getInstance().inGameHud.setTitle(text);
+            hud.setTitle(text);
         }
         if (!(smallText == null)) {
-            MinecraftClient.getInstance().inGameHud.setSubtitle(smallText);
+            hud.setSubtitle(smallText);
         }
     }
 

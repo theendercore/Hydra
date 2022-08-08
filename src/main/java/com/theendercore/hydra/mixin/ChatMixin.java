@@ -1,13 +1,13 @@
-package com.theendercore.twitchmod.mixin;
+package com.theendercore.hydra.mixin;
 
-import com.theendercore.twitchmod.config.ModConfig;
+import com.theendercore.hydra.config.ModConfig;
 import net.minecraft.client.gui.screen.ChatScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Date;
-import static com.theendercore.twitchmod.TwitchMod.*;
+import static com.theendercore.hydra.HydraMod.*;
 
 
 @Mixin(ChatScreen.class)

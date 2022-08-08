@@ -1,9 +1,9 @@
-package com.theendercore.twitchmod.twitch;
+package com.theendercore.hydra.twitch;
 
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import com.github.twitch4j.pubsub.events.FollowingEvent;
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
-import com.theendercore.twitchmod.config.ModConfig;
+import com.theendercore.hydra.config.ModConfig;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -11,7 +11,7 @@ import net.minecraft.util.Formatting;
 import java.util.Date;
 import java.util.Objects;
 
-import static com.theendercore.twitchmod.TwitchMod.*;
+import static com.theendercore.hydra.HydraMod.*;
 
 public class EventListeners {
 
@@ -27,15 +27,15 @@ public class EventListeners {
             case "PP" -> LOGGER.info("yoo");
             default -> {
                 MutableText user = Text.literal(event.getRedemption().getUser().getDisplayName()).formatted(Formatting.DARK_GRAY);
-                MutableText translatableText = Text.translatable("listener.twitchmod.reward").formatted(Formatting.WHITE);
+                MutableText translatableText = Text.translatable("listener." + MODID + ".reward").formatted(Formatting.WHITE);
                 MutableText eventTitle = Text.literal(event.getRedemption().getReward().getTitle()).formatted(Formatting.DARK_GRAY);
                 chatMessage(user.append(translatableText).append(eventTitle));
-
             }
         }
     }
 
     public static void channelMessageListener(ChannelMessageEvent event) {
+        LOGGER.info(event.getMessage());
         ModConfig c = ModConfig.getConfig();
         if (Objects.equals(event.getUser().getName(), c.getUsername())) {
             addTwitchMessage(new Date(), event.getUser().getName(), event.getMessage(), c.getChannelChatColor(), false, c);
