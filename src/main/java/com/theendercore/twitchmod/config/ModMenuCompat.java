@@ -33,6 +33,12 @@ public class ModMenuCompat implements ModMenuApi {
                     .setTooltip(Text.translatable("config.twitchmod.credentials.oauthKey.tooltip"))
                     .setDefaultValue(ModConfig.DEFAULT_OAUTH_KEY)
                     .build());
+            credentialsCategory.addEntry(entryBuilder
+                    .startStrField(Text.translatable("config.twitchmod.credentials.channelID"), ModConfig.getConfig().getChannelID())
+                    .setSaveConsumer((s -> ModConfig.getConfig().setChannelID(s)))
+                    .setTooltip(Text.translatable("config.twitchmod.credentials.channelID.tooltip"))
+                    .setDefaultValue(ModConfig.DEFAULT_CHANNEL_ID)
+                    .build());
 
             return builder.build();
         };

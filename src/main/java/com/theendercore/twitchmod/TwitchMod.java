@@ -21,6 +21,7 @@ import java.util.Date;
 
 
 public class TwitchMod implements ModInitializer {
+    public  static  final  String MODID = "twitchchat";
     public static final Logger LOGGER = LoggerFactory.getLogger("twitchmod");
     public static final EventListener eventListener = new EventListener();
     public static TwitchClient twitchClient;
@@ -51,9 +52,15 @@ public class TwitchMod implements ModInitializer {
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, dedicated) -> {
 
-            LiteralCommandNode<ServerCommandSource> killNode = CommandManager.literal("twitch").executes(new TwitchCommand()).build();
+            LiteralCommandNode<ServerCommandSource> twitchNode = CommandManager
+                    .literal("twitch")
+                    .build();
+            LiteralCommandNode<ServerCommandSource> enableNode = CommandManager.literal("enable").executes(TwitchCommand::enable).build();
+            LiteralCommandNode<ServerCommandSource> disableNode = CommandManager.literal("disable").executes(TwitchCommand::disable).build();
 
-            dispatcher.getRoot().addChild(killNode);
+            dispatcher.getRoot().addChild(twitchNode);
+            twitchNode.addChild(enableNode);
+            twitchNode.addChild(disableNode);
         });
     }
 }
