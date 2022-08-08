@@ -4,7 +4,7 @@ import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.twitch4j.TwitchClient;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.theendercore.twitchmod.config.ModConfig;
-import com.theendercore.twitchmod.twitch.EventListener;
+import com.theendercore.twitchmod.twitch.TwitchCommands;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
@@ -16,19 +16,19 @@ import net.minecraft.util.Formatting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
 public class TwitchMod implements ModInitializer {
-    public  static  final  String MODID = "twitchchat";
-    public static final Logger LOGGER = LoggerFactory.getLogger("twitchmod");
-    public static final EventListener eventListener = new EventListener();
+    public static final String MODID = "twitchchat";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
     public static TwitchClient twitchClient;
     public static OAuth2Credential credential;
 
-    public static void addTwitchMessage(Date date, String username, String message, Formatting textColor, boolean isMeMessage) {
-        MutableText timestampText = Text.literal("[" + new SimpleDateFormat("HH:mm").format(date) + "]").formatted(Formatting.GRAY);
+    public static void addTwitchMessage(Date date, String username, String message, Formatting textColor, boolean isMeMessage, ModConfig c) {
+        MutableText timestampText = Text.literal("[" + new SimpleDateFormat(c.getTimeFormatting()).format(date) + "]").formatted(Formatting.GRAY);
         MutableText usernameText = Text.literal(username).formatted(textColor);
         MutableText messageBodyText;
         if (!isMeMessage) {
@@ -44,6 +44,15 @@ public class TwitchMod implements ModInitializer {
         MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(text);
     }
 
+    public static void titleMessage(@Nullable Text text, @Nullable Text smallText) {
+        if (!(text == null)) {
+            MinecraftClient.getInstance().inGameHud.setTitle(text);
+        }
+        if (!(smallText == null)) {
+            MinecraftClient.getInstance().inGameHud.setSubtitle(smallText);
+        }
+    }
+
     @Override
     public void onInitialize() {
         ModConfig.getConfig().load();
@@ -52,16 +61,13 @@ public class TwitchMod implements ModInitializer {
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, dedicated) -> {
 
-            LiteralCommandNode<ServerCommandSource> twitchNode = CommandManager
-                    .literal("twitch")
-                    .build();
-            LiteralCommandNode<ServerCommandSource> enableNode = CommandManager.literal("enable").executes(TwitchCommand::enable).build();
-            LiteralCommandNode<ServerCommandSource> disableNode = CommandManager.literal("disable").executes(TwitchCommand::disable).build();
+            LiteralCommandNode<ServerCommandSource> twitchNode = CommandManager.literal("twitch").build();
+            LiteralCommandNode<ServerCommandSource> enableNode = CommandManager.literal("enable").executes(TwitchCommands::enable).build();
+            LiteralCommandNode<ServerCommandSource> disableNode = CommandManager.literal("disable").executes(TwitchCommands::disable).build();
 
             dispatcher.getRoot().addChild(twitchNode);
             twitchNode.addChild(enableNode);
             twitchNode.addChild(disableNode);
-            LOGGER.info("pp");
         });
     }
 }
