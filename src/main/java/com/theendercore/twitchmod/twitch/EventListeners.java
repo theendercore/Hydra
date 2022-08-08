@@ -22,13 +22,15 @@ public class EventListeners {
     public static void rewardRedeemedListener(RewardRedeemedEvent event) {
         String eTitle = event.getRedemption().getReward().getTitle();
         switch (eTitle) {
-            case "Hydrate!" -> titleMessage(Text.literal(event.getRedemption().getReward().getTitle()), null);
+            case "Hydrate!" ->
+                    titleMessage(Text.literal(event.getRedemption().getReward().getTitle()).formatted(Formatting.BLUE), Text.literal("Redeemed by " + event.getRedemption().getUser().getDisplayName()).formatted(Formatting.GRAY));
             case "PP" -> LOGGER.info("yoo");
             default -> {
-                MutableText eventTitle = Text.literal(event.getRedemption().getReward().getTitle()).formatted(Formatting.DARK_GRAY);
-                MutableText translatableText = Text.translatable("listener.twitchmod.reward");
                 MutableText user = Text.literal(event.getRedemption().getUser().getDisplayName()).formatted(Formatting.DARK_GRAY);
-                chatMessage(eventTitle.append(translatableText).append(user));
+                MutableText translatableText = Text.translatable("listener.twitchmod.reward").formatted(Formatting.WHITE);
+                MutableText eventTitle = Text.literal(event.getRedemption().getReward().getTitle()).formatted(Formatting.DARK_GRAY);
+                chatMessage(user.append(translatableText).append(eventTitle));
+
             }
         }
     }

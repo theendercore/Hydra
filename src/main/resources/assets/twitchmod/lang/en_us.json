@@ -1,7 +1,6 @@
 {
   "config.twitchmod.title": "Twitch Integrations Mod",
 
-
   "config.twitchmod.category.customization": "Customization",
 
   "config.twitchmod.customization.prefix": "Prefix",
@@ -38,17 +37,19 @@
 
   "config.twitchmod.category.credentials": "Credentials",
 
-  "config.twitchmod.credentials.username": "Username",
-  "config.twitchmod.credentials.username.tooltip":"Enter ur Twitch here",
 
-  "config.twitchmod.credentials.oauthKey": "OauthKey",
-  "config.twitchmod.credentials.oauthKey.tooltip": "Enter ur AOuth key here",
+  "config.twitchmod.credentials.username": "Username",
+  "config.twitchmod.credentials.username.tooltip":"Your Twitch username",
+
+  "config.twitchmod.credentials.oauthKey": "OAuth Key",
+  "config.twitchmod.credentials.oauthKey.tooltip": "Your OAuth Key",
 
   "config.twitchmod.credentials.extras": "Enable Extras",
-  "config.twitchmod.credentials.extras.tooltip": "I you want to have extra features. (Channel ID needed)",
+  "config.twitchmod.credentials.extras.tooltip": "If you want to have extra features. Like hydrate popup (Channel ID needed)",
 
   "config.twitchmod.credentials.channelID": "Channel ID",
-  "config.twitchmod.credentials.channelID.tooltip": "Enter ur channel id here (Needed for extras)",
+  "config.twitchmod.credentials.channelID.tooltip": "Enter your channel id here. Needed for extras (How to get this is in the mod description)",
+  "config.twitchmod.credentials.info": "If you don't know how to get the OAuth Key or a Channel ID check the mod page.(Modrinth or CurseForge)",
 
 
   "command.twitchmod.error.config": "Config not set up properly!",
