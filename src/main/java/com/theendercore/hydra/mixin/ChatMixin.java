@@ -19,7 +19,7 @@ public class ChatMixin {
         String prefix = config.getPrefix();
         if (text.startsWith(prefix) & twitchClient != null) {
             String textWithoutPrefix = text.substring(text.indexOf(prefix) + prefix.length());
-            addTwitchMessage(new Date(),config.getUsername(), textWithoutPrefix, config.getChannelChatColor().getFormat(), false, config);
+            addTwitchMessage(new Date(),config.getUsername(), textWithoutPrefix, config.getChannelChatColor().getFormat(),null , false, config);
             twitchClient.getChat().sendMessage(config.getUsername(), textWithoutPrefix);
             info.setReturnValue(true);
         }

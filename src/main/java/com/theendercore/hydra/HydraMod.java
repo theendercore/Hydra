@@ -28,12 +28,16 @@ public class HydraMod implements ModInitializer {
     public static TwitchClient twitchClient;
     public static OAuth2Credential credential;
 
-    public static void addTwitchMessage(Date date, String username, String message, Formatting textColor, boolean isMeMessage, ModConfig c) {
+    public static void addTwitchMessage(Date date, String username, String message, Formatting userColor, @Nullable Formatting chatColor, boolean isMeMessage, ModConfig c) {
         MutableText timestampText = Text.literal("[" + new SimpleDateFormat(c.getTimeFormatting()).format(date) + "]").formatted(Formatting.GRAY);
-        MutableText usernameText = Text.literal(username).formatted(textColor);
+        MutableText usernameText = Text.literal(username).formatted(userColor);
         MutableText messageBodyText;
         if (!isMeMessage) {
-            messageBodyText = Text.literal(": " + message).formatted(Formatting.WHITE);
+            if (chatColor == null) {
+                messageBodyText = Text.literal(": " + message).formatted(Formatting.WHITE);
+            } else {
+                messageBodyText = Text.literal(": ").formatted(Formatting.WHITE).append(Text.literal(message).formatted(chatColor, Formatting.BOLD, Formatting.ITALIC));
+            }
         } else {
             messageBodyText = Text.literal(" " + message);
             usernameText = Text.literal("* ").append(usernameText);

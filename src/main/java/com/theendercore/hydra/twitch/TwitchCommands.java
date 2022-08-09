@@ -45,6 +45,8 @@ public class TwitchCommands {
         if (twitchClient == null) {
             chatMessage(Text.translatable("command." + MODID + ".disconnected.already").formatted(Formatting.DARK_GRAY));
         } else {
+            twitchClient.getPubSub().close();
+            twitchClient.getChat().close();
             twitchClient.close();
             twitchClient = null;
             chatMessage(Text.translatable("command." + MODID + ".disconnected").formatted(Formatting.GRAY));

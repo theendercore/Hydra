@@ -37,11 +37,14 @@ public class EventListeners {
     public static void channelMessageListener(ChannelMessageEvent event) {
         LOGGER.info(String.valueOf(event.isHighlightedMessage()));
         ModConfig c = ModConfig.getConfig();
+        Formatting userColor = Formatting.GRAY;
+        Formatting messageColor = null;
         if (Objects.equals(event.getUser().getName(), c.getUsername())) {
-            addTwitchMessage(new Date(), event.getUser().getName(), event.getMessage(), c.getChannelChatColor().getFormat(), false, c);
-        } else {
-            addTwitchMessage(new Date(), event.getUser().getName(), event.getMessage(), Formatting.GRAY, false, c);
+            userColor = c.getChannelChatColor().getFormat();
         }
-
+        if (event.isHighlightedMessage()) {
+            messageColor = Formatting.RED;
+        }
+        addTwitchMessage(new Date(), event.getUser().getName(), event.getMessage(), userColor, messageColor, false, c);
     }
 }
