@@ -24,12 +24,6 @@
   "config.hydra.customization.channel_chat_color.light_purple": "§dLight Purple",
   "config.hydra.customization.channel_chat_color.yellow": "§eYellow",
   "config.hydra.customization.channel_chat_color.white": "§fWhite",
-  "config.hydra.customization.channel_chat_color.obfuscated": "Obfuscated",
-  "config.hydra.customization.channel_chat_color.bold": "Bold",
-  "config.hydra.customization.channel_chat_color.strikethrough": "Strikethrough",
-  "config.hydra.customization.channel_chat_color.underline": "Underline",
-  "config.hydra.customization.channel_chat_color.italic": "Italic",
-  "config.hydra.customization.channel_chat_color.reset": "Reset",
 
   "config.hydra.customization.time_formatting": "Time Formatting",
   "config.hydra.customization.time_formatting.tooltip": "Valid values - H, m, s",

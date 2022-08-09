@@ -35,10 +35,10 @@ public class EventListeners {
     }
 
     public static void channelMessageListener(ChannelMessageEvent event) {
-        LOGGER.info(event.getMessage());
+        LOGGER.info(String.valueOf(event.isHighlightedMessage()));
         ModConfig c = ModConfig.getConfig();
         if (Objects.equals(event.getUser().getName(), c.getUsername())) {
-            addTwitchMessage(new Date(), event.getUser().getName(), event.getMessage(), c.getChannelChatColor(), false, c);
+            addTwitchMessage(new Date(), event.getUser().getName(), event.getMessage(), c.getChannelChatColor().getFormat(), false, c);
         } else {
             addTwitchMessage(new Date(), event.getUser().getName(), event.getMessage(), Formatting.GRAY, false, c);
         }

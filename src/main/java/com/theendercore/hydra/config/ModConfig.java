@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.StringIdentifiable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,7 +21,7 @@ public class ModConfig {
     public static final String DEFAULT_OAUTH_KEY = "";
     public static final String DEFAULT_CHANNEL_ID = "";
     public static final String DEFAULT_PREFIX = "!";
-    public static final Formatting DEFAULT_CHANNEL_CHAT_COLOR = Formatting.BLUE;
+    public static final Color DEFAULT_CHANNEL_CHAT_COLOR = Color.BLUE;
     public static final String DEFAULT_TIME_FORMATTING = "HH:mm";
     public static final boolean DEFAULT_EXTRAS = false;
 
@@ -32,9 +33,10 @@ public class ModConfig {
     private String oauthKey;
     private String channelID;
     private String prefix;
-    private Formatting channelChatColor;
+    private Color channelChatColor;
     private String timeFormatting;
     private boolean extras;
+
     public ModConfig() {
         this.configFile = FabricLoader.getInstance().getConfigDir().resolve(MODID + ".json").toFile();
         this.username = DEFAULT_USERNAME;
@@ -63,7 +65,7 @@ public class ModConfig {
                 this.oauthKey = jsonObject.has("oauthKey") ? jsonObject.getAsJsonPrimitive("oauthKey").getAsString() : DEFAULT_OAUTH_KEY;
                 this.channelID = jsonObject.has("channelID") ? jsonObject.getAsJsonPrimitive("channelID").getAsString() : DEFAULT_CHANNEL_ID;
                 this.prefix = jsonObject.has("prefix") ? jsonObject.getAsJsonPrimitive("prefix").getAsString() : DEFAULT_PREFIX;
-                this.channelChatColor = jsonObject.has("channelChatColor") ? Formatting.valueOf((jsonObject.getAsJsonPrimitive("channelChatColor").getAsString())) : DEFAULT_CHANNEL_CHAT_COLOR;
+                this.channelChatColor = jsonObject.has("channelChatColor") ? Color.valueOf((jsonObject.getAsJsonPrimitive("channelChatColor").getAsString())) : DEFAULT_CHANNEL_CHAT_COLOR;
                 this.timeFormatting = jsonObject.has("timeFormatting") ? jsonObject.getAsJsonPrimitive("timeFormatting").getAsString() : DEFAULT_TIME_FORMATTING;
                 this.extras = jsonObject.has("extras") ? jsonObject.getAsJsonPrimitive("extras").getAsBoolean() : DEFAULT_EXTRAS;
             }
@@ -78,7 +80,7 @@ public class ModConfig {
         jsonObject.addProperty("oauthKey", this.oauthKey);
         jsonObject.addProperty("channelID", this.channelID);
         jsonObject.addProperty("prefix", this.prefix);
-        jsonObject.addProperty("channelChatColor", this.channelChatColor.getName().toUpperCase(Locale.ROOT));
+        jsonObject.addProperty("channelChatColor", this.channelChatColor.getName());
         jsonObject.addProperty("timeFormatting", this.timeFormatting);
         jsonObject.addProperty("extras", this.extras);
 
@@ -122,11 +124,9 @@ public class ModConfig {
         this.prefix = prefix;
     }
 
-    public Formatting getChannelChatColor() {
-        return channelChatColor;
-    }
+    public Color getChannelChatColor() { return channelChatColor; }
 
-    public void setDefaultChannelChatColor(Formatting channelChatColor) {
+    public void setDefaultChannelChatColor(Color channelChatColor) {
         this.channelChatColor = channelChatColor;
     }
 
@@ -146,5 +146,6 @@ public class ModConfig {
     public void setExtras(boolean extras) {
         this.extras = extras;
     }
+
 
 }

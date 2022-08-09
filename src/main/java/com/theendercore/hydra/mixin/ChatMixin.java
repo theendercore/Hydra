@@ -2,6 +2,7 @@ package com.theendercore.hydra.mixin;
 
 import com.theendercore.hydra.config.ModConfig;
 import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,7 +19,7 @@ public class ChatMixin {
         String prefix = config.getPrefix();
         if (text.startsWith(prefix) & twitchClient != null) {
             String textWithoutPrefix = text.substring(text.indexOf(prefix) + prefix.length());
-            addTwitchMessage(new Date(),config.getUsername(), textWithoutPrefix, config.getChannelChatColor(), false, config);
+            addTwitchMessage(new Date(),config.getUsername(), textWithoutPrefix, config.getChannelChatColor().getFormat(), false, config);
             twitchClient.getChat().sendMessage(config.getUsername(), textWithoutPrefix);
             info.setReturnValue(true);
         }
