@@ -67,13 +67,13 @@ public class HydraMod implements ModInitializer {
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, dedicated) -> {
 
-            LiteralCommandNode<ServerCommandSource> twitchNode = CommandManager.literal("twitch").build();
+            LiteralCommandNode<ServerCommandSource> hydraNode = CommandManager.literal("hydra").build();
             LiteralCommandNode<ServerCommandSource> enableNode = CommandManager.literal("enable").executes(TwitchCommands::enable).build();
             LiteralCommandNode<ServerCommandSource> disableNode = CommandManager.literal("disable").executes(TwitchCommands::disable).build();
 
-            dispatcher.getRoot().addChild(twitchNode);
-            twitchNode.addChild(enableNode);
-            twitchNode.addChild(disableNode);
+            dispatcher.getRoot().addChild(hydraNode);
+            hydraNode.addChild(enableNode);
+            hydraNode.addChild(disableNode);
         });
     }
 }
