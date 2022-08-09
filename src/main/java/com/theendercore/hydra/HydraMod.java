@@ -5,6 +5,8 @@ import com.github.twitch4j.TwitchClient;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.theendercore.hydra.config.ModConfig;
 import com.theendercore.hydra.twitch.TwitchCommands;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
@@ -58,13 +60,12 @@ public class HydraMod implements ModInitializer {
             hud.setSubtitle(smallText);
         }
     }
-
+    @Environment(EnvType.CLIENT)
     @Override
     public void onInitialize() {
         ModConfig.getConfig().load();
 
         credential = new OAuth2Credential("twitch", ModConfig.getConfig().getOauthKey());
-
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, dedicated) -> {
 
             LiteralCommandNode<ServerCommandSource> hydraNode = CommandManager.literal("hydra").build();
