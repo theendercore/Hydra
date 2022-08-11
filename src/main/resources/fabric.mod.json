@@ -4,16 +4,16 @@
   "version": "${version}",
 
   "name": "Hydra",
-  "description": "A mod to make ur life a bit more of hell",
+  "description": "A mod to Integrate Twitch in your Minecraft. But It's Also kinda hell. \nSorry xoxo",
   "authors": [
     "Ender"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/"
+    "homepage": "https://github.com/theendercore/Hydra"
   },
 
   "license": "CC BY-NC-SA 4.0",
-  "icon": "assets/hydra/icon.png",
+  "icon": "assets/hydra/hydra.png",
 
   "environment": "*",
   "entrypoints": {
