@@ -16,7 +16,9 @@ import static com.theendercore.hydra.HydraMod.*;
 public class EventListeners {
 
     public static void followingEventListener(FollowingEvent event) {
-        chatMessage(Text.literal(event.getData().getUsername()));
+        MutableText follower = Text.literal(event.getData().getDisplayName()).formatted(Formatting.AQUA);
+        MutableText after = Text.literal(" just Followed!").formatted(Formatting.WHITE);
+        chatMessage(follower.append(after));
     }
 
     public static void rewardRedeemedListener(RewardRedeemedEvent event) {

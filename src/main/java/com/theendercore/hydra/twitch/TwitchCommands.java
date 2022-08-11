@@ -2,6 +2,7 @@ package com.theendercore.hydra.twitch;
 
 import com.github.twitch4j.TwitchClientBuilder;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
+import com.github.twitch4j.pubsub.events.FollowingEvent;
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -9,6 +10,7 @@ import com.theendercore.hydra.config.ModConfig;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+
 import java.util.Objects;
 
 import static com.theendercore.hydra.HydraMod.*;
@@ -32,8 +34,9 @@ public class TwitchCommands {
 
         if (!Objects.equals(config.getChannelID(), "") & config.getExtras()) {
             twitchClient.getPubSub().listenForChannelPointsRedemptionEvents(credential, config.getChannelID());
+            twitchClient.getPubSub().listenForFollowingEvents(credential, config.getChannelID());
             twitchClient.getEventManager().onEvent(RewardRedeemedEvent.class, EventListeners::rewardRedeemedListener);
-//        twitchClient.getEventManager().onEvent(FollowingEvent.class, eventListener::followingEventListener
+            twitchClient.getEventManager().onEvent(FollowingEvent.class, EventListeners::followingEventListener);
             chatMessage(Text.translatable("command." + MODID + ".extras.enable"));
         }
 
@@ -44,13 +47,14 @@ public class TwitchCommands {
     public static int disable(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
         if (twitchClient == null) {
             chatMessage(Text.translatable("command." + MODID + ".disconnected.already").formatted(Formatting.DARK_GRAY));
-        } else {
-            twitchClient.getPubSub().close();
-            twitchClient.getChat().close();
-            twitchClient.close();
-            twitchClient = null;
-            chatMessage(Text.translatable("command." + MODID + ".disconnected").formatted(Formatting.GRAY));
+            return 0;
         }
+        twitchClient.getPubSub().close();
+        twitchClient.getChat().close();
+        twitchClient.close();
+        twitchClient = null;
+        chatMessage(Text.translatable("command." + MODID + ".disconnected").formatted(Formatting.GRAY));
+
         return 1;
     }
 }
