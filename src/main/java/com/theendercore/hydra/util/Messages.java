@@ -11,16 +11,13 @@ import javax.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.theendercore.hydra.HydraMod.LOGGER;
-import static com.theendercore.hydra.HydraMod.twitchClient;
-
 public class Messages {
     public static void addTwitchMessage(Date date, String username, String message, Formatting userColor, @Nullable Formatting chatColor, ModConfig c, Boolean isVIP) {
         MutableText timestampText = Text.literal("[" + new SimpleDateFormat(c.getTimeFormatting()).format(date) + "]").formatted(Formatting.GRAY);
         MutableText usernameText = Text.literal(username).formatted(userColor);
         MutableText messageBodyText = Text.literal(": ").formatted(Formatting.WHITE);
         if (!isVIP) {
-            message = message.replaceAll("§","");
+            message = message.replaceAll("§","$");
         }
         if (chatColor == null) {
             messageBodyText.append(Text.literal(message));

@@ -1,18 +1,15 @@
 package com.theendercore.hydra.twitch;
 
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
+import com.github.twitch4j.common.enums.CommandPermission;
 import com.github.twitch4j.pubsub.events.FollowingEvent;
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
-import com.google.gson.Gson;
 import com.theendercore.hydra.config.ModConfig;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-
-
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 import static com.theendercore.hydra.HydraMod.*;
 import static com.theendercore.hydra.util.Messages.*;
@@ -51,7 +48,16 @@ public class EventListeners {
         if (event.isHighlightedMessage()) {
             messageColor = Formatting.RED;
         }
-        LOGGER.info(event.toString());
-        addTwitchMessage(new Date(), event.getUser().getName(), event.getMessage(), userColor, messageColor,  c, false);
+        boolean isVip = false;
+        Set<CommandPermission> s = event.getPermissions();
+        for (CommandPermission x:
+             s) {
+            if (x == CommandPermission.VIP || x == CommandPermission.MODERATOR) {
+                isVip = true;
+                break;
+            }
+        }
+
+        addTwitchMessage(new Date(), event.getUser().getName(), event.getMessage(), userColor, messageColor,  c, isVip);
     }
 }
