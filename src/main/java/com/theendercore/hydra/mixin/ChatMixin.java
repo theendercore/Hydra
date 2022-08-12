@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Date;
 import static com.theendercore.hydra.HydraMod.*;
+import static com.theendercore.hydra.util.Messages.addTwitchMessage;
 
 
 @Mixin(ChatScreen.class)
@@ -18,7 +19,7 @@ public class ChatMixin {
         String prefix = config.getPrefix();
         if (text.startsWith(prefix) & twitchClient != null) {
             String textWithoutPrefix = text.substring(text.indexOf(prefix) + prefix.length());
-            addTwitchMessage(new Date(),config.getUsername(), textWithoutPrefix, config.getChannelChatColor().getFormat(),null , false, config);
+            addTwitchMessage(new Date(),config.getUsername(), textWithoutPrefix, config.getChannelChatColor().getFormat(),null , config, true);
             twitchClient.getChat().sendMessage(config.getUsername(), textWithoutPrefix);
             info.setReturnValue(true);
         }

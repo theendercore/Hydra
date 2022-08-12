@@ -3,16 +3,19 @@ package com.theendercore.hydra.twitch;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import com.github.twitch4j.pubsub.events.FollowingEvent;
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
+import com.google.gson.Gson;
 import com.theendercore.hydra.config.ModConfig;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
+
 import java.util.Date;
 import java.util.Objects;
 
 import static com.theendercore.hydra.HydraMod.*;
+import static com.theendercore.hydra.util.Messages.*;
 
 public class EventListeners {
 
@@ -31,7 +34,7 @@ public class EventListeners {
             case "Point waste" -> titleMessage(Text.literal(player.getPos().toString()), null);
             default -> {
                 MutableText user = Text.literal(event.getRedemption().getUser().getDisplayName()).formatted(Formatting.DARK_GRAY);
-                MutableText translatableText = Text.translatable("listener." + MODID + ".reward").formatted(Formatting.WHITE);
+                MutableText translatableText = Text.translatable("listener." + MODID + ".reward.redeem").formatted(Formatting.WHITE);
                 MutableText eventTitle = Text.literal(event.getRedemption().getReward().getTitle()).formatted(Formatting.DARK_GRAY);
                 chatMessage(user.append(translatableText).append(eventTitle));
             }
@@ -48,6 +51,7 @@ public class EventListeners {
         if (event.isHighlightedMessage()) {
             messageColor = Formatting.RED;
         }
-        addTwitchMessage(new Date(), event.getUser().getName(), event.getMessage(), userColor, messageColor, false, c);
+        LOGGER.info(event.toString());
+        addTwitchMessage(new Date(), event.getUser().getName(), event.getMessage(), userColor, messageColor,  c, false);
     }
 }

@@ -17,7 +17,7 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": [
+    "client": [
       "com.theendercore.hydra.HydraMod"
     ],
     "modmenu": [
@@ -41,6 +41,10 @@
     "sodium": "*"
   },
   "custom": {
-    "modmenu:clientsideOnly": true
+    "modmenu": {
+      "parent": {
+        "badges": [ "client" ]
+      }
+    }
   }
 }

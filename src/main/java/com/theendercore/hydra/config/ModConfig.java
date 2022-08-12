@@ -19,7 +19,6 @@ public class ModConfig {
 
     public static final String DEFAULT_USERNAME = "";
     public static final String DEFAULT_OAUTH_KEY = "";
-    public static final String DEFAULT_CHANNEL_ID = "";
     public static final String DEFAULT_PREFIX = "!";
     public static final Color DEFAULT_CHANNEL_CHAT_COLOR = Color.BLUE;
     public static final String DEFAULT_TIME_FORMATTING = "HH:mm";
@@ -31,7 +30,6 @@ public class ModConfig {
 
     private String username;
     private String oauthKey;
-    private String channelID;
     private String prefix;
     private Color channelChatColor;
     private String timeFormatting;
@@ -41,7 +39,6 @@ public class ModConfig {
         this.configFile = FabricLoader.getInstance().getConfigDir().resolve(MODID + ".json").toFile();
         this.username = DEFAULT_USERNAME;
         this.oauthKey = DEFAULT_OAUTH_KEY;
-        this.channelID = DEFAULT_CHANNEL_ID;
         this.prefix = DEFAULT_PREFIX;
         this.channelChatColor = DEFAULT_CHANNEL_CHAT_COLOR;
         this.timeFormatting = DEFAULT_TIME_FORMATTING;
@@ -63,7 +60,6 @@ public class ModConfig {
                 JsonObject jsonObject = (JsonObject) JsonParser.parseString(jsonStr);
                 this.username = jsonObject.has("username") ? jsonObject.getAsJsonPrimitive("username").getAsString() : DEFAULT_USERNAME;
                 this.oauthKey = jsonObject.has("oauthKey") ? jsonObject.getAsJsonPrimitive("oauthKey").getAsString() : DEFAULT_OAUTH_KEY;
-                this.channelID = jsonObject.has("channelID") ? jsonObject.getAsJsonPrimitive("channelID").getAsString() : DEFAULT_CHANNEL_ID;
                 this.prefix = jsonObject.has("prefix") ? jsonObject.getAsJsonPrimitive("prefix").getAsString() : DEFAULT_PREFIX;
                 this.channelChatColor = jsonObject.has("channelChatColor") ? Color.valueOf((jsonObject.getAsJsonPrimitive("channelChatColor").getAsString())) : DEFAULT_CHANNEL_CHAT_COLOR;
                 this.timeFormatting = jsonObject.has("timeFormatting") ? jsonObject.getAsJsonPrimitive("timeFormatting").getAsString() : DEFAULT_TIME_FORMATTING;
@@ -78,7 +74,6 @@ public class ModConfig {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("username", this.username);
         jsonObject.addProperty("oauthKey", this.oauthKey);
-        jsonObject.addProperty("channelID", this.channelID);
         jsonObject.addProperty("prefix", this.prefix);
         jsonObject.addProperty("channelChatColor", this.channelChatColor.getName());
         jsonObject.addProperty("timeFormatting", this.timeFormatting);
@@ -95,54 +90,34 @@ public class ModConfig {
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
-
     public String getOauthKey() {
         return oauthKey;
     }
-
     public void setOauthKey(String oauthKey) {
         this.oauthKey = oauthKey;
     }
-
-    public String getChannelID() {
-        return channelID;
-    }
-
-    public void setChannelID(String channelID) {
-        this.channelID = channelID;
-    }
-
     public String getPrefix() {
         return prefix;
     }
-
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
-
     public Color getChannelChatColor() { return channelChatColor; }
-
     public void setDefaultChannelChatColor(Color channelChatColor) {
         this.channelChatColor = channelChatColor;
     }
-
     public String getTimeFormatting() {
         return timeFormatting;
     }
-
     public void setTimeFormatting(String timeFormatting) {
         this.timeFormatting = timeFormatting;
     }
-
-
     public boolean getExtras() {
         return extras;
     }
-
     public void setExtras(boolean extras) {
         this.extras = extras;
     }

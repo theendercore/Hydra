@@ -1,7 +1,6 @@
 package com.theendercore.hydra.config;
 
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
+import com.terraformersmc.modmenu.api.*;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -9,7 +8,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import java.util.Locale;
 
 import static com.theendercore.hydra.HydraMod.MODID;
@@ -67,12 +65,6 @@ public class ModMenuCompat implements ModMenuApi {
                     .setSaveConsumer((config::setExtras))
                     .setTooltip(Text.translatable("config."+MODID+".credentials.extras.tooltip"))
                     .setDefaultValue(ModConfig.DEFAULT_EXTRAS)
-                    .build());
-            credentialsCategory.addEntry(entryBuilder
-                    .startStrField(Text.translatable("config."+MODID+".credentials.channelID"), config.getChannelID())
-                    .setSaveConsumer((config::setChannelID))
-                    .setTooltip(Text.translatable("config."+MODID+".credentials.channelID.tooltip"))
-                    .setDefaultValue(ModConfig.DEFAULT_CHANNEL_ID)
                     .build());
             credentialsCategory.addEntry(entryBuilder
                     .startTextDescription(Text.translatable("config."+MODID+".credentials.info"))

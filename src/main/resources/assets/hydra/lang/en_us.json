@@ -54,7 +54,7 @@
   "command.hydra.disconnected": "Twitch disconnected!",
   "command.hydra.extras.enable": "Twitch Extras Enabled",
 
-  "listener.hydra.reward": " has redeemed "
+  "listener.hydra.reward.redeem": " has redeemed ",
 
-
+  "keybinding.category.hydra": "Hydra"
 }
