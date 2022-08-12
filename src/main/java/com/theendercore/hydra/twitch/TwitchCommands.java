@@ -2,15 +2,29 @@ package com.theendercore.hydra.twitch;
 
 import com.github.twitch4j.TwitchClientBuilder;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
+import com.github.twitch4j.helix.domain.BitsLeaderboard;
+import com.github.twitch4j.helix.domain.UserList;
 import com.github.twitch4j.pubsub.events.FollowingEvent;
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.theendercore.hydra.config.ModConfig;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.particle.EndRodParticle;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.SculkChargeParticleEffect;
+import net.minecraft.server.command.ParticleCommand;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.Vec3f;
+import net.minecraft.world.World;
 
+import java.util.List;
 import java.util.Objects;
 
 import static com.theendercore.hydra.HydraMod.*;
@@ -26,16 +40,20 @@ public class TwitchCommands {
 
         if (twitchClient == null) {
             chatMessage(Text.translatable("command." + MODID + ".connecting", config.getUsername()).formatted(Formatting.DARK_GRAY));
-            twitchClient = TwitchClientBuilder.builder().withEnablePubSub(true).withEnableChat(true).withChatAccount(credential).build();
+            twitchClient = TwitchClientBuilder.builder().withEnableHelix(true).withEnablePubSub(true).withEnableChat(true).withChatAccount(credential).build();
             chatMessage(Text.translatable("command." + MODID + ".connected").formatted(Formatting.DARK_GRAY));
+
         } else {
             chatMessage(Text.translatable("command." + MODID + ".connected.already", config.getUsername()).formatted(Formatting.GRAY));
         }
 
-        if (!Objects.equals(config.getChannelID(), "") & config.getExtras()) {
-            twitchClient.getPubSub().listenForChannelPointsRedemptionEvents(credential, config.getChannelID());
-            twitchClient.getPubSub().listenForFollowingEvents(credential, config.getChannelID());
-            twitchClient.getEventManager().onEvent(RewardRedeemedEvent.class, EventListeners::rewardRedeemedListener);
+        if (config.getExtras()) {
+            UserList resultList = twitchClient.getHelix().getUsers(credential.getAccessToken(), null, List.of(config.getUsername())).execute();
+            String channelID = resultList.getUsers().get(0).getId();
+            LOGGER.info(channelID);
+            twitchClient.getPubSub().listenForChannelPointsRedemptionEvents(credential, channelID);
+            twitchClient.getPubSub().listenForFollowingEvents(credential, channelID);
+            twitchClient.getEventManager().onEvent(RewardRedeemedEvent.class,(c) ->  EventListeners.rewardRedeemedListener(c, context.getSource().getPlayer()));
             twitchClient.getEventManager().onEvent(FollowingEvent.class, EventListeners::followingEventListener);
             chatMessage(Text.translatable("command." + MODID + ".extras.enable"));
         }
@@ -56,5 +74,16 @@ public class TwitchCommands {
         chatMessage(Text.translatable("command." + MODID + ".disconnected").formatted(Formatting.GRAY));
 
         return 1;
+    }
+
+    public static int test(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
+
+        MinecraftClient mcClient = MinecraftClient.getInstance();
+        PlayerEntity player = context.getSource().getPlayer();
+        for(int i = 0; i<= 10; i++){
+            mcClient.particleManager.addParticle(new SculkChargeParticleEffect(10), player.getX(), player.getY()+1, player.getZ(), 0, 0,0 );
+        }
+//    (player, new DustParticleEffect(new Vec3f(25,35,36),20 ));
+    return 1;
     }
 }

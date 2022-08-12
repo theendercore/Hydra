@@ -4,6 +4,7 @@ import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import com.github.twitch4j.pubsub.events.FollowingEvent;
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
 import com.theendercore.hydra.config.ModConfig;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -21,12 +22,13 @@ public class EventListeners {
         chatMessage(follower.append(after));
     }
 
-    public static void rewardRedeemedListener(RewardRedeemedEvent event) {
+    public static void rewardRedeemedListener(RewardRedeemedEvent event, ServerPlayerEntity player) {
         String eTitle = event.getRedemption().getReward().getTitle();
         switch (eTitle) {
             case "Hydrate!" ->
                     titleMessage(Text.literal(event.getRedemption().getReward().getTitle()).formatted(Formatting.BLUE), Text.literal("Redeemed by " + event.getRedemption().getUser().getDisplayName()).formatted(Formatting.GRAY));
             case "PP" -> LOGGER.info("yoo");
+            case "Point waste" -> titleMessage(Text.literal(player.getPos().toString()), null);
             default -> {
                 MutableText user = Text.literal(event.getRedemption().getUser().getDisplayName()).formatted(Formatting.DARK_GRAY);
                 MutableText translatableText = Text.translatable("listener." + MODID + ".reward").formatted(Formatting.WHITE);
@@ -37,7 +39,6 @@ public class EventListeners {
     }
 
     public static void channelMessageListener(ChannelMessageEvent event) {
-        LOGGER.info(String.valueOf(event.isHighlightedMessage()));
         ModConfig c = ModConfig.getConfig();
         Formatting userColor = Formatting.GRAY;
         Formatting messageColor = null;
