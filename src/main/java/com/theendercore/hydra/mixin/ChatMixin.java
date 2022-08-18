@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Date;
 import static com.theendercore.hydra.HydraMod.*;
-import static com.theendercore.hydra.util.Messages.addTwitchMessage;
+import static com.theendercore.hydra.util.Methods.addTwitchMessage;
 
 
 @Mixin(ChatScreen.class)

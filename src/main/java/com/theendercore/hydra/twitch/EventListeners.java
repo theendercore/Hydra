@@ -12,7 +12,7 @@ import net.minecraft.util.Formatting;
 import java.util.*;
 
 import static com.theendercore.hydra.HydraMod.*;
-import static com.theendercore.hydra.util.Messages.*;
+import static com.theendercore.hydra.util.Methods.*;
 
 public class EventListeners {
 

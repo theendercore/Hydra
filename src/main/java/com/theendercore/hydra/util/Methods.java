@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Messages {
+public class Methods {
     public static void addTwitchMessage(Date date, String username, String message, Formatting userColor, @Nullable Formatting chatColor, ModConfig c, Boolean isVIP) {
         MutableText timestampText = Text.literal("[" + new SimpleDateFormat(c.getTimeFormatting()).format(date) + "]").formatted(Formatting.GRAY);
         MutableText usernameText = Text.literal(username).formatted(userColor);

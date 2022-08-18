@@ -27,8 +27,8 @@ public class KeyBindingRegistry {
                 PlayerEntity player = client.player;
                 double z, x;
                 for (int i = 0; i <= 10; i++) {
-                    x = rand.nextDouble((0.0) + 1) -1.4;
-                    z = rand.nextDouble((0.0) + 1) -1.4;
+                    x = rand.nextDouble();
+                    z = rand.nextDouble();
                     LOGGER.info("x:" + x + "\ny:" + z);
                     assert player != null;
                     mcClient.particleManager.addParticle(new SculkChargeParticleEffect(10), player.getX() - .5 + x, player.getEyeY() - .1, player.getZ() - .5 + z, 0, 0, 0);
@@ -37,5 +37,4 @@ public class KeyBindingRegistry {
             }
         });
     }
-
 }

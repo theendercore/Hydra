@@ -8,9 +8,6 @@ import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.theendercore.hydra.config.ModConfig;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.SculkChargeParticleEffect;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -19,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.theendercore.hydra.HydraMod.*;
-import static com.theendercore.hydra.util.Messages.*;
+import static com.theendercore.hydra.util.Methods.*;
 
 public class TwitchCommands {
     public static int enable(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {

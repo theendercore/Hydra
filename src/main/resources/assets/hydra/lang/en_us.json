@@ -43,7 +43,7 @@
 
   "config.hydra.credentials.channelID": "Channel ID",
   "config.hydra.credentials.channelID.tooltip": "Enter your channel id here. Needed for extras (How to get this is in the mod description)",
-  "config.hydra.credentials.info": "If you don't know how to get the OAuth Key or a Channel ID check the mod page on Modrinth, CurseForge or GitHub",
+  "config.hydra.credentials.info": "If you don't know how to get the OAuth Key check the mod page on Modrinth, CurseForge or GitHub",
 
 
   "command.hydra.error.config": "Config not set up properly!",

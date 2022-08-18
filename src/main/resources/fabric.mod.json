@@ -15,7 +15,7 @@
   "license": "CC BY-NC-SA 4.0",
   "icon": "assets/hydra/hydra.png",
 
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "client": [
       "com.theendercore.hydra.HydraMod"
@@ -41,10 +41,5 @@
     "sodium": "*"
   },
   "custom": {
-    "modmenu": {
-      "parent": {
-        "badges": [ "client" ]
-      }
-    }
   }
 }
