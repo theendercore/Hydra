@@ -8,7 +8,9 @@ import com.theendercore.hydra.config.ModConfig;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
+
 import java.util.*;
 
 import static com.theendercore.hydra.HydraMod.*;
@@ -40,24 +42,28 @@ public class EventListeners {
 
     public static void channelMessageListener(ChannelMessageEvent event) {
         ModConfig c = ModConfig.getConfig();
-        Formatting userColor = Formatting.GRAY;
+        MutableText messageSender = Text.literal(event.getUser().getName()).formatted(c.getChannelChatColor().getFormat());
         Formatting messageColor = null;
-        if (Objects.equals(event.getUser().getName(), c.getUsername())) {
-            userColor = c.getChannelChatColor().getFormat();
-        }
+
         if (event.isHighlightedMessage()) {
             messageColor = Formatting.RED;
         }
+
         boolean isVip = false;
-        Set<CommandPermission> s = event.getPermissions();
-        for (CommandPermission x:
-             s) {
+        Set<CommandPermission> perms = event.getPermissions();
+        for (CommandPermission x : perms) {
             if (x == CommandPermission.VIP || x == CommandPermission.MODERATOR) {
                 isVip = true;
                 break;
             }
         }
 
-        addTwitchMessage(new Date(), event.getUser().getName(), event.getMessage(), userColor, messageColor,  c, isVip);
+        String color = event.getMessageEvent().getTags().get("color");
+        if (color != null && !Objects.equals(event.getUser().getName(), c.getUsername())) {
+            messageSender.setStyle(Text.literal("").getStyle().withColor(TextColor.parse(color)));
+        } else if (!Objects.equals(event.getUser().getName(), c.getUsername())) {
+            messageSender.formatted(Formatting.DARK_PURPLE);
+        }
+        addTwitchMessage(new Date(), messageSender, event.getMessage(), messageColor, c, isVip);
     }
 }

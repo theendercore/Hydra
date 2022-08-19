@@ -11,13 +11,14 @@ import javax.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static net.minecraft.util.Formatting.FORMATTING_CODE_PREFIX;
+
 public class Methods {
-    public static void addTwitchMessage(Date date, String username, String message, Formatting userColor, @Nullable Formatting chatColor, ModConfig c, Boolean isVIP) {
+    public static void addTwitchMessage(Date date, MutableText usernameText, String message, @Nullable Formatting chatColor, ModConfig c, Boolean isVIP) {
         MutableText timestampText = Text.literal("[" + new SimpleDateFormat(c.getTimeFormatting()).format(date) + "]").formatted(Formatting.GRAY);
-        MutableText usernameText = Text.literal(username).formatted(userColor);
         MutableText messageBodyText = Text.literal(": ").formatted(Formatting.WHITE);
         if (!isVIP) {
-            message = message.replaceAll("§","$");
+            message = message.replaceAll(String.valueOf(FORMATTING_CODE_PREFIX),"$");
         }
         if (chatColor == null) {
             messageBodyText.append(Text.literal(message));
