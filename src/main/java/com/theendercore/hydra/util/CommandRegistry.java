@@ -1,20 +1,21 @@
 package com.theendercore.hydra.util;
 
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import com.theendercore.hydra.twitch.TwitchCommands;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.client.network.ClientCommandSource;
 import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
 
 public class CommandRegistry {
 
     public static void init() {
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, dedicated) -> {
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
 
-            LiteralCommandNode<ServerCommandSource> hydraNode = CommandManager.literal("hydra").build();
-            LiteralCommandNode<ServerCommandSource> enableNode = CommandManager.literal("enable").executes(TwitchCommands::enable).build();
-            LiteralCommandNode<ServerCommandSource> disableNode = CommandManager.literal("disable").executes(TwitchCommands::disable).build();
-            LiteralCommandNode<ServerCommandSource> testNode = CommandManager.literal("test").executes(TwitchCommands::test).build();
+            LiteralCommandNode<FabricClientCommandSource> hydraNode = ClientCommandManager.literal("hydra").build();
+            LiteralCommandNode<FabricClientCommandSource> enableNode = ClientCommandManager.literal("enable").executes(HydraCommands::enable).build();
+            LiteralCommandNode<FabricClientCommandSource> disableNode = ClientCommandManager.literal("disable").executes(HydraCommands::disable).build();
+            LiteralCommandNode<FabricClientCommandSource> testNode = ClientCommandManager.literal("test").executes(HydraCommands::test).build();
 
             dispatcher.getRoot().addChild(hydraNode);
             hydraNode.addChild(enableNode);

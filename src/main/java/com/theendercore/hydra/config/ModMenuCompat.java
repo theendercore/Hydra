@@ -35,7 +35,7 @@ public class ModMenuCompat implements ModMenuApi {
             customizationCategory.addEntry(entryBuilder
                     .startEnumSelector(Text.translatable("config."+MODID+".customization.channel_chat_color"), Color.class, config.getChannelChatColor())
                     .setEnumNameProvider((value) -> Text.translatable("config."+MODID+".customization.channel_chat_color." + value.name().toLowerCase(Locale.ROOT)))
-                    .setSaveConsumer(config::setDefaultChannelChatColor)
+                    .setSaveConsumer(config::setChannelChatColor)
                     .setTooltip(Text.translatable("config."+MODID+".customization.channel_chat_color.tooltip"))
                     .setDefaultValue(ModConfig.DEFAULT_CHANNEL_CHAT_COLOR)
                     .build());
@@ -44,6 +44,12 @@ public class ModMenuCompat implements ModMenuApi {
                     .setSaveConsumer((config::setTimeFormatting))
                     .setTooltip(Text.translatable("config."+MODID+".customization.time_formatting.tooltip"))
                     .setDefaultValue(ModConfig.DEFAULT_TIME_FORMATTING)
+                    .build());
+            customizationCategory.addEntry(entryBuilder
+                    .startBooleanToggle(Text.translatable("config."+MODID+".customization.auto_enable"), config.getAutoStart())
+                    .setSaveConsumer((config::setAutoStart))
+                    .setTooltip(Text.translatable("config."+MODID+".customization.auto_enable.tooltip"))
+                    .setDefaultValue(ModConfig.DEFAULT_AUTO_START)
                     .build());
 
             ConfigCategory credentialsCategory = builder.getOrCreateCategory(Text.translatable("config."+MODID+".category.credentials"));

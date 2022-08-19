@@ -5,10 +5,8 @@ import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import com.github.twitch4j.helix.domain.UserList;
 import com.github.twitch4j.pubsub.events.FollowingEvent;
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
-import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.theendercore.hydra.config.ModConfig;
-import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -16,10 +14,12 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.theendercore.hydra.HydraMod.*;
-import static com.theendercore.hydra.util.Methods.*;
+import static com.theendercore.hydra.HydraMod.credential;
+import static com.theendercore.hydra.util.Methods.chatMessage;
 
-public class TwitchCommands {
-    public static int enable(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
+public class TwitchBot {
+
+    public static int Enable(ServerPlayerEntity player){
         ModConfig config = ModConfig.getConfig();
         if (Objects.equals(config.getUsername(), "") || Objects.equals(config.getOauthKey(), "")) {
             chatMessage(Text.translatable("command." + MODID + ".error.config").formatted(Formatting.RED));
@@ -41,7 +41,7 @@ public class TwitchCommands {
             LOGGER.info(channelID);
             twitchClient.getPubSub().listenForChannelPointsRedemptionEvents(credential, channelID);
             twitchClient.getPubSub().listenForFollowingEvents(credential, channelID);
-            twitchClient.getEventManager().onEvent(RewardRedeemedEvent.class,(c) ->  EventListeners.rewardRedeemedListener(c, context.getSource().getPlayer()));
+            twitchClient.getEventManager().onEvent(RewardRedeemedEvent.class, (c) -> EventListeners.rewardRedeemedListener(c, player));
             twitchClient.getEventManager().onEvent(FollowingEvent.class, EventListeners::followingEventListener);
             chatMessage(Text.translatable("command." + MODID + ".extras.enable"));
         }
@@ -50,7 +50,7 @@ public class TwitchCommands {
         return 1;
     }
 
-    public static int disable(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
+    public static int Disable(){
         if (twitchClient == null) {
             chatMessage(Text.translatable("command." + MODID + ".disconnected.already").formatted(Formatting.DARK_GRAY));
             return 0;
@@ -62,10 +62,5 @@ public class TwitchCommands {
         chatMessage(Text.translatable("command." + MODID + ".disconnected").formatted(Formatting.GRAY));
 
         return 1;
-    }
-
-    public static int test(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-
-    return 1;
     }
 }

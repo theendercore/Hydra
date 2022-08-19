@@ -6,17 +6,9 @@ import com.theendercore.hydra.config.ModConfig;
 import com.theendercore.hydra.util.CommandRegistry;
 import com.theendercore.hydra.util.KeyBindingRegistry;
 import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.annotation.Nullable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 public class HydraMod implements ClientModInitializer {
@@ -26,10 +18,16 @@ public class HydraMod implements ClientModInitializer {
     public static OAuth2Credential credential;
     @Override
     public void onInitializeClient() {
+        LOGGER.info("Initializing world takeover!");
         ModConfig.getConfig().load();
+
         credential = new OAuth2Credential("twitch", ModConfig.getConfig().getOauthKey());
 
         CommandRegistry.init();
         KeyBindingRegistry.init();
+
+        ClientTickEvents.START_WORLD_TICK.register( (client) -> {
+            LOGGER.info(client.toString());
+        });
     }
 }

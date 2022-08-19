@@ -23,6 +23,7 @@ public class ModConfig {
     public static final Color DEFAULT_CHANNEL_CHAT_COLOR = Color.BLUE;
     public static final String DEFAULT_TIME_FORMATTING = "HH:mm";
     public static final boolean DEFAULT_EXTRAS = false;
+    public static final boolean DEFAULT_AUTO_START = false;
 
     private static ModConfig SINGLE_INSTANCE = null;
 
@@ -34,6 +35,7 @@ public class ModConfig {
     private Color channelChatColor;
     private String timeFormatting;
     private boolean extras;
+    private boolean autoStart;
 
     public ModConfig() {
         this.configFile = FabricLoader.getInstance().getConfigDir().resolve(MODID + ".json").toFile();
@@ -43,6 +45,7 @@ public class ModConfig {
         this.channelChatColor = DEFAULT_CHANNEL_CHAT_COLOR;
         this.timeFormatting = DEFAULT_TIME_FORMATTING;
         this.extras = DEFAULT_EXTRAS;
+        this.autoStart = DEFAULT_AUTO_START;
     }
 
     public static ModConfig getConfig() {
@@ -64,6 +67,7 @@ public class ModConfig {
                 this.channelChatColor = jsonObject.has("channelChatColor") ? Color.valueOf((jsonObject.getAsJsonPrimitive("channelChatColor").getAsString())) : DEFAULT_CHANNEL_CHAT_COLOR;
                 this.timeFormatting = jsonObject.has("timeFormatting") ? jsonObject.getAsJsonPrimitive("timeFormatting").getAsString() : DEFAULT_TIME_FORMATTING;
                 this.extras = jsonObject.has("extras") ? jsonObject.getAsJsonPrimitive("extras").getAsBoolean() : DEFAULT_EXTRAS;
+                this.autoStart = jsonObject.has("autoStart") ? jsonObject.getAsJsonPrimitive("autoStart").getAsBoolean() : DEFAULT_AUTO_START;
             }
         } catch (IOException e) {
             // Do nothing, we have no file and thus we have to keep everything as default
@@ -78,6 +82,7 @@ public class ModConfig {
         jsonObject.addProperty("channelChatColor", this.channelChatColor.getName());
         jsonObject.addProperty("timeFormatting", this.timeFormatting);
         jsonObject.addProperty("extras", this.extras);
+        jsonObject.addProperty("autoStart", this.autoStart);
 
         try (PrintWriter out = new PrintWriter(configFile)) {
             out.println(jsonObject);
@@ -93,22 +98,26 @@ public class ModConfig {
     public void setUsername(String username) {
         this.username = username;
     }
+
     public String getOauthKey() {
         return oauthKey;
     }
     public void setOauthKey(String oauthKey) {
         this.oauthKey = oauthKey;
     }
+
     public String getPrefix() {
         return prefix;
     }
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
-    public Color getChannelChatColor() { return channelChatColor; }
-    public void setDefaultChannelChatColor(Color channelChatColor) {
+
+    public Color getChannelChatColor() {return channelChatColor;}
+    public void setChannelChatColor(Color channelChatColor) {
         this.channelChatColor = channelChatColor;
     }
+
     public String getTimeFormatting() {
         return timeFormatting;
     }
@@ -121,6 +130,6 @@ public class ModConfig {
     public void setExtras(boolean extras) {
         this.extras = extras;
     }
-
-
+    public boolean getAutoStart() {return autoStart;}
+    public void setAutoStart(boolean autoStart) {this.autoStart = autoStart;}
 }

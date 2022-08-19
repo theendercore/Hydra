@@ -5,7 +5,7 @@ import com.github.twitch4j.common.enums.CommandPermission;
 import com.github.twitch4j.pubsub.events.FollowingEvent;
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
 import com.theendercore.hydra.config.ModConfig;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
@@ -24,7 +24,7 @@ public class EventListeners {
         chatMessage(follower.append(after));
     }
 
-    public static void rewardRedeemedListener(RewardRedeemedEvent event, ServerPlayerEntity player) {
+    public static void rewardRedeemedListener(RewardRedeemedEvent event, PlayerEntity player) {
         String eTitle = event.getRedemption().getReward().getTitle();
         switch (eTitle) {
             case "Hydrate!" ->
@@ -59,11 +59,10 @@ public class EventListeners {
         }
 
         String color = event.getMessageEvent().getTags().get("color");
-        if (color != null && !Objects.equals(event.getUser().getName(), c.getUsername())) {
-            messageSender.setStyle(Text.literal("").getStyle().withColor(TextColor.parse(color)));
-        } else if (!Objects.equals(event.getUser().getName(), c.getUsername())) {
-            messageSender.formatted(Formatting.DARK_PURPLE);
+        if (!Objects.equals(event.getUser().getName(), c.getUsername())) {
+            messageSender = (color != null) ? messageSender.setStyle(Text.literal("").getStyle().withColor(TextColor.parse(color))) : messageSender.formatted(Formatting.DARK_PURPLE);
         }
+
         addTwitchMessage(new Date(), messageSender, event.getMessage(), messageColor, c, isVip);
     }
 }
