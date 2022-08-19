@@ -4,12 +4,14 @@
   "version": "${version}",
 
   "name": "Hydra",
-  "description": "A mod to Integrate Twitch in your Minecraft. But It's Also kinda hell. \nSorry xoxo",
+  "description": "An Alpha mod that lets you have more Twitch integrations in your game. [For Fabric & Quilt] ",
   "authors": [
-    "Ender"
+    "Ender",
+    "WafflesAreBetter"
   ],
   "contact": {
-    "homepage": "https://github.com/theendercore/Hydra"
+    "homepage": "https://modrinth.com/mod/hydra",
+    "issues": "https://github.com/theendercore/Hydra/issues"
   },
 
   "license": "CC BY-NC-SA 4.0",
@@ -31,8 +33,9 @@
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",
-    "minecraft": ">=1.19",
-    "java": ">=17"
+    "minecraft": ">=1.19.1",
+    "java": ">=17",
+    "twitch4j": ">=1.11.0"
   },
   "recommends": {
     "modmenu": ">=4.0.5"
@@ -41,5 +44,6 @@
     "sodium": "*"
   },
   "custom": {
+    "warning": "If you are reading this you have been hacked B)"
   }
 }
