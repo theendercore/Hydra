@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Hydra",
-  "description": "An Alpha mod that lets you have more Twitch integrations in your game. [For Fabric & Quilt] ",
+  "description": "A Twitch Integrations mod to bring your chat into Minecraft and more! ",
   "authors": [
     "Ender",
     "WafflesAreBetter"
