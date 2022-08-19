@@ -54,6 +54,9 @@
   "command.hydra.disconnected": "Twitch disconnected!",
   "command.hydra.extras.enable": "Twitch Extras Enabled",
 
+
+  "system.hydra.auto_load": "Auto Start Enabled!",
+
   "listener.hydra.reward.redeem": " has redeemed ",
 
   "keybinding.category.hydra": "Hydra"
