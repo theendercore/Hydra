@@ -4,6 +4,10 @@ A Twitch Integrations mod to bring your chat into Minecraft and more!
 This mod Depends on [Twitch4J Mod](https://modrinth.com/mod/twitch4j)<br>
 And on [FabricAPI](https://modrinth.com/mod/fabric-api) or [Quilted Fabric API](https://modrinth.com/mod/qsl)
 
+## How to use?
+To use this mod you need a Twitch OAth token which you can get here:
+https://twitchapps.com/tmi/
+
 ## Features
 - Hydra Command 
     - `/hydra enable` enables all the features of the mod 
