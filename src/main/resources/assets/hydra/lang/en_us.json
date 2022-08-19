@@ -28,6 +28,9 @@
   "config.hydra.customization.time_formatting": "Time Formatting",
   "config.hydra.customization.time_formatting.tooltip": "Valid values - H, m, s",
 
+  "config.hydra.customization.auto_enable": "Auto Enable",
+  "config.hydra.customization.auto_enable.tooltip": "Automatically enables the mod as soon as you join the game",
+
 
   "config.hydra.category.credentials": "Credentials",
 
@@ -47,6 +50,7 @@
 
 
   "command.hydra.error.config": "Config not set up properly!",
+  "command.hydra.error.token.incorrect": "OAuth Token incorrect!\nMod will not work properly!",
   "command.hydra.connecting": "Connecting to %s Channel...",
   "command.hydra.connected": "Connected!",
   "command.hydra.connected.already": "Already Connected to %s Channel",

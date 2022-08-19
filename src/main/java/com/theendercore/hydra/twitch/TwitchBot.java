@@ -7,8 +7,6 @@ import com.github.twitch4j.helix.domain.UserList;
 import com.github.twitch4j.pubsub.events.FollowingEvent;
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
 import com.theendercore.hydra.config.ModConfig;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -21,19 +19,25 @@ import static com.theendercore.hydra.util.Methods.chatMessage;
 
 public class TwitchBot {
 
-    public static int Enable(){
+    public static int Enable() {
         ModConfig config = ModConfig.getConfig();
         if (Objects.equals(config.getUsername(), "") || Objects.equals(config.getOauthKey(), "")) {
             chatMessage(Text.translatable("command." + MODID + ".error.config").formatted(Formatting.RED));
             return 0;
         }
-
         if (twitchClient == null) {
             chatMessage(Text.translatable("command." + MODID + ".connecting", config.getUsername()).formatted(Formatting.DARK_GRAY));
             twitchClient = TwitchClientBuilder.builder().withEnableHelix(true).withEnablePubSub(true).withEnableChat(true).withChatAccount(credential).build();
             chatMessage(Text.translatable("command." + MODID + ".connected").formatted(Formatting.DARK_GRAY));
         } else {
             chatMessage(Text.translatable("command." + MODID + ".connected.already", config.getUsername()).formatted(Formatting.GRAY));
+            return  0;
+        }
+
+        if (credential.getUserName() == null) {
+            chatMessage(Text.translatable("command." + MODID + ".error.token.incorrect").formatted(Formatting.RED));
+            Disable();
+            return 0;
         }
 
         if (config.getExtras()) {
@@ -53,7 +57,7 @@ public class TwitchBot {
         return 1;
     }
 
-    public static int Disable(){
+    public static int Disable() {
         if (twitchClient == null) {
             chatMessage(Text.translatable("command." + MODID + ".disconnected.already").formatted(Formatting.DARK_GRAY));
             return 0;
