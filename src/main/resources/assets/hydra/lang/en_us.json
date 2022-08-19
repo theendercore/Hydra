@@ -1,13 +1,13 @@
 {
-  "config.hydra.title": "Twitch Integrations Mod",
+  "config.hydra.title": "Hydra - Twitch Integrations Mod",
 
   "config.hydra.category.customization": "Customization",
 
   "config.hydra.customization.prefix": "Prefix",
   "config.hydra.customization.prefix.tooltip": "Prefix for writing messages to Twitch chat",
 
-  "config.hydra.customization.channel_chat_color": "Your message chat color",
-  "config.hydra.customization.channel_chat_color.tooltip": "Pick what kind of color your name appears in chat",
+  "config.hydra.customization.channel_chat_color": "Your chat color",
+  "config.hydra.customization.channel_chat_color.tooltip": "The color your name appears in chat",
   "config.hydra.customization.channel_chat_color.black": "§0Black",
   "config.hydra.customization.channel_chat_color.dark_blue": "§1Dark Blue",
   "config.hydra.customization.channel_chat_color.dark_green": "§2Dark Green",
@@ -29,7 +29,7 @@
   "config.hydra.customization.time_formatting.tooltip": "Valid values - H, m, s",
 
   "config.hydra.customization.auto_enable": "Auto Enable",
-  "config.hydra.customization.auto_enable.tooltip": "Automatically enables the mod as soon as you join the game",
+  "config.hydra.customization.auto_enable.tooltip": "Automatically enables the mod as soon as you join a world or server",
 
 
   "config.hydra.category.credentials": "Credentials",
@@ -42,10 +42,8 @@
   "config.hydra.credentials.oauthKey.tooltip": "Your OAuth Key",
 
   "config.hydra.credentials.extras": "Enable Extras",
-  "config.hydra.credentials.extras.tooltip": "If you want to have extra features. Like hydrate popup (Channel ID needed)",
+  "config.hydra.credentials.extras.tooltip": "Extra Features includes Follow, Chanel Point and Subscribe Notifications. (These are hardcoded for now)",
 
-  "config.hydra.credentials.channelID": "Channel ID",
-  "config.hydra.credentials.channelID.tooltip": "Enter your channel id here. Needed for extras (How to get this is in the mod description)",
   "config.hydra.credentials.info": "If you don't know how to get the OAuth Key check the mod page on Modrinth, CurseForge or GitHub",
 
 
