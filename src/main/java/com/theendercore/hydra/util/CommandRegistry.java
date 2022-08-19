@@ -18,7 +18,7 @@ public class CommandRegistry {
             dispatcher.getRoot().addChild(hydraNode);
             hydraNode.addChild(enableNode);
             hydraNode.addChild(disableNode);
-            hydraNode.addChild(testNode);
+//            hydraNode.addChild(testNode);
         });
     }
 }
