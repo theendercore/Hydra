@@ -1,5 +1,6 @@
 package com.theendercore.hydra.twitch;
 
+import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.twitch4j.TwitchClientBuilder;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import com.github.twitch4j.chat.events.channel.SubscriptionEvent;
@@ -14,13 +15,13 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.theendercore.hydra.HydraMod.*;
-import static com.theendercore.hydra.HydraMod.credential;
 import static com.theendercore.hydra.util.Methods.chatMessage;
 
 public class TwitchBot {
 
     public static int Enable() {
         ModConfig config = ModConfig.getConfig();
+        credential = new OAuth2Credential("twitch", config.getOauthKey());
         if (Objects.equals(config.getUsername(), "") || Objects.equals(config.getOauthKey(), "")) {
             chatMessage(Text.translatable("command." + MODID + ".error.config").formatted(Formatting.RED));
             return 0;

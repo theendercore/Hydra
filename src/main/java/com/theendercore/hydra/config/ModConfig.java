@@ -3,15 +3,11 @@ package com.theendercore.hydra.config;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.StringIdentifiable;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
-import java.util.Locale;
 
 import static com.theendercore.hydra.HydraMod.MODID;
 
