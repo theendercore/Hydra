@@ -16,7 +16,6 @@ import java.util.Objects;
 
 import static com.theendercore.hydra.HydraMod.*;
 import static com.theendercore.hydra.util.Methods.chatMessage;
-
 public class TwitchBot {
 
     public static int Enable() {
