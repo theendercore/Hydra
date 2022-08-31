@@ -1,37 +1,45 @@
 package com.theendercore.hydra.util;
 
-import com.github.twitch4j.chat.events.channel.IRCMessageEvent;
-import com.github.twitch4j.chat.events.channel.SubscriptionEvent;
-import com.github.twitch4j.common.events.domain.EventChannel;
-import com.github.twitch4j.helix.domain.UserList;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.DustParticleEffect;
-import net.minecraft.particle.SculkChargeParticleEffect;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.util.math.random.Random;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.List;
-import java.util.Random;
-
 import static com.theendercore.hydra.HydraMod.*;
-import static com.theendercore.hydra.twitch.EventListeners.subscriptionEventListener;
-import static com.theendercore.hydra.util.Methods.chatMessage;
 
 public class KeyBindingRegistry {
-    private static KeyBinding keyBinding;
+    public static Random random = Random.create();
+    private static KeyBinding clipKey;
 
     public static void init() {
-        keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key." + MODID + ".test", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_4, "keybinding.category." + MODID));
+        clipKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key." + MODID + ".test", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_4, "keybinding.category." + MODID));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (keyBinding.wasPressed()) {
-                chatMessage(Text.literal("pp"));
+            while (clipKey.wasPressed()) {
+                MinecraftClient mcClient = MinecraftClient.getInstance();
+                PlayerEntity playerEntity = mcClient.player;
+                ParticleS2CPacket packet = new ParticleS2CPacket(ParticleTypes.TOTEM_OF_UNDYING, true, playerEntity.getX(), 0.0, playerEntity.getZ(), 0f, 0f, 0f, 1f, 100);
+                for (int i = 0; i < packet.getCount(); ++i) {
+                    double g = random.nextGaussian() * (double) packet.getOffsetX();
+                    double h = random.nextGaussian() * 0d;
+                    double j = random.nextGaussian() * (double) packet.getOffsetZ();
+                    double k = random.nextGaussian() * (double) packet.getSpeed();
+                    double l = random.nextGaussian() * (double) packet.getSpeed();
+                    double m = random.nextGaussian() * (double) packet.getSpeed();
+
+                    try {
+                        mcClient.particleManager.addParticle(packet.getParameters(), packet.getX() + g, playerEntity.getY()+2 + h, packet.getZ() + j, k, l, m);
+                    } catch (Throwable var16) {
+                        LOGGER.warn("Could not spawn particle effect {}", packet.getParameters());
+                        return;
+                    }
+                }
+//                mcClient.particleManager.addParticle(ParticleTypes.BUBBLE, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), 0.0, 0.0, 0.0);
 
 //                Random rand = new Random();
 //                PlayerEntity player = client.player;
