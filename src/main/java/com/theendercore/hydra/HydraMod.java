@@ -23,7 +23,7 @@ public class HydraMod implements ClientModInitializer {
         credential = new OAuth2Credential("twitch", ModConfig.getConfig().getOauthKey());
 
         CommandRegistry.init();
-//        KeyBindingRegistry.init();
-//        AutoStart.init();
+        KeyBindingRegistry.init();
+        AutoStart.init();
     }
 }

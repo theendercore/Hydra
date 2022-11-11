@@ -28,3 +28,5 @@ https://twitchapps.com/tmi/
 
 ## Notes
 This mod is an early Alpha and will have lots of bugs. If you find any please report them to me, so I could fix them.<br>And if you want to see any features added please join [my discord](https://discord.gg/KZ5Q364hEg) and suggest them!
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/M4M7DWJCH)
