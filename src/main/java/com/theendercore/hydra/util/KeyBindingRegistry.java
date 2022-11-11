@@ -23,6 +23,7 @@ public class KeyBindingRegistry {
             while (clipKey.wasPressed()) {
                 MinecraftClient mcClient = MinecraftClient.getInstance();
                 PlayerEntity playerEntity = mcClient.player;
+                assert playerEntity != null;
                 ParticleS2CPacket packet = new ParticleS2CPacket(ParticleTypes.TOTEM_OF_UNDYING, true, playerEntity.getX(), 0.0, playerEntity.getZ(), 0f, 0f, 0f, 1f, 100);
                 for (int i = 0; i < packet.getCount(); ++i) {
                     double g = random.nextGaussian() * (double) packet.getOffsetX();
