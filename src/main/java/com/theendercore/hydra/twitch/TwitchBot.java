@@ -29,7 +29,6 @@ public class TwitchBot{
         if (twitchClient == null) {
             chatMessage(Text.translatable("command." + MODID + ".connecting", config.getUsername()).formatted(Formatting.DARK_GRAY));
             twitchClient = TwitchClientBuilder.builder()
-//                    .withDefaultAuthToken(credential)
                     .withEnableHelix(true)
                     .withEnablePubSub(true)
                     .withEnableChat(true)
@@ -50,7 +49,6 @@ public class TwitchBot{
         if (config.getExtras()) {
             UserList resultList = twitchClient.getHelix().getUsers(credential.getAccessToken(), null, List.of(config.getUsername())).execute();
             String channelID = resultList.getUsers().get(0).getId();
-//            LOGGER.info(channelID);
             twitchClient.getPubSub().listenForChannelPointsRedemptionEvents(credential, channelID);
             twitchClient.getPubSub().listenForFollowingEvents(credential, channelID);
             twitchClient.getPubSub().listenForSubscriptionEvents(credential, channelID);
