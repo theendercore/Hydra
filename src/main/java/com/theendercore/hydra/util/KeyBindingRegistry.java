@@ -55,7 +55,7 @@ public class KeyBindingRegistry {
 //                    assert player != null;
 //                    mcClient.particleManager.addParticle(new SculkChargeParticleEffect(10), player.getX() - .5 + x, player.getEyeY() - .1, player.getZ() - .5 + z, 0, 0, 0);
 //                    mcClient.particleManager.addParticle(new DustParticleEffect(new Vec3f(1, 1,1 ), 4), player.getX(), player.getEyeY(), player.getZ(), 0, 0, 0);
-//                }
+//                }?
             }
             while (helperKey2.isPressed()){
                 Methods.disableShader();
