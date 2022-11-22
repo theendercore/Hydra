@@ -15,12 +15,14 @@ import static com.theendercore.hydra.HydraMod.*;
 
 public class KeyBindingRegistry {
     public static Random random = Random.create();
-    private static KeyBinding clipKey;
+    private static KeyBinding helperKey1;
+    private static KeyBinding helperKey2;
 
     public static void init() {
-        clipKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key." + MODID + ".test", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_4, "keybinding.category." + MODID));
+        helperKey1 = KeyBindingHelper.registerKeyBinding(new KeyBinding("key." + MODID + ".m4", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_4, "keybinding.category." + MODID));
+        helperKey2 = KeyBindingHelper.registerKeyBinding(new KeyBinding("key." + MODID + ".m5", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_5, "keybinding.category." + MODID));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (clipKey.wasPressed()) {
+            while (helperKey1.wasPressed()) {
                 MinecraftClient mcClient = MinecraftClient.getInstance();
                 PlayerEntity playerEntity = mcClient.player;
                 assert playerEntity != null;
@@ -34,7 +36,8 @@ public class KeyBindingRegistry {
                     double m = random.nextGaussian() * (double) packet.getSpeed();
 
                     try {
-                        mcClient.particleManager.addParticle(packet.getParameters(), packet.getX() + g, playerEntity.getY()+2 + h, packet.getZ() + j, k, l, m);
+                        mcClient.particleManager.addParticle(ParticleTypes.TOTEM_OF_UNDYING, packet.getX() + g, playerEntity.getY()+2 + h, packet.getZ() + j, k, l, m);
+                        Methods.setRandomShader();
                     } catch (Throwable var16) {
                         LOGGER.warn("Could not spawn particle effect {}", packet.getParameters());
                         return;
@@ -54,6 +57,11 @@ public class KeyBindingRegistry {
 //                    mcClient.particleManager.addParticle(new DustParticleEffect(new Vec3f(1, 1,1 ), 4), player.getX(), player.getEyeY(), player.getZ(), 0, 0, 0);
 //                }
             }
+            while (helperKey2.isPressed()){
+                Methods.disableShader();
+                LOGGER.info("hi");
+            }
         });
+
     }
 }
