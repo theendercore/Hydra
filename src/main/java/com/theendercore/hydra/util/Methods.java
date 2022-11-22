@@ -57,7 +57,7 @@ public class Methods {
 
     public static void disableShader() {
         LOGGER.info("Disabling all shaders");
-        renderer.disableShader();
+//        renderer.disableShader();
     }
 
 }
