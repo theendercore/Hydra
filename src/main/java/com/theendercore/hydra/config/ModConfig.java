@@ -16,7 +16,7 @@ public class ModConfig {
     public static final String DEFAULT_USERNAME = "";
     public static final String DEFAULT_OAUTH_KEY = "";
     public static final String DEFAULT_PREFIX = "!";
-    public static final Color DEFAULT_CHANNEL_CHAT_COLOR = Color.BLUE;
+    public static final Color2 DEFAULT_CHANNEL_CHAT_COLOR = Color2.BLUE;
     public static final String DEFAULT_TIME_FORMATTING = "HH:mm";
     public static final boolean DEFAULT_EXTRAS = false;
     public static final boolean DEFAULT_AUTO_START = false;
@@ -28,7 +28,7 @@ public class ModConfig {
     private String username;
     private String oauthKey;
     private String prefix;
-    private Color channelChatColor;
+    private Color2 channelChatColor;
     private String timeFormatting;
     private boolean extras;
     private boolean autoStart;
@@ -60,7 +60,7 @@ public class ModConfig {
                 this.username = jsonObject.has("username") ? jsonObject.getAsJsonPrimitive("username").getAsString() : DEFAULT_USERNAME;
                 this.oauthKey = jsonObject.has("oauthKey") ? jsonObject.getAsJsonPrimitive("oauthKey").getAsString() : DEFAULT_OAUTH_KEY;
                 this.prefix = jsonObject.has("prefix") ? jsonObject.getAsJsonPrimitive("prefix").getAsString() : DEFAULT_PREFIX;
-                this.channelChatColor = jsonObject.has("channelChatColor") ? Color.valueOf((jsonObject.getAsJsonPrimitive("channelChatColor").getAsString())) : DEFAULT_CHANNEL_CHAT_COLOR;
+                this.channelChatColor = jsonObject.has("channelChatColor") ? Color2.valueOf((jsonObject.getAsJsonPrimitive("channelChatColor").getAsString())) : DEFAULT_CHANNEL_CHAT_COLOR;
                 this.timeFormatting = jsonObject.has("timeFormatting") ? jsonObject.getAsJsonPrimitive("timeFormatting").getAsString() : DEFAULT_TIME_FORMATTING;
                 this.extras = jsonObject.has("extras") ? jsonObject.getAsJsonPrimitive("extras").getAsBoolean() : DEFAULT_EXTRAS;
                 this.autoStart = jsonObject.has("autoStart") ? jsonObject.getAsJsonPrimitive("autoStart").getAsBoolean() : DEFAULT_AUTO_START;
@@ -109,8 +109,8 @@ public class ModConfig {
         this.prefix = prefix;
     }
 
-    public Color getChannelChatColor() {return channelChatColor;}
-    public void setChannelChatColor(Color channelChatColor) {
+    public Color2 getChannelChatColor() {return channelChatColor;}
+    public void setChannelChatColor(Color2 channelChatColor) {
         this.channelChatColor = channelChatColor;
     }
 

@@ -3,7 +3,7 @@ package com.theendercore.hydra.config;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.StringIdentifiable;
 
-public enum Color implements StringIdentifiable {
+public enum Color2 implements StringIdentifiable {
     BLACK("BLACK"),
     DARK_BLUE("DARK_BLUE"),
     DARK_GREEN("DARK_GREEN"),
@@ -21,7 +21,7 @@ public enum Color implements StringIdentifiable {
     YELLOW("YELLOW"),
     WHITE("WHITE");
     private final String name;
-    Color(String name) {
+    Color2(String name) {
         this.name = name;
     }
 

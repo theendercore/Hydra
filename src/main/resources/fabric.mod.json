@@ -19,11 +19,11 @@
 
   "environment": "client",
   "entrypoints": {
-    "client": [
-      "com.theendercore.hydra.HydraMod"
-    ],
-    "modmenu": [
-      "com.theendercore.hydra.config.ModMenuCompat"
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "com.theendercore.hydra.Hydrakt::onInitialize"
+      }
     ]
   },
   "mixins": [
@@ -33,6 +33,7 @@
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",
+    "fabric-language-kotlin": ">=1.8.5+kotlin.1.7.20",
     "minecraft": ">=1.19.1",
     "java": ">=17"
   },

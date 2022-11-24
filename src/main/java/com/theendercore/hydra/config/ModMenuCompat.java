@@ -33,7 +33,7 @@ public class ModMenuCompat implements ModMenuApi {
                     .setDefaultValue(ModConfig.DEFAULT_PREFIX)
                     .build());
             customizationCategory.addEntry(entryBuilder
-                    .startEnumSelector(Text.translatable("config."+MODID+".customization.channel_chat_color"), Color.class, config.getChannelChatColor())
+                    .startEnumSelector(Text.translatable("config."+MODID+".customization.channel_chat_color"), Color2.class, config.getChannelChatColor())
                     .setEnumNameProvider((value) -> Text.translatable("config."+MODID+".customization.channel_chat_color." + value.name().toLowerCase(Locale.ROOT)))
                     .setSaveConsumer(config::setChannelChatColor)
                     .setTooltip(Text.translatable("config."+MODID+".customization.channel_chat_color.tooltip"))

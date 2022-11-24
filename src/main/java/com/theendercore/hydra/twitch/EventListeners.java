@@ -39,7 +39,10 @@ public class EventListeners {
             case "Hydrate!" ->
                     titleMessage(Text.literal(event.getRedemption().getReward().getTitle()).formatted(Formatting.BLUE), Text.literal("Redeemed by " + event.getRedemption().getUser().getDisplayName()).formatted(Formatting.GRAY));
             case "PP" -> LOGGER.info("yoo");
-            case "Point waste" -> titleMessage(Text.literal(player.getPos().toString()), null);
+            case "Point waste" -> {
+                assert player != null;
+                titleMessage(Text.literal(player.getPos().toString()), null);
+            }
             default -> {
                 MutableText user = Text.literal(event.getRedemption().getUser().getDisplayName()).formatted(Formatting.DARK_GRAY);
                 MutableText translatableText = Text.translatable("listener." + MODID + ".reward.redeem").formatted(Formatting.WHITE);

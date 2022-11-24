@@ -10,8 +10,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,7 +20,6 @@ import static com.theendercore.hydra.HydraMod.LOGGER;
 
 public class Methods {
     private static final GameRenderer renderer = MinecraftClient.getInstance().gameRenderer;
-
     public static void addTwitchMessage(Date date, MutableText usernameText, String message, @Nullable Formatting chatColor, ModConfig c, Boolean isVIP) {
         MutableText timestampText = Text.literal("[" + new SimpleDateFormat(c.getTimeFormatting()).format(date) + "]").formatted(Formatting.GRAY);
         MutableText messageBodyText = Text.literal(": ").formatted(Formatting.WHITE);
