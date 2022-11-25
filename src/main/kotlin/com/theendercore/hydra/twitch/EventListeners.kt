@@ -5,7 +5,8 @@ import com.github.twitch4j.chat.events.channel.SubscriptionEvent
 import com.github.twitch4j.common.enums.CommandPermission
 import com.github.twitch4j.pubsub.events.FollowingEvent
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent
-import com.theendercore.hydra.HydraMod
+import com.theendercore.hydra.LOGGER
+import com.theendercore.hydra.MODID
 import com.theendercore.hydra.config.ModConfig
 import com.theendercore.hydra.util.Methods
 import net.minecraft.client.MinecraftClient
@@ -23,7 +24,7 @@ object EventListeners {
     }
 
     fun subscriptionEventListener(event: SubscriptionEvent) {
-        HydraMod.LOGGER.info(event.toString())
+        LOGGER.info(event.toString())
         val subscriber = Text.literal(event.user.name).formatted(Formatting.LIGHT_PURPLE)
         val months = Text.literal(event.months.toString()).formatted(Formatting.LIGHT_PURPLE)
         Methods.titleMessage(
@@ -45,7 +46,7 @@ object EventListeners {
                 )
             )
 
-            "PP" -> HydraMod.LOGGER.info("yoo")
+            "PP" -> LOGGER.info("yoo")
             "Point waste" -> {
                 assert(player != null)
                 Methods.titleMessage(Text.literal(player!!.pos.toString()), null)
@@ -53,7 +54,7 @@ object EventListeners {
 
             else -> {
                 val user = Text.literal(event.redemption.user.displayName).formatted(Formatting.DARK_GRAY)
-                val translatableText = Text.translatable("listener." + HydraMod.MODID + ".reward.redeem").formatted(
+                val translatableText = Text.translatable("listener.$MODID.reward.redeem").formatted(
                     Formatting.WHITE
                 )
                 val eventTitle = Text.literal(event.redemption.reward.title).formatted(Formatting.DARK_GRAY)

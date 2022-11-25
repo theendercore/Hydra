@@ -1,6 +1,7 @@
 package com.theendercore.hydra.util
 
-import com.theendercore.hydra.HydraMod
+import com.theendercore.hydra.LOGGER
+import com.theendercore.hydra.MODID
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.minecraft.client.MinecraftClient
@@ -19,18 +20,18 @@ object KeyBindingRegistry {
     fun init() {
         helperKey1 = KeyBindingHelper.registerKeyBinding(
             KeyBinding(
-                "key." + HydraMod.MODID + ".m4",
+                "key.$MODID.m4",
                 InputUtil.Type.MOUSE,
                 GLFW.GLFW_MOUSE_BUTTON_4,
-                "keybinding.category." + HydraMod.MODID
+                "keybinding.category.$MODID"
             )
         )
         helperKey2 = KeyBindingHelper.registerKeyBinding(
             KeyBinding(
-                "key." + HydraMod.MODID + ".m5",
+                "key.$MODID.m5",
                 InputUtil.Type.MOUSE,
                 GLFW.GLFW_MOUSE_BUTTON_5,
-                "keybinding.category." + HydraMod.MODID
+                "keybinding.category.$MODID"
             )
         )
         ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick register@{
@@ -68,7 +69,7 @@ object KeyBindingRegistry {
                         )
                         Methods.setRandomShader()
                     } catch (var16: Throwable) {
-                        HydraMod.LOGGER.warn("Could not spawn particle effect {}", packet.parameters)
+                        LOGGER.warn("Could not spawn particle effect {}", packet.parameters)
                         return@register
                     }
                 }
@@ -88,7 +89,7 @@ object KeyBindingRegistry {
             }
             while (helperKey2!!.isPressed) {
                 Methods.disableShader()
-                HydraMod.LOGGER.info("hi")
+                LOGGER.info("hi")
             }
         })
     }

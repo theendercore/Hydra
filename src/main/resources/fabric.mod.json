@@ -19,7 +19,7 @@
 
   "environment": "client",
   "entrypoints": {
-    "main": [
+    "client": [
       {
         "adapter": "kotlin",
         "value": "com.theendercore.hydra.Hydrakt::onInitialize"

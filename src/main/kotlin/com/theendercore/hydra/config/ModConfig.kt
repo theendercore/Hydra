@@ -2,7 +2,7 @@ package com.theendercore.hydra.config
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import com.theendercore.hydra.HydraMod
+import com.theendercore.hydra.MODID
 import net.fabricmc.loader.api.FabricLoader
 import java.io.File
 import java.io.FileNotFoundException
@@ -11,7 +11,7 @@ import java.io.PrintWriter
 import java.nio.file.Files
 
 class ModConfig {
-    private val configFile: File = FabricLoader.getInstance().configDir.resolve(HydraMod.MODID + ".json").toFile()
+    private val configFile: File = FabricLoader.getInstance().configDir.resolve(MODID + ".json").toFile()
     var username: String
     var oauthKey: String
     var prefix: String

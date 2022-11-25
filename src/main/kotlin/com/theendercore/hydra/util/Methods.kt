@@ -1,6 +1,6 @@
 package com.theendercore.hydra.util
 
-import com.theendercore.hydra.HydraMod
+import com.theendercore.hydra.LOGGER
 import com.theendercore.hydra.config.ModConfig
 import com.theendercore.hydra.mixin.GameRendererAccessor
 import net.minecraft.client.MinecraftClient
@@ -54,12 +54,12 @@ object Methods {
 
     fun setRandomShader() {
         val shader = GameRendererAccessor.getShaderLocations()[Random.create().nextInt(GameRenderer.SHADER_COUNT)]
-        HydraMod.LOGGER.info("Loading shader " + shader.path)
+        LOGGER.info("Loading shader " + shader.path)
         (renderer as GameRendererAccessor).invokeLoadShader(shader)
     }
 
     fun disableShader() {
-        HydraMod.LOGGER.info("Disabling all shaders")
+        LOGGER.info("Disabling all shaders")
         //        renderer.disableShader();
     }
 }
