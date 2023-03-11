@@ -17,6 +17,5 @@ public interface GameRendererAccessor {
 
     @Invoker("loadShader")
     void invokeLoadShader(Identifier id);
-
 }
 

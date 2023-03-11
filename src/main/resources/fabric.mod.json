@@ -22,7 +22,13 @@
     "client": [
       {
         "adapter": "kotlin",
-        "value": "com.theendercore.hydra.Hydrakt::onInitialize"
+        "value": "com.theendercore.hydra.HydraMod"
+      }
+    ],
+    "modmenu": [
+      {
+        "adapter": "kotlin",
+        "value": "com.theendercore.hydra.config.ModMenuCombat"
       }
     ]
   },

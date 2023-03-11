@@ -6,10 +6,10 @@ import com.github.twitch4j.chat.events.channel.ChannelMessageEvent
 import com.github.twitch4j.chat.events.channel.SubscriptionEvent
 import com.github.twitch4j.pubsub.events.FollowingEvent
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent
-import com.theendercore.hydra.MODID
 import com.theendercore.hydra.config.ModConfig
-import com.theendercore.hydra.credential
-import com.theendercore.hydra.twitchClient
+import com.theendercore.hydra.HydraMod.Companion.twitchClient
+import com.theendercore.hydra.HydraMod.Companion.MODID
+import com.theendercore.hydra.HydraMod.Companion.credential
 import com.theendercore.hydra.util.Methods
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting

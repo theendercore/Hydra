@@ -1,10 +1,10 @@
 package com.theendercore.hydra.util
 
-import com.theendercore.hydra.MODID
+import com.theendercore.hydra.HydraMod.Companion.LOGGER
+import com.theendercore.hydra.HydraMod.Companion.MODID
+import com.theendercore.hydra.HydraMod.Companion.twitchClient
 import com.theendercore.hydra.config.ModConfig
 import com.theendercore.hydra.twitch.TwitchBot
-import com.theendercore.hydra.twitchClient
-import com.theendercore.hydra.LOGGER
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents.ClientStopping
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents

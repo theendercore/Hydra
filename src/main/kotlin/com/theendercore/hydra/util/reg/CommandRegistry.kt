@@ -1,24 +1,21 @@
-package com.theendercore.hydra.util
+package com.theendercore.hydra.util.reg
 
-import com.mojang.brigadier.CommandDispatcher
-import com.mojang.brigadier.context.CommandContext
+import com.theendercore.hydra.util.HydraCommands
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
-import net.minecraft.command.CommandRegistryAccess
 
 object CommandRegistry {
     fun init() {
         ClientCommandRegistrationCallback.EVENT.register(ClientCommandRegistrationCallback { dispatcher, _ ->
             val hydraNode = ClientCommandManager.literal("hydra").build()
             val enableNode = ClientCommandManager.literal("enable")
-                .executes { HydraCommands.enable(it) }
+                .executes { HydraCommands.enable() }
                 .build()
             val disableNode = ClientCommandManager.literal("disable")
-                .executes { HydraCommands.disable(it) }
+                .executes { HydraCommands.disable() }
                 .build()
             val testNode = ClientCommandManager.literal("test")
-                .executes { HydraCommands.test(it) }
+                .executes { HydraCommands.test() }
                 .build()
             dispatcher.root.addChild(hydraNode)
             hydraNode.addChild(enableNode)

@@ -1,6 +1,6 @@
 package com.theendercore.hydra.util
 
-import com.theendercore.hydra.LOGGER
+import com.theendercore.hydra.HydraMod.Companion.LOGGER
 import com.theendercore.hydra.config.ModConfig
 import com.theendercore.hydra.mixin.GameRendererAccessor
 import net.minecraft.client.MinecraftClient
@@ -19,15 +19,15 @@ object Methods {
         usernameText: MutableText?,
         msg: String,
         chatColor: Formatting?,
-        c: ModConfig,
-        isVIP: Boolean?
+        isVIP: Boolean,
     ) {
         var message = msg
-        val timestampText = Text.literal("[" + SimpleDateFormat(c.timeFormatting).format(date) + "]").formatted(
-            Formatting.GRAY
-        )
+        val timestampText =
+            Text.literal("[" + SimpleDateFormat(ModConfig.config!!.timeFormatting).format(date) + "]").formatted(
+                Formatting.GRAY
+            )
         val messageBodyText = Text.literal(": ").formatted(Formatting.WHITE)
-        if (!isVIP!!) {
+        if (!isVIP) {
             message = message.replace(Formatting.FORMATTING_CODE_PREFIX.toString().toRegex(), "$")
         }
         if (chatColor == null) {
@@ -46,8 +46,7 @@ object Methods {
         val hud = MinecraftClient.getInstance().inGameHud
         if (text != null) {
             hud.setTitle(text)
-        }
-        if (smallText != null) {
+        } else {
             hud.setSubtitle(smallText)
         }
     }
@@ -59,7 +58,6 @@ object Methods {
     }
 
     fun disableShader() {
-        LOGGER.info("Disabling all shaders")
-        //        renderer.disableShader();
+        renderer.shader?.close()
     }
 }

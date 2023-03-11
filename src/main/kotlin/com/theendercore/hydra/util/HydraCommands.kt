@@ -1,23 +1,22 @@
 package com.theendercore.hydra.util
 
-import com.mojang.brigadier.context.CommandContext
-import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.theendercore.hydra.twitch.TwitchBot
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 
+@Suppress("unused")
 object HydraCommands {
-    @Throws(CommandSyntaxException::class)
-    fun enable(context: CommandContext<FabricClientCommandSource?>?): Int {
-        return TwitchBot.enable()
+    fun enable(): Int {
+        var x = 0
+        Thread {
+            x = TwitchBot.enable()
+        }.start()
+        return x
     }
 
-    @Throws(CommandSyntaxException::class)
-    fun disable(context: CommandContext<FabricClientCommandSource?>?): Int {
+    fun disable(): Int {
         return TwitchBot.disable()
     }
 
-    @Throws(CommandSyntaxException::class)
-    fun test(context: CommandContext<FabricClientCommandSource?>?): Int {
+    fun test(): Int {
         return 1
     }
 }

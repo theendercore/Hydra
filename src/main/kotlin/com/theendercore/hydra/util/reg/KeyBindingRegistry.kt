@@ -1,9 +1,12 @@
-package com.theendercore.hydra.util
+package com.theendercore.hydra.util.reg
 
-import com.theendercore.hydra.LOGGER
-import com.theendercore.hydra.MODID
+import com.theendercore.hydra.HydraMod.Companion.LOGGER
+import com.theendercore.hydra.HydraMod.Companion.MODID
+import com.theendercore.hydra.HydraMod.Companion.id
+import com.theendercore.hydra.util.Methods
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
@@ -12,12 +15,31 @@ import net.minecraft.network.packet.s2c.play.ParticleS2CPacket
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.util.math.random.Random
 import org.lwjgl.glfw.GLFW
+import java.text.SimpleDateFormat
+import java.util.*
 
 object KeyBindingRegistry {
     private var random: Random = Random.create()
     private var helperKey1: KeyBinding? = null
     private var helperKey2: KeyBinding? = null
+    var timeRemainingInTicks = 0
+
+
     fun init() {
+
+        HudRenderCallback.EVENT.register(id("effect_timer"), HudRenderCallback { matrixStack, _ ->
+            if (timeRemainingInTicks > 0) {
+                MinecraftClient.getInstance().textRenderer.drawWithShadow(
+                    matrixStack,
+                    "Time Left: ${
+                        SimpleDateFormat("mm:ss").format(Date((timeRemainingInTicks * 50).toLong()))
+                    }",
+                    100f,
+                    100f,
+                    0xFFFFF
+                )
+            }
+        })
         helperKey1 = KeyBindingHelper.registerKeyBinding(
             KeyBinding(
                 "key.$MODID.m4",
@@ -36,7 +58,7 @@ object KeyBindingRegistry {
         )
         ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick register@{
             while (helperKey1!!.wasPressed()) {
-                val mcClient = MinecraftClient.getInstance()
+                val mcClient = it
                 val playerEntity: PlayerEntity = mcClient.player!!
                 val packet = ParticleS2CPacket(
                     ParticleTypes.TOTEM_OF_UNDYING,
@@ -67,29 +89,23 @@ object KeyBindingRegistry {
                             l,
                             m
                         )
-                        Methods.setRandomShader()
                     } catch (var16: Throwable) {
                         LOGGER.warn("Could not spawn particle effect {}", packet.parameters)
                         return@register
                     }
                 }
-                //                mcClient.particleManager.addParticle(ParticleTypes.BUBBLE, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), 0.0, 0.0, 0.0);
-
-    //                Random rand = new Random();
-    //                PlayerEntity player = client.player;
-    //                double z, x;
-    //                for (int i = 0; i <= 10; i++) {
-    //                    x = rand.nextDouble();
-    //                    z = rand.nextDouble();
-    //                    LOGGER.info("x:" + x + "\ny:" + z);
-    //                    assert player != null;
-    //                    mcClient.particleManager.addParticle(new SculkChargeParticleEffect(10), player.getX() - .5 + x, player.getEyeY() - .1, player.getZ() - .5 + z, 0, 0, 0);
-    //                    mcClient.particleManager.addParticle(new DustParticleEffect(new Vec3f(1, 1,1 ), 4), player.getX(), player.getEyeY(), player.getZ(), 0, 0, 0);
-    //                }
             }
-            while (helperKey2!!.isPressed) {
+
+
+//            while (helperKey2!!.wasPressed()) {
+//
+//            }
+
+            if (timeRemainingInTicks > 0
+            ) {
+                timeRemainingInTicks--
+            } else {
                 Methods.disableShader()
-                LOGGER.info("hi")
             }
         })
     }

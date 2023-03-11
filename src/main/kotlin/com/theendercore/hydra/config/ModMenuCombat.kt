@@ -2,7 +2,7 @@ package com.theendercore.hydra.config
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory
 import com.terraformersmc.modmenu.api.ModMenuApi
-import com.theendercore.hydra.MODID
+import com.theendercore.hydra.HydraMod.Companion.MODID
 import me.shedaniel.clothconfig2.api.ConfigBuilder
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import net.fabricmc.api.EnvType
