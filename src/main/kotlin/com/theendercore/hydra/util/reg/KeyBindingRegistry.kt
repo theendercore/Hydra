@@ -31,15 +31,14 @@ object KeyBindingRegistry {
             if (timeRemainingInTicks > 0) {
                 MinecraftClient.getInstance().textRenderer.drawWithShadow(
                     matrixStack,
-                    "Time Left: ${
-                        SimpleDateFormat("mm:ss").format(Date((timeRemainingInTicks * 50).toLong()))
-                    }",
-                    100f,
-                    100f,
-                    0xFFFFF
+                    SimpleDateFormat("mm:ss").format(Date((timeRemainingInTicks * 50).toLong())),
+                    10f,
+                    10f,
+                    0xffffff
                 )
             }
         })
+
         helperKey1 = KeyBindingHelper.registerKeyBinding(
             KeyBinding(
                 "key.$MODID.m4",

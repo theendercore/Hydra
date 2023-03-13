@@ -21,7 +21,7 @@ public class ChatMixin {
         ModConfig config = ModConfig.Companion.getConfig();
         assert config != null;
         String prefix = config.getPrefix();
-        if (text.startsWith(prefix) & twitchClient != null) {
+        if (text.startsWith(prefix) && twitchClient != null) {
             String textWithoutPrefix = text.substring(text.indexOf(prefix) + prefix.length());
             Methods.INSTANCE.addTwitchMessage(new Date(), Text.literal(config.getUsername()).formatted(Objects.requireNonNull(config.getChannelChatColor()).getFormat()), textWithoutPrefix, null , true);
             twitchClient.getChat().sendMessage(config.getUsername(), textWithoutPrefix);

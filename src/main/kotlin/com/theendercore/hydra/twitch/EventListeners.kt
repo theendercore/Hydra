@@ -12,6 +12,7 @@ import com.theendercore.hydra.util.Methods
 import com.theendercore.hydra.util.reg.KeyBindingRegistry
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.network.OffThreadException
 import net.minecraft.text.Text
 import net.minecraft.text.TextColor
 import net.minecraft.util.Formatting
@@ -39,6 +40,8 @@ object EventListeners {
     fun rewardRedeemedListener(event: RewardRedeemedEvent) {
         val eTitle = event.redemption.reward.title
         val player: PlayerEntity? = MinecraftClient.getInstance().player
+
+        val client = MinecraftClient.getInstance()
         when (eTitle) {
 
             "Hydrate!" -> Methods.titleMessage(
@@ -54,11 +57,22 @@ object EventListeners {
                 assert(player != null)
                 Methods.titleMessage(Text.literal(player!!.pos.toString()), null)
             }
-            "Random Shader"->{
-                Methods.titleMessage( Text.of("hi"), null)
 
-                Methods.setRandomShader()
-                KeyBindingRegistry.timeRemainingInTicks = 5 *20
+            "Random Shader" -> {
+                if (!client.isOnThread) {
+                    client.executeSync {
+                        try {
+
+                            Methods.setRandomShader()
+                            KeyBindingRegistry.timeRemainingInTicks = 33 * 20
+                        } catch (var3: Exception) {
+
+                            LOGGER.debug("Idk i tryed ")
+                        }
+                    }
+                    throw OffThreadException.INSTANCE
+                }
+
             }
         }
 
