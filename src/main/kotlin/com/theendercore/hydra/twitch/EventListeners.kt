@@ -8,11 +8,17 @@ import com.github.twitch4j.pubsub.events.RewardRedeemedEvent
 import com.theendercore.hydra.HydraMod.Companion.LOGGER
 import com.theendercore.hydra.HydraMod.Companion.MODID
 import com.theendercore.hydra.config.ModConfig
-import com.theendercore.hydra.util.Methods
-import com.theendercore.hydra.util.reg.KeyBindingRegistry
+import com.theendercore.hydra.util.Methods.addTwitchMessage
+import com.theendercore.hydra.util.Methods.chatMessage
+import com.theendercore.hydra.util.Methods.playRandomSound
+import com.theendercore.hydra.util.Methods.playSound
+import com.theendercore.hydra.util.Methods.randomParticle
+import com.theendercore.hydra.util.Methods.setRandomShader
+import com.theendercore.hydra.util.Methods.titleMessage
+import com.theendercore.hydra.util.reg.TickRegistry
 import net.minecraft.client.MinecraftClient
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.OffThreadException
+import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.text.TextColor
 import net.minecraft.util.Formatting
@@ -22,14 +28,14 @@ object EventListeners {
     fun followingEventListener(event: FollowingEvent) {
         val follower = Text.literal(event.data.displayName).formatted(Formatting.AQUA)
         val after = Text.literal(" just Followed!").formatted(Formatting.WHITE)
-        Methods.chatMessage(follower.append(after))
+        chatMessage(follower.append(after))
     }
 
     fun subscriptionEventListener(event: SubscriptionEvent) {
         LOGGER.info(event.toString())
         val subscriber = Text.literal(event.user.name).formatted(Formatting.LIGHT_PURPLE)
         val months = Text.literal(event.months.toString()).formatted(Formatting.LIGHT_PURPLE)
-        Methods.titleMessage(
+        titleMessage(
             subscriber.append(Text.literal(" Has Subscribed for ")).formatted(Formatting.WHITE).append(months)
                 .append("Months!"), Text.literal(event.message.toString()).formatted(
                 Formatting.GRAY
@@ -38,50 +44,41 @@ object EventListeners {
     }
 
     fun rewardRedeemedListener(event: RewardRedeemedEvent) {
-        val eTitle = event.redemption.reward.title
-        val player: PlayerEntity? = MinecraftClient.getInstance().player
+        val title = event.redemption.reward.title
+        val player = MinecraftClient.getInstance().player!!
 
         val client = MinecraftClient.getInstance()
-        when (eTitle) {
-
-            "Hydrate!" -> Methods.titleMessage(
-                Text.literal(event.redemption.reward.title).formatted(Formatting.BLUE),
-                Text.literal("Redeemed by " + event.redemption.user.displayName).formatted(
-                    Formatting.GRAY
-                )
+        when (title) {
+            "Hydrate!" -> titleMessage(
+                Text.literal(title).formatted(Formatting.BLUE),
+                Text.literal("Redeemed by " + event.redemption.user.displayName).formatted(Formatting.GRAY)
             )
-
             "PP" -> LOGGER.info("yoo")
-
-            "Point waste" -> {
-                assert(player != null)
-                Methods.titleMessage(Text.literal(player!!.pos.toString()), null)
-            }
-
             "Random Shader" -> {
                 if (!client.isOnThread) {
                     client.executeSync {
                         try {
-
-                            Methods.setRandomShader()
-                            KeyBindingRegistry.timeRemainingInTicks = 33 * 20
+                            setRandomShader()
+                            TickRegistry.timeRemainingInTicks = 33 * 20
                         } catch (var3: Exception) {
-
-                            LOGGER.debug("Idk i tryed ")
+                            LOGGER.debug("Shader didn't apply!")
                         }
                     }
                     throw OffThreadException.INSTANCE
                 }
-
             }
+            "Play Random Sound" -> playRandomSound(player)
+            "Creeper Aww Man!" -> playSound(player, SoundEvents.ENTITY_CREEPER_PRIMED)
+            "Spawn Random Particle" -> randomParticle(player)
+            "Point waste" -> titleMessage(Text.literal(player.pos.toString()), null)
         }
 
         val user = Text.literal(event.redemption.user.displayName).formatted(Formatting.DARK_GRAY)
         val translatableText = Text.translatable("listener.$MODID.reward.redeem").formatted(
             Formatting.WHITE
         )
-        val eventTitle = Text.literal(eTitle).formatted(Formatting.DARK_GRAY)
-        Methods.chatMessage(user.append(translatableText).append(eventTitle))
+        val eventTitle = Text.literal(title).formatted(Formatting.DARK_GRAY)
+        chatMessage(user.append(translatableText).append(eventTitle))
 
     }
 
@@ -108,6 +105,6 @@ object EventListeners {
                     Formatting.DARK_PURPLE
                 )
         }
-        Methods.addTwitchMessage(Date(), messageSender, event.message, messageColor, isVip)
+        addTwitchMessage(Date(), messageSender, event.message, messageColor, isVip)
     }
 }

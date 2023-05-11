@@ -13,6 +13,7 @@ import net.minecraft.util.Formatting
 
 object AutoStart {
     fun init() {
+
         ClientPlayConnectionEvents.JOIN.register(ClientPlayConnectionEvents.Join { _, _, _ ->
             if (ModConfig.config!!.autoStart && twitchClient == null) {
                 Methods.chatMessage(
@@ -23,6 +24,7 @@ object AutoStart {
                 }.start()
             }
         })
+
         ClientLifecycleEvents.CLIENT_STOPPING.register(ClientStopping {
             TwitchBot.disable()
             LOGGER.info("Disable Twitch bot.")
