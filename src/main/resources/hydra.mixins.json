@@ -6,8 +6,7 @@
   "mixins": [
   ],
   "client": [
-    "ChatMixin",
-    "GameRendererAccessor"
+    "ChatMixin"
   ],
   "injectors": {
     "defaultRequire": 1

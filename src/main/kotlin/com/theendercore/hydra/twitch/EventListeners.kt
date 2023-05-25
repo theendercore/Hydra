@@ -53,6 +53,7 @@ object EventListeners {
                 Text.literal(title).formatted(Formatting.BLUE),
                 Text.literal("Redeemed by " + event.redemption.user.displayName).formatted(Formatting.GRAY)
             )
+
             "PP" -> LOGGER.info("yoo")
             "Random Shader" -> {
                 if (!client.isOnThread) {
@@ -67,10 +68,11 @@ object EventListeners {
                     throw OffThreadException.INSTANCE
                 }
             }
+
             "Play Random Sound" -> playRandomSound(player)
             "Creeper Aww Man!" -> playSound(player, SoundEvents.ENTITY_CREEPER_PRIMED)
             "Spawn Random Particle" -> randomParticle(player)
-            "Point waste" -> titleMessage(Text.literal(player.pos.toString()), null)
+            "Point waste" -> titleMessage(Text.literal("${player.pos}"), null)
         }
 
         val user = Text.literal(event.redemption.user.displayName).formatted(Formatting.DARK_GRAY)

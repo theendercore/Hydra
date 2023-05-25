@@ -52,7 +52,7 @@
   "command.hydra.connecting": "Connecting to %s Channel...",
   "command.hydra.connected": "Connected!",
   "command.hydra.connected.already": "Already Connected to %s Channel",
-  "command.hydra.disconnected.already": "Twitch not connected!",
+  "command.hydra.not_connected": "Twitch not connected!",
   "command.hydra.disconnected": "Twitch disconnected!",
   "command.hydra.extras.enable": "Twitch Extras Enabled",
 

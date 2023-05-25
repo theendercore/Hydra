@@ -21,6 +21,7 @@ class ModMenuCombat : ModMenuApi {
             val config = ModConfig.config
             val customizationCategory =
                 builder.getOrCreateCategory(Text.translatable("config.$MODID.category.customization"))
+
             customizationCategory.addEntry(entryBuilder
                 .startStrField(
                     Text.translatable("config.$MODID.customization.prefix"),
@@ -30,6 +31,7 @@ class ModMenuCombat : ModMenuApi {
                 .setTooltip(Text.translatable("config.$MODID.customization.prefix.tooltip"))
                 .setDefaultValue(ModConfig.DEFAULT_PREFIX)
                 .build())
+
             customizationCategory.addEntry(entryBuilder
                 .startEnumSelector(
                     Text.translatable("config.$MODID.customization.channel_chat_color"),
@@ -41,6 +43,7 @@ class ModMenuCombat : ModMenuApi {
                 .setTooltip(Text.translatable("config.$MODID.customization.channel_chat_color.tooltip"))
                 .setDefaultValue(ModConfig.DEFAULT_CHANNEL_CHAT_COLOR)
                 .build())
+
             customizationCategory.addEntry(entryBuilder
                 .startStrField(
                     Text.translatable("config.$MODID.customization.time_formatting"),
@@ -50,6 +53,7 @@ class ModMenuCombat : ModMenuApi {
                 .setTooltip(Text.translatable("config.$MODID.customization.time_formatting.tooltip"))
                 .setDefaultValue(ModConfig.DEFAULT_TIME_FORMATTING)
                 .build())
+
             customizationCategory.addEntry(entryBuilder
                 .startBooleanToggle(
                     Text.translatable("config.$MODID.customization.auto_enable"),
@@ -59,8 +63,21 @@ class ModMenuCombat : ModMenuApi {
                 .setTooltip(Text.translatable("config.$MODID.customization.auto_enable.tooltip"))
                 .setDefaultValue(ModConfig.DEFAULT_AUTO_START)
                 .build())
+
+            customizationCategory.addEntry(entryBuilder
+                .startBooleanToggle(
+                    Text.translatable("config.$MODID.customization.enable_cache"),
+                    config.enableCache
+                )
+                .setSaveConsumer {  config.enableCache = it }
+                .setTooltip(Text.translatable("config.$MODID.customization.enable_cache.tooltip"))
+                .setDefaultValue(ModConfig.DEFAULT_ENABLE_CACHE)
+                .build())
+
+
             val credentialsCategory =
                 builder.getOrCreateCategory(Text.translatable("config.$MODID.category.credentials"))
+
             credentialsCategory.addEntry(entryBuilder
                 .startStrField(
                     Text.translatable("config.$MODID.credentials.username"),
@@ -70,6 +87,7 @@ class ModMenuCombat : ModMenuApi {
                 .setTooltip(Text.translatable("config.$MODID.credentials.username.tooltip"))
                 .setDefaultValue(ModConfig.DEFAULT_USERNAME)
                 .build())
+
             credentialsCategory.addEntry(entryBuilder
                 .startStrField(
                     Text.translatable("config.$MODID.credentials.oauthKey"),
@@ -79,6 +97,7 @@ class ModMenuCombat : ModMenuApi {
                 .setTooltip(Text.translatable("config.$MODID.credentials.oauthKey.tooltip"))
                 .setDefaultValue(ModConfig.DEFAULT_OAUTH_KEY)
                 .build())
+
             credentialsCategory.addEntry(entryBuilder
                 .startBooleanToggle(
                     Text.translatable("config.$MODID.credentials.extras"),
@@ -88,11 +107,13 @@ class ModMenuCombat : ModMenuApi {
                 .setTooltip(Text.translatable("config.$MODID.credentials.extras.tooltip"))
                 .setDefaultValue(ModConfig.DEFAULT_EXTRAS)
                 .build())
+
             credentialsCategory.addEntry(
                 entryBuilder
                     .startTextDescription(Text.translatable("config.$MODID.credentials.info"))
                     .build()
             )
+
             builder.build()
         }
     }

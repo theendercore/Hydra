@@ -19,6 +19,7 @@ class ModConfig {
     var timeFormatting: String
     var extras: Boolean
     var autoStart: Boolean
+    var enableCache: Boolean
 
     init {
         username = DEFAULT_USERNAME
@@ -28,6 +29,7 @@ class ModConfig {
         timeFormatting = DEFAULT_TIME_FORMATTING
         extras = DEFAULT_EXTRAS
         autoStart = DEFAULT_AUTO_START
+        enableCache = DEFAULT_ENABLE_CACHE
     }
 
     fun load() {
@@ -50,6 +52,8 @@ class ModConfig {
                     if (jsonObject.has("extras")) jsonObject.getAsJsonPrimitive("extras").asBoolean else DEFAULT_EXTRAS
                 autoStart =
                     if (jsonObject.has("autoStart")) jsonObject.getAsJsonPrimitive("autoStart").asBoolean else DEFAULT_AUTO_START
+                autoStart =
+                    if (jsonObject.has("enableCache")) jsonObject.getAsJsonPrimitive("enableCache").asBoolean else DEFAULT_ENABLE_CACHE
             }
         } catch (e: IOException) {
             // Do nothing, we have no file,
@@ -65,6 +69,7 @@ class ModConfig {
         jsonObject.addProperty("timeFormatting", timeFormatting)
         jsonObject.addProperty("extras", extras)
         jsonObject.addProperty("autoStart", autoStart)
+        jsonObject.addProperty("enableCache", enableCache)
         try {
             PrintWriter(configFile).use { out -> out.println(jsonObject) }
         } catch (e: FileNotFoundException) {
@@ -80,6 +85,8 @@ class ModConfig {
         const val DEFAULT_TIME_FORMATTING = "HH:mm"
         const val DEFAULT_EXTRAS = false
         const val DEFAULT_AUTO_START = false
+        const val DEFAULT_ENABLE_CACHE = false
+
         private var SINGLE_INSTANCE: ModConfig? = null
         val config: ModConfig?
             get() {

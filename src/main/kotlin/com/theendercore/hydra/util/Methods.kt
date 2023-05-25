@@ -2,20 +2,18 @@ package com.theendercore.hydra.util
 
 import com.theendercore.hydra.HydraMod.Companion.LOGGER
 import com.theendercore.hydra.config.ModConfig
-import com.theendercore.hydra.mixin.GameRendererAccessor
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.GameRenderer
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.particle.DefaultParticleType
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleType
+import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.util.math.random.Random
-import net.minecraft.util.registry.Registry
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,14 +34,12 @@ object Methods {
                 Formatting.GRAY
             )
         val messageBodyText = Text.literal(": ").formatted(Formatting.WHITE)
-        if (!isVIP) {
-            message = message.replace(Formatting.FORMATTING_CODE_PREFIX.toString().toRegex(), "$")
-        }
-        if (chatColor == null) {
-            messageBodyText.append(Text.literal(message))
-        } else {
-            messageBodyText.append(Text.literal(message).formatted(chatColor, Formatting.BOLD, Formatting.ITALIC))
-        }
+
+        if (!isVIP) message = message.replace(Formatting.FORMATTING_CODE_PREFIX.toString().toRegex(), "$")
+
+        if (chatColor == null) messageBodyText.append(Text.literal(message))
+        else messageBodyText.append(Text.literal(message).formatted(chatColor, Formatting.BOLD, Formatting.ITALIC))
+
         chatMessage(timestampText.append(usernameText).append(messageBodyText))
     }
 
@@ -61,13 +57,11 @@ object Methods {
     }
 
     fun setRandomShader() {
-        val shader = GameRendererAccessor.getShaderLocations()[Random.create().nextInt(GameRenderer.SHADER_COUNT)]
-        LOGGER.info("Loading shader " + shader.path)
-        (renderer as GameRendererAccessor).invokeLoadShader(shader)
+        renderer.cycleSuperSecretSetting()
     }
 
     fun disableShader() {
-        renderer.shader?.close()
+        client.gameRenderer.disablePostProcessor()
     }
 
     fun playSound(player: PlayerEntity, sound: SoundEvent) {
@@ -75,7 +69,7 @@ object Methods {
     }
 
     fun playRandomSound(player: PlayerEntity) {
-        Registry.SOUND_EVENT[random.nextBetween(0, Registry.SOUND_EVENT.size() - 1)]?.let { playSound(player, it) }
+        Registries.SOUND_EVENT[random.nextBetween(0, Registries.SOUND_EVENT.size() - 1)]?.let { playSound(player, it) }
     }
 
     fun playParticle(player: PlayerEntity, particle: ParticleType<*>): Int {
@@ -102,7 +96,7 @@ object Methods {
     }
 
     fun randomParticle(player: PlayerEntity): Int {
-        val particles = Registry.PARTICLE_TYPE.filterIsInstance<DefaultParticleType>()
+        val particles = Registries.PARTICLE_TYPE.filterIsInstance<DefaultParticleType>()
         return playParticle(player, particles[random.nextBetween(0, particles.size - 1)])
     }
 }
