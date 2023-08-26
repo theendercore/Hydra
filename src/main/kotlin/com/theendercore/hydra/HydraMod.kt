@@ -4,6 +4,7 @@ import com.github.philippheuer.credentialmanager.domain.OAuth2Credential
 import com.github.twitch4j.TwitchClient
 import com.theendercore.hydra.config.ModConfig
 import com.theendercore.hydra.util.AutoStart
+import com.theendercore.hydra.util.EmoteRenderer
 import com.theendercore.hydra.util.reg.CommandRegistry
 import com.theendercore.hydra.util.reg.KeyBindingRegistry
 import com.theendercore.hydra.util.reg.TickRegistry
@@ -11,6 +12,7 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -49,6 +51,10 @@ class HydraMod : ClientModInitializer {
                 )
             }
         })
+
+        HudRenderCallback.EVENT.register{ matrix: MatrixStack, f: Float ->
+            EmoteRenderer.render(matrix, "theend42EndEmpire", 3f, 3f, 16f, 16f, 1.0f)
+        }
 
     }
 

@@ -65,11 +65,13 @@ object TwitchBot {
                 null,
                 listOf(config.username)
             ).execute()
-            val channelID = resultList.users[0].id
-            LOGGER.info("\n\n$channelID\n\n")
-            twitchClient!!.pubSub.listenForChannelPointsRedemptionEvents(credential, channelID)
-            twitchClient!!.pubSub.listenForFollowingEvents(credential, channelID)
-            twitchClient!!.pubSub.listenForSubscriptionEvents(credential, channelID)
+
+            config.broadcasterId = resultList.users[0].id
+            config.save()
+
+            twitchClient!!.pubSub.listenForChannelPointsRedemptionEvents(credential, config.broadcasterId)
+            twitchClient!!.pubSub.listenForFollowingEvents(credential, config.broadcasterId)
+            twitchClient!!.pubSub.listenForSubscriptionEvents(credential, config.broadcasterId)
             twitchClient!!.eventManager.onEvent(RewardRedeemedEvent::class.java) { event: RewardRedeemedEvent ->
                 EventListeners.rewardRedeemedListener(
                     event
@@ -85,7 +87,7 @@ object TwitchBot {
             ) { event: SubscriptionEvent -> EventListeners.subscriptionEventListener(event) }
 
             if (config.enableCache) {
-                val emoteList = twitchClient!!.helix.getChannelEmotes(credential!!.accessToken, channelID).execute()
+                val emoteList = twitchClient!!.helix.getChannelEmotes(credential!!.accessToken, config.broadcasterId).execute()
                 emoteList.emotes.forEach {
                     LOGGER.info(it.name)
                     saveEmote(it.images.largeImageUrl, it.name)

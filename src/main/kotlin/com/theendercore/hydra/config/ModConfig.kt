@@ -20,6 +20,7 @@ class ModConfig {
     var extras: Boolean
     var autoStart: Boolean
     var enableCache: Boolean
+    var broadcasterId: String
 
     init {
         username = DEFAULT_USERNAME
@@ -30,6 +31,7 @@ class ModConfig {
         extras = DEFAULT_EXTRAS
         autoStart = DEFAULT_AUTO_START
         enableCache = DEFAULT_ENABLE_CACHE
+        broadcasterId = DEFAULT_BROADCASTER_ID
     }
 
     fun load() {
@@ -52,8 +54,10 @@ class ModConfig {
                     if (jsonObject.has("extras")) jsonObject.getAsJsonPrimitive("extras").asBoolean else DEFAULT_EXTRAS
                 autoStart =
                     if (jsonObject.has("autoStart")) jsonObject.getAsJsonPrimitive("autoStart").asBoolean else DEFAULT_AUTO_START
-                autoStart =
+                enableCache =
                     if (jsonObject.has("enableCache")) jsonObject.getAsJsonPrimitive("enableCache").asBoolean else DEFAULT_ENABLE_CACHE
+                broadcasterId =
+                    if (jsonObject.has("broadcasterId")) jsonObject.getAsJsonPrimitive("broadcasterId").asString else DEFAULT_BROADCASTER_ID
             }
         } catch (e: IOException) {
             // Do nothing, we have no file,
@@ -70,6 +74,7 @@ class ModConfig {
         jsonObject.addProperty("extras", extras)
         jsonObject.addProperty("autoStart", autoStart)
         jsonObject.addProperty("enableCache", enableCache)
+        jsonObject.addProperty("broadcasterId", broadcasterId)
         try {
             PrintWriter(configFile).use { out -> out.println(jsonObject) }
         } catch (e: FileNotFoundException) {
@@ -86,6 +91,7 @@ class ModConfig {
         const val DEFAULT_EXTRAS = false
         const val DEFAULT_AUTO_START = false
         const val DEFAULT_ENABLE_CACHE = false
+        const val DEFAULT_BROADCASTER_ID = ""
 
         private var SINGLE_INSTANCE: ModConfig? = null
         val config: ModConfig?

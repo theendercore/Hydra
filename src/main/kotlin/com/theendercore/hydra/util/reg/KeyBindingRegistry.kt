@@ -66,7 +66,7 @@ object KeyBindingRegistry {
                 if (twitchClient != null && config != null) {
                     Thread {
                         val clipData =
-                            twitchClient!!.helix.createClip(credential!!.accessToken, "710193183", false).execute()
+                            twitchClient!!.helix.createClip(credential!!.accessToken, config!!.broadcasterId, false).execute()
 
                         clipData.data.forEach { clip ->
                             LOGGER.info("Created Clip with ID: ${clip.id}")
