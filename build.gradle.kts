@@ -1,6 +1,6 @@
 plugins {
-    id("fabric-loom") version "1.0-SNAPSHOT"
-    kotlin("jvm") version "1.7.20"
+    id("fabric-loom") version "1.3.9"
+    kotlin("jvm") version "1.9.0"
     id("maven-publish")
 }
 base.archivesName.set(project.properties["archives_base_name"] as String)
@@ -30,7 +30,6 @@ dependencies {
     // Config
     modApi("me.shedaniel.cloth:cloth-config-fabric:${project.properties["cloth_config_version"]}")
 
-
     modImplementation("com.terraformersmc:modmenu:${project.properties["mod_menu_version"]}")
 }
 
@@ -57,10 +56,6 @@ tasks {
 
     java {
         toolchain.languageVersion.set(JavaLanguageVersion.of(JavaVersion.toVersion(targetJavaVersion).toString()))
-
-        // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-        // if it is present.
-        // If you remove this line, sources will not be generated.
         withSourcesJar()
     }
 
@@ -71,19 +66,11 @@ tasks {
     }
 }
 
-// configure the maven publication
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
         }
     }
-
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
-        // Notice: This block does NOT have the same function as the block in the top level.
-        // The repositories here will be used for publishing your artifact, not for
-        // retrieving dependencies.
-    }
+    repositories {}
 }
