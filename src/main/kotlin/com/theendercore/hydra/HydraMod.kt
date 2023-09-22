@@ -4,9 +4,9 @@ import com.github.philippheuer.credentialmanager.domain.OAuth2Credential
 import com.github.twitch4j.TwitchClient
 import com.theendercore.hydra.config.ModConfig
 import com.theendercore.hydra.util.AutoStart
-import com.theendercore.hydra.util.reg.CommandRegistry
-import com.theendercore.hydra.util.reg.KeyBindingRegistry
-import com.theendercore.hydra.util.reg.TickRegistry
+import com.theendercore.hydra.init.CommandRegistry
+import com.theendercore.hydra.init.KeyBindingRegistry
+import com.theendercore.hydra.init.TickRegistry
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
 import net.fabricmc.loader.api.FabricLoader

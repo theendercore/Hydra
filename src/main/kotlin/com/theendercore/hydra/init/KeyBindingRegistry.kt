@@ -1,4 +1,4 @@
-package com.theendercore.hydra.util.reg
+package com.theendercore.hydra.init
 
 import com.mojang.blaze3d.platform.InputUtil
 import com.theendercore.hydra.HydraMod.Companion.LOGGER
@@ -8,7 +8,7 @@ import com.theendercore.hydra.HydraMod.Companion.credential
 import com.theendercore.hydra.HydraMod.Companion.logPath
 import com.theendercore.hydra.HydraMod.Companion.twitchClient
 import com.theendercore.hydra.config.ModConfig.Companion.config
-import com.theendercore.hydra.util.Methods.chatMessage
+import com.theendercore.hydra.util.Methods.addChatMsg
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.minecraft.client.option.KeyBind
@@ -73,9 +73,9 @@ object KeyBindingRegistry {
                             log("Clip Link: https://www.twitch.tv/${config!!.username}/clip/${clip.id}")
                         }
 
-                        chatMessage(Text.literal("Clip created ").formatted(Formatting.AQUA))
+                        addChatMsg(Text.literal("Clip created ").formatted(Formatting.AQUA))
                     }.start()
-                } else chatMessage(Text.translatable("command.$MODID.not_connected").formatted(Formatting.DARK_GRAY))
+                } else addChatMsg(Text.translatable("command.$MODID.not_connected").formatted(Formatting.DARK_GRAY))
 
             }
 
@@ -85,11 +85,11 @@ object KeyBindingRegistry {
                         val success = twitchClient!!.chat.sendMessage(config!!.username, "/marker $clipCount")
                         LOGGER.info(success.toString())
                         if (success) {
-                            chatMessage(Text.literal("Marker $clipCount").formatted(Formatting.GRAY))
+                            addChatMsg(Text.literal("Marker $clipCount").formatted(Formatting.GRAY))
                             clipCount++
                         }
                     }.start()
-                } else chatMessage(Text.translatable("command.$MODID.not_connected").formatted(Formatting.DARK_GRAY))
+                } else addChatMsg(Text.translatable("command.$MODID.not_connected").formatted(Formatting.DARK_GRAY))
             }
 
         })

@@ -1,21 +1,18 @@
-package com.theendercore.hydra.util
+package com.theendercore.hydra.commands
 
 import com.mojang.brigadier.context.CommandContext
 import com.theendercore.hydra.twitch.TwitchBot
+import com.theendercore.hydra.util.Methods.addChatMsg
 import com.theendercore.hydra.util.Methods.playParticle
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.minecraft.particle.ParticleTypes
-import net.minecraft.text.Text
 
 
 object HydraCommand {
 
-
     fun enable(): Int {
         var x = 0
-        Thread {
-            x = TwitchBot.enable()
-        }.start()
+        Thread { x = TwitchBot.enable() }.start()
         return x
     }
 
@@ -27,8 +24,7 @@ object HydraCommand {
         val source = context.source
         val player = source.player
 
-        player.sendMessage(Text.of("Test"), false)
-
+        addChatMsg("Hello")
         playParticle(player, ParticleTypes.TOTEM_OF_UNDYING)
 
         return 1

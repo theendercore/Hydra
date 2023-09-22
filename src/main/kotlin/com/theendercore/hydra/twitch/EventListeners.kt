@@ -9,13 +9,13 @@ import com.theendercore.hydra.HydraMod.Companion.LOGGER
 import com.theendercore.hydra.HydraMod.Companion.MODID
 import com.theendercore.hydra.config.ModConfig
 import com.theendercore.hydra.util.Methods.addTwitchMessage
-import com.theendercore.hydra.util.Methods.chatMessage
+import com.theendercore.hydra.util.Methods.addChatMsg
 import com.theendercore.hydra.util.Methods.playRandomSound
 import com.theendercore.hydra.util.Methods.playSound
 import com.theendercore.hydra.util.Methods.randomParticle
 import com.theendercore.hydra.util.Methods.setRandomShader
 import com.theendercore.hydra.util.Methods.titleMessage
-import com.theendercore.hydra.util.reg.TickRegistry
+import com.theendercore.hydra.init.TickRegistry
 import net.minecraft.client.MinecraftClient
 import net.minecraft.network.OffThreadException
 import net.minecraft.sound.SoundEvents
@@ -28,7 +28,7 @@ object EventListeners {
     fun followingEventListener(event: FollowingEvent) {
         val follower = Text.literal(event.data.displayName).formatted(Formatting.AQUA)
         val after = Text.literal(" just Followed!").formatted(Formatting.WHITE)
-        chatMessage(follower.append(after))
+        addChatMsg(follower.append(after))
     }
 
     fun subscriptionEventListener(event: SubscriptionEvent) {
@@ -80,7 +80,7 @@ object EventListeners {
             Formatting.WHITE
         )
         val eventTitle = Text.literal(title).formatted(Formatting.DARK_GRAY)
-        chatMessage(user.append(translatableText).append(eventTitle))
+        addChatMsg(user.append(translatableText).append(eventTitle))
 
     }
 

@@ -1,4 +1,4 @@
-package com.theendercore.hydra.util.reg
+package com.theendercore.hydra.init
 
 import com.theendercore.hydra.util.Methods
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents

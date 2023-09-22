@@ -16,7 +16,7 @@ object AutoStart {
 
         ClientPlayConnectionEvents.JOIN.register(ClientPlayConnectionEvents.Join { _, _, _ ->
             if (ModConfig.config!!.autoStart && twitchClient == null) {
-                Methods.chatMessage(
+                Methods.addChatMsg(
                     Text.translatable("system.$MODID.auto_load").formatted(Formatting.DARK_GRAY)
                 )
                 Thread{

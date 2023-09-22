@@ -37,12 +37,11 @@ object Methods {
         if (chatColor == null) messageBodyText.append(Text.literal(message))
         else messageBodyText.append(Text.literal(message).formatted(chatColor, Formatting.BOLD, Formatting.ITALIC))
 
-        chatMessage(timestampText.append(usernameText).append(messageBodyText))
+        addChatMsg(timestampText.append(usernameText).append(messageBodyText))
     }
 
-    fun chatMessage(text: Text?) {
-        client.inGameHud.chatHud.addMessage(text)
-    }
+    fun addChatMsg(text: Text) = client.inGameHud.chatHud.addMessage(text)
+    fun addChatMsg(text: String) = addChatMsg(Text.of(text))
 
     fun titleMessage(text: Text?, smallText: Text?) {
         val hud = client.inGameHud

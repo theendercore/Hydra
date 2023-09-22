@@ -1,6 +1,6 @@
-package com.theendercore.hydra.util.reg
+package com.theendercore.hydra.init
 
-import com.theendercore.hydra.util.HydraCommand
+import com.theendercore.hydra.commands.HydraCommand
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 
