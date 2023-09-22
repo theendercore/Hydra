@@ -17,8 +17,8 @@ import static com.theendercore.hydra.HydraMod.twitchClient;
 
 @Mixin(ChatScreen.class)
 public class ChatMixin {
-    @Inject(at = @At("HEAD"), method = "sendMessage(Ljava/lang/String;Z)Z", cancellable = true)
-    public void sendMessage(String text, boolean addToHistory, CallbackInfoReturnable<Boolean> info) {
+    @Inject(at = @At("HEAD"), method = "handleChatInput", cancellable = true)
+    public void sendMessage(String text, boolean addToHistory, CallbackInfoReturnable<Boolean> cir) {
         ModConfig config = ModConfig.Companion.getConfig();
         assert config != null;
         String prefix = config.getPrefix();
@@ -26,8 +26,7 @@ public class ChatMixin {
             String textWithoutPrefix = text.substring(text.indexOf(prefix) + prefix.length());
             Methods.INSTANCE.addTwitchMessage(new Date(), Text.literal(config.getUsername()).formatted(Objects.requireNonNull(config.getChannelChatColor()).getFormat()), textWithoutPrefix, null , true);
             twitchClient.getChat().sendMessage(config.getUsername(), textWithoutPrefix);
-            info.setReturnValue(true);
+            cir.setReturnValue(true);
         }
-
     }
 }
