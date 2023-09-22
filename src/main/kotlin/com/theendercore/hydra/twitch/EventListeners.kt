@@ -100,10 +100,10 @@ object EventListeners {
                 break
             }
         }
-        val color = event.messageEvent.tags["color"]
+        val color = event.messageEvent.userChatColor // .tags["color"]
         if (event.user.name != c.username) {
             messageSender =
-                if (color != null) messageSender.setStyle(Text.literal("").style.withColor(TextColor.parse(color))) else messageSender.formatted(
+                if (color != null) messageSender.setStyle(Text.literal("").style.withColor(TextColor.parse(color.get()))) else messageSender.formatted(
                     Formatting.DARK_PURPLE
                 )
         }
