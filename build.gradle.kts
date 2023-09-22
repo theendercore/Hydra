@@ -12,12 +12,16 @@ repositories {
     maven { url = uri("https://minecraft.curseforge.com/api/maven") }
     maven { url = uri("https://maven.shedaniel.me/") }
     maven { url = uri("https://maven.terraformersmc.com/") }
+    maven { url = uri("https://maven.teamvoided.org/releases") }
+    maven { url = uri ("https://maven.quiltmc.org/repository/release") }
+
 }
 
 dependencies {
 
     minecraft("com.mojang:minecraft:${project.properties["minecraft_version"]}")
-    mappings("net.fabricmc:yarn:${project.properties["yarn_mappings"]}:v2")
+    mappings ("org.quiltmc:quilt-mappings:${project.properties["minecraft_version"]}+build.${project.properties["quilt_mappings"]}:intermediary-v2")
+//    mappings("net.fabricmc:yarn:${project.properties["yarn_mappings"]}:v2")
 
     modImplementation("net.fabricmc:fabric-loader:${project.properties["loader_version"]}")
 
@@ -31,6 +35,8 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-fabric:${project.properties["cloth_config_version"]}")
 
     modImplementation("com.terraformersmc:modmenu:${project.properties["mod_menu_version"]}")
+
+    modImplementation("org.teamvoided:voidlib-core:1.5.2+1.20.1")
 }
 
 tasks {

@@ -1,11 +1,9 @@
 package com.theendercore.hydra.util
 
-import com.theendercore.hydra.HydraMod.Companion.LOGGER
 import com.theendercore.hydra.config.ModConfig
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.particle.DefaultParticleType
-import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleType
 import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundCategory
@@ -13,14 +11,13 @@ import net.minecraft.sound.SoundEvent
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
-import net.minecraft.util.math.random.Random
 import java.text.SimpleDateFormat
 import java.util.*
 
 object Methods {
     private val client: MinecraftClient = MinecraftClient.getInstance()
     private val renderer = client.gameRenderer
-    private var random: Random = Random.create()
+//    private var random: Random = Random.create()
     fun addTwitchMessage(
         date: Date?,
         usernameText: MutableText?,
@@ -57,11 +54,11 @@ object Methods {
     }
 
     fun setRandomShader() {
-        renderer.cycleSuperSecretSetting()
+//        renderer.cycleSuperSecretSetting()
     }
 
     fun disableShader() {
-        client.gameRenderer.disablePostProcessor()
+//        client.gameRenderer.disablePostProcessor()
     }
 
     fun playSound(player: PlayerEntity, sound: SoundEvent) {
@@ -69,34 +66,35 @@ object Methods {
     }
 
     fun playRandomSound(player: PlayerEntity) {
-        Registries.SOUND_EVENT[random.nextBetween(0, Registries.SOUND_EVENT.size() - 1)]?.let { playSound(player, it) }
+//        Registries.SOUND_EVENT[random.nextBetween(0, Registries.SOUND_EVENT.size() - 1)]?.let { playSound(player, it) }
     }
 
     fun playParticle(player: PlayerEntity, particle: ParticleType<*>): Int {
-        for (i in 0 until 100) {
-            try {
-                client.particleManager.addParticle(
-                    particle as ParticleEffect,
-                    player.x + random.nextGaussian() * 1f,
-                    player.y + 1.8 + random.nextGaussian() * 1f,
-                    player.z + random.nextGaussian() * 1f,
-                    random.nextGaussian() * 1f,
-                    random.nextGaussian() * 1f,
-                    random.nextGaussian() * 1f
-                )
-            } catch (throwable: Throwable) {
-                LOGGER.warn(
-                    "Could not spawn particle effect {}",
-                    if (particle is DefaultParticleType) particle.asString() else particle
-                )
-                return 0
-            }
-        }
+//        for (i in 0 until 100) {
+//            try {
+//                client.particleManager.addParticle(
+//                    particle as ParticleEffect,
+//                    player.x + random.nextGaussian() * 1f,
+//                    player.y + 1.8 + random.nextGaussian() * 1f,
+//                    player.z + random.nextGaussian() * 1f,
+//                    random.nextGaussian() * 1f,
+//                    random.nextGaussian() * 1f,
+//                    random.nextGaussian() * 1f
+//                )
+//            } catch (throwable: Throwable) {
+//                LOGGER.warn(
+//                    "Could not spawn particle effect {}",
+//                    if (particle is DefaultParticleType) particle.asString() else particle
+//                )
+//                return 0
+//            }
+//        }
         return 1
     }
 
     fun randomParticle(player: PlayerEntity): Int {
         val particles = Registries.PARTICLE_TYPE.filterIsInstance<DefaultParticleType>()
-        return playParticle(player, particles[random.nextBetween(0, particles.size - 1)])
+//        return playParticle(player, particles[random.nextBetween(0, particles.size - 1)])
+        return 0
     }
 }

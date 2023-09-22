@@ -1,5 +1,6 @@
 package com.theendercore.hydra.util.reg
 
+import com.mojang.blaze3d.platform.InputUtil
 import com.theendercore.hydra.HydraMod.Companion.LOGGER
 import com.theendercore.hydra.HydraMod.Companion.MODID
 import com.theendercore.hydra.HydraMod.Companion.clipCount
@@ -10,8 +11,7 @@ import com.theendercore.hydra.config.ModConfig.Companion.config
 import com.theendercore.hydra.util.Methods.chatMessage
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
-import net.minecraft.client.option.KeyBinding
-import net.minecraft.client.util.InputUtil
+import net.minecraft.client.option.KeyBind
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import org.lwjgl.glfw.GLFW
@@ -21,15 +21,15 @@ object KeyBindingRegistry {
 
 //    private var random: Random = Random.create()
 
-    private var helperKey1: KeyBinding? = null
-    private var markerKey: KeyBinding? = null
-    private var clipKey: KeyBinding? = null
+    private var helperKey1: KeyBind? = null
+    private var markerKey: KeyBind? = null
+    private var clipKey: KeyBind? = null
 
 
     fun init() {
 
         helperKey1 = KeyBindingHelper.registerKeyBinding(
-            KeyBinding(
+            KeyBind(
                 "key.$MODID.m4",
                 InputUtil.Type.MOUSE,
                 GLFW.GLFW_MOUSE_BUTTON_4,
@@ -38,7 +38,7 @@ object KeyBindingRegistry {
         )
 
         markerKey = KeyBindingHelper.registerKeyBinding(
-            KeyBinding(
+            KeyBind(
                 "key.$MODID.markerKey",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_DOWN,
@@ -46,7 +46,7 @@ object KeyBindingRegistry {
             )
         )
         clipKey = KeyBindingHelper.registerKeyBinding(
-            KeyBinding(
+            KeyBind(
                 "key.$MODID.clipKey",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_RIGHT,

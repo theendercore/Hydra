@@ -27,7 +27,7 @@ object HydraCommand {
         val source = context.source
         val player = source.player
 
-        player.sendMessage(Text.of("Test"))
+        player.sendMessage(Text.of("Test"), false)
 
         playParticle(player, ParticleTypes.TOTEM_OF_UNDYING)
 

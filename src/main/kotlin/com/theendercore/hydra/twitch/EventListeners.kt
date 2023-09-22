@@ -57,7 +57,7 @@ object EventListeners {
             "PP" -> LOGGER.info("yoo")
             "Random Shader" -> {
                 if (!client.isOnThread) {
-                    client.executeSync {
+                    client.execute {
                         try {
                             setRandomShader()
                             TickRegistry.timeRemainingInTicks = 33 * 20

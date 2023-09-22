@@ -11,7 +11,6 @@ import com.theendercore.hydra.HydraMod.Companion.MODID
 import com.theendercore.hydra.HydraMod.Companion.credential
 import com.theendercore.hydra.HydraMod.Companion.twitchClient
 import com.theendercore.hydra.config.ModConfig
-import com.theendercore.hydra.util.Cashing.saveEmote
 import com.theendercore.hydra.util.Methods.chatMessage
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
@@ -86,13 +85,13 @@ object TwitchBot {
                 SubscriptionEvent::class.java
             ) { event: SubscriptionEvent -> EventListeners.subscriptionEventListener(event) }
 
-            if (config.enableCache) {
-                val emoteList = twitchClient!!.helix.getChannelEmotes(credential!!.accessToken, config.broadcasterId).execute()
-                emoteList.emotes.forEach {
-                    LOGGER.info(it.name)
-                    saveEmote(it.images.largeImageUrl, it.name)
-                }
-            }
+//            if (config.enableCache) {
+//                val emoteList = twitchClient!!.helix.getChannelEmotes(credential!!.accessToken, config.broadcasterId).execute()
+//                emoteList.emotes.forEach {
+//                    LOGGER.info(it.name)
+//                    saveEmote(it.images.largeImageUrl, it.name)
+//                }
+//            }
 
             chatMessage(Text.translatable("command.$MODID.extras.enable"))
         }

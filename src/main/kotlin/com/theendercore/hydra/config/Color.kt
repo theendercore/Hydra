@@ -8,9 +8,7 @@ enum class Color(private val label: String) {
     DARK_GREEN("DARK_GREEN"),
     DARK_AQUA("DARK_AQUA"),
     DARK_RED("DARK_RED"),
-    DARK_PURPLE(
-        "DARK_PURPLE"
-    ),
+    DARK_PURPLE("DARK_PURPLE"),
     GOLD("GOLD"),
     GRAY("GRAY"),
     DARK_GRAY("DARK_GRAY"),
@@ -18,9 +16,7 @@ enum class Color(private val label: String) {
     GREEN("GREEN"),
     AQUA("AQUA"),
     RED("RED"),
-    LIGHT_PURPLE(
-        "LIGHT_PURPLE"
-    ),
+    LIGHT_PURPLE("LIGHT_PURPLE"),
     YELLOW("YELLOW"),
     WHITE("WHITE");
 
