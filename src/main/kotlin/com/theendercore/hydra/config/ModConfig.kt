@@ -2,7 +2,7 @@ package com.theendercore.hydra.config
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import com.theendercore.hydra.HydraMod.Companion.MODID
+import com.theendercore.hydra.HydraMod.MODID
 import net.fabricmc.loader.api.FabricLoader
 import java.io.File
 import java.io.FileNotFoundException

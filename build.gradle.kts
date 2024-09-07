@@ -1,82 +1,116 @@
-plugins {
-    id("fabric-loom") version "1.3.9"
-    kotlin("jvm") version "1.9.0"
-    id("maven-publish")
-}
-base.archivesName.set(project.properties["archives_base_name"] as String)
-version = project.properties["mod_version"] as String
-group = project.properties["maven_group"] as String
+@file:Suppress("PropertyName", "VariableNaming")
 
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    alias(libs.plugins.fabric.loom)
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.iridium)
+    alias(libs.plugins.iridium.publish)
+    alias(libs.plugins.iridium.upload)
+}
+
+group = property("maven_group")!!
+version = property("mod_version")!!
+base.archivesName.set(modSettings.modId())
+
+val modrinth_id: String? by project
+val curse_id: String? by project
 
 repositories {
-    maven { url = uri("https://minecraft.curseforge.com/api/maven") }
-    maven { url = uri("https://maven.shedaniel.me/") }
-    maven { url = uri("https://maven.terraformersmc.com/") }
-    maven { url = uri("https://maven.teamvoided.org/releases") }
-    maven { url = uri ("https://maven.quiltmc.org/repository/release") }
+    maven("https://maven.awakenedredstone.com")
+    maven("https://maven.shedaniel.me/")
+    maven("https://maven.terraformersmc.com/releases/")
+    maven("https://maven.teamvoided.org/releases")
+    maven("https://minecraft.curseforge.com/api/maven")
+    mavenCentral()
+}
 
+modSettings {
+    entrypoint("client", "com.theendercore.hydra.HydraMod::init")
+    entrypoint("modmenu", "com.theendercore.hydra.config.ModMenuCombat")
+//    entrypoint("fabric-datagen", "org.teamvoided.template.data.gen.TemplateData")
+
+//    mixinFile("${modId()}.client.mixins.json")
+    mixinFile("${modId()}.mixins.json")
 }
 
 dependencies {
+    modImplementation(fileTree("libs"))
+    modImplementation(libs.modmenu)
 
-    minecraft("com.mojang:minecraft:${project.properties["minecraft_version"]}")
-    mappings ("org.quiltmc:quilt-mappings:${project.properties["minecraft_version"]}+build.${project.properties["quilt_mappings"]}:intermediary-v2")
-//    mappings("net.fabricmc:yarn:${project.properties["yarn_mappings"]}:v2")
+    modCompileOnly("${libs.emi.get()}:api")
+    modLocalRuntime(libs.emi)
 
-    modImplementation("net.fabricmc:fabric-loader:${project.properties["loader_version"]}")
-
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${project.properties["fabric_version"]}")
-    modImplementation("net.fabricmc:fabric-language-kotlin:${project.properties["fabric_kotlin_version"]}")
-
-    //TwitchAPI
-    implementation("com.github.twitch4j:twitch4j:${project.properties["twitch4j_version"]}")
-
-    // Config
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${project.properties["cloth_config_version"]}")
-
-    modImplementation("com.terraformersmc:modmenu:${project.properties["mod_menu_version"]}")
-
-    modImplementation("org.teamvoided:voidlib-core:1.5.2+1.20.1")
+    modImplementation(libs.twitch4j)
+    modImplementation(libs.cloth.config)
 }
 
-tasks {
-    processResources {
-        inputs.property("version", project.version)
-        filteringCharset = "UTF-8"
+loom {
+//    splitEnvironmentSourceSets()
+    runs {
+        create("DataGen") {
+            client()
+            ideConfigGenerated(true)
+            vmArg("-Dfabric-api.datagen")
+            vmArg("-Dfabric-api.datagen.output-dir=${file("src/main/generated")}")
+            vmArg("-Dfabric-api.datagen.modid=${modSettings.modId()}")
+            runDir("build/datagen")
+        }
 
-        filesMatching("fabric.mod.json") {
-            expand(mapOf("version" to project.version))
+        create("TestWorld") {
+            client()
+            ideConfigGenerated(true)
+            runDir("run")
+            programArgs("--quickPlaySingleplayer", "test")
         }
     }
+}
 
-    // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-    val targetJavaVersion = 17
+sourceSets["main"].resources.srcDir("src/main/generated")
+
+tasks {
+    val targetJavaVersion = 21
     withType<JavaCompile> {
         options.encoding = "UTF-8"
         options.release.set(targetJavaVersion)
     }
 
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = targetJavaVersion.toString()
+    withType<KotlinCompile>().all {
+        compilerOptions.jvmTarget = JvmTarget.JVM_21
     }
 
     java {
         toolchain.languageVersion.set(JavaLanguageVersion.of(JavaVersion.toVersion(targetJavaVersion).toString()))
         withSourcesJar()
     }
-
     jar {
-        from("LICENSE") {
-            rename { "${it}_${base.archivesName}" }
+        val valTaskNames = gradle.startParameter.taskNames
+        if (!valTaskNames.contains("runDataGen")) {
+            exclude("org/teamvoided/template/data/gen/*")
+        } else {
+            println("Running datagen for task ${valTaskNames.joinToString(" ")}")
         }
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            from(components["java"])
-        }
-    }
-    repositories {}
+//publishScript {
+//    releaseRepository("TeamVoided", "https://maven.teamvoided.org/releases")
+//    publication(modSettings.modId(), false)
+//    publishSources(true)
+//}
+
+uploadConfig {
+//    debugMode = true
+    modrinthId = modrinth_id
+    curseId = curse_id
+
+    // FabricApi
+    modrinthDependency("P7dR8mSH", uploadConfig.REQUIRED)
+    curseDependency("fabric-api", uploadConfig.REQUIRED)
+    // Fabric Language Kotlin
+    modrinthDependency("Ha28R6CL", uploadConfig.REQUIRED)
+    curseDependency("fabric-language-kotlin", uploadConfig.REQUIRED)
 }

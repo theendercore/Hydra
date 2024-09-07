@@ -1,0 +1,25 @@
+[versions]
+kotlin = "2.0.20"
+fabric-loom = "1.7-SNAPSHOT"
+iridium = "3.3.2"
+
+#farrow = "1.0.0+arrow.1.2.4"
+modmenu = "11.0.2"
+emi = "1.1.12+1.21"
+cloth-config = "15.0.130"
+twitch4j = "1.21.0+1.7.0"
+
+[libraries]
+#farrow = { module = "net.wiredtomato:farrow", version.ref = "farrow" }
+modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
+emi = { module = "dev.emi:emi-fabric", version.ref = "emi" }
+cloth-config = { module = "me.shedaniel.cloth:cloth-config-fabric", version.ref = "cloth-config" }
+twitch4j = { module = "com.github.twitch4j:twitch4j-fabric", version.ref = "twitch4j" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+fabric-loom = { id = "fabric-loom", version.ref = "fabric-loom" }
+iridium = { id = "org.teamvoided.iridium", version.ref = "iridium"}
+iridium-publish = { id = "iridium.project.publish-script", version.ref = "iridium"}
+iridium-upload = { id = "iridium.mod.upload-script", version.ref = "iridium" }

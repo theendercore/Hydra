@@ -3,7 +3,7 @@ package com.theendercore.hydra.twitch
 import com.github.philippheuer.credentialmanager.domain.OAuth2Credential
 import com.github.twitch4j.TwitchClient
 import com.github.twitch4j.TwitchClientBuilder
-import com.theendercore.hydra.HydraMod.Companion.MODID
+import com.theendercore.hydra.HydraMod.MODID
 import com.theendercore.hydra.util.Methods.addChatMsg
 import com.theendercore.hydra.util.darkGrayText
 import com.theendercore.hydra.util.grayText
@@ -14,7 +14,7 @@ object TwitchBot {
     val ENABLED = false
 
     @JvmField
-    var client: TwitchClient = TwitchClientBuilder.builder().build();
+    var client: TwitchClient = TwitchClientBuilder.builder().build()
 
     @JvmField
     var credential: OAuth2Credential? = null
@@ -108,6 +108,5 @@ object TwitchBot {
             addChatMsg(darkGrayText("command.$MODID.not_connected"))
             0
         }
-
     }
 }
