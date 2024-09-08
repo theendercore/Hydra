@@ -32,7 +32,7 @@ object HydraMod {
 
     fun id(path: String): Identifier = Identifier.of(MODID, path)
 
-    val modPath: Path = Path.of("${FabricLoader.getInstance().configDir}/hydra")
+//    val modPath: Path = Path.of("${FabricLoader.getInstance().configDir}/hydra")
 
 //        val cachePath: Path = Path.of("$modPath/cache")
 //        val logPath: Path = Path.of("$cachePath/log.txt")
