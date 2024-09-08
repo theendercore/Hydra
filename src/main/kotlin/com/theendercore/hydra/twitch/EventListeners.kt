@@ -56,24 +56,21 @@ object EventListeners {
             )
 
             "PP" -> LOGGER.info("yoo")
-            "Random Shader" -> {
-                if (!client.isOnThread) {
-//                    client.execute {
-//                        try {
-//                            setRandomShader()
-//                            TickRegistry.timeRemainingInTicks = 33 * 20
-//                        } catch (var3: Exception) {
-//                            LOGGER.debug("Shader didn't apply!")
-//                        }
-//                    }
-//                    throw OffThreadException.INSTANCE
-                }
-            }
-
+            /* "Random Shader" -> if (!client.isOnThread) {
+                     client.execute {
+                         try {
+                             setRandomShader()
+                             TickRegistry.timeRemainingInTicks = 33 * 20
+                         } catch (var3: Exception) {
+                             LOGGER.debug("Shader didn't apply!")
+                         }
+                     }
+                     throw OffThreadException.INSTANCE
+                 }*/
             "Play Random Sound" -> playRandomSound(player)
             "Creeper Aww Man!" -> playSound(player, SoundEvents.ENTITY_CREEPER_PRIMED)
             "Spawn Random Particle" -> randomParticle(player)
-            "Point waste" -> titleMessage(Text.literal("${player.pos}"), null)
+            "Point waste" -> titleMessage(Text.literal("${player.blockPos}"), null)
         }
 
         val user = Text.literal(event.redemption.user.displayName).formatted(Formatting.DARK_GRAY)
