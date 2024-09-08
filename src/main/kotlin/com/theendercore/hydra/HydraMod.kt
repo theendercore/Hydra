@@ -9,6 +9,8 @@ import com.theendercore.hydra.init.TickRegistry
 import com.theendercore.hydra.util.AutoStart
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.client.MinecraftClient
+import net.minecraft.util.Identifier
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
@@ -28,7 +30,7 @@ object HydraMod {
     @JvmField
     var credential: OAuth2Credential? = null
 
-    fun id(path: String): Identifier = Identifier.of(MODID, it)
+    fun id(path: String): Identifier = Identifier.of(MODID, path)
 
     val modPath: Path = Path.of("${FabricLoader.getInstance().configDir}/hydra")
 
