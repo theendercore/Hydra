@@ -1,9 +1,8 @@
 package com.theendercore.hydra.commands
 
-import com.github.twitch4j.eventsub.events.ChannelFollowEvent
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
-import com.theendercore.hydra.twitch.EventListeners
+import com.theendercore.hydra.config.ModConfig
 import com.theendercore.hydra.twitch.TwitchBot
 import com.theendercore.hydra.util.Methods.addChatMsg
 import com.theendercore.hydra.util.Methods.playParticle
@@ -47,10 +46,8 @@ object HydraCommand {
         val source = context.source
         val player = source.player
 
-        addChatMsg("Hello")
+        addChatMsg(ModConfig.config?.username ?: "n")
         playParticle(player, ParticleTypes.TOTEM_OF_UNDYING)
-
-        EventListeners.followingEventListener(ChannelFollowEvent())
 
         return 1
     }

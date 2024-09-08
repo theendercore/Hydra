@@ -52,17 +52,17 @@ object HydraMod {
         TickRegistry.init()
         AutoStart.init()
 
-        HudRenderCallback.EVENT.register { graphics, _ ->
-            if (TickRegistry.timeRemainingInTicks > 0) {
-                graphics.drawText(
-                    MinecraftClient.getInstance().textRenderer,
-                    SimpleDateFormat("mm:ss").format(Date((TickRegistry.timeRemainingInTicks * 50).toLong())),
-                    10,
-                    10,
-                    0xffffff,
-                    true
-                )
-            }
-        }
+//        HudRenderCallback.EVENT.register { graphics, _ ->
+//            if (TickRegistry.timeRemainingInTicks > 0) {
+//                graphics.drawText(
+//                    MinecraftClient.getInstance().textRenderer,
+//                    SimpleDateFormat("mm:ss").format(Date((TickRegistry.timeRemainingInTicks * 50).toLong())),
+//                    10,
+//                    10,
+//                    0xffffff,
+//                    true
+//                )
+//            }
+//        }
     }
 }

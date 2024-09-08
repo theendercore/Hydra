@@ -20,7 +20,7 @@ import com.theendercore.hydra.util.redText
 object TwitchBot {
 
     @JvmField
-    val ENABLED = false
+    var ENABLED = false
 
     @JvmField
     var client: TwitchClient = TwitchClientBuilder.builder().build()
@@ -34,7 +34,7 @@ object TwitchBot {
     fun enable(): Int {
         return if (ENABLED) 0
         else {
-
+            ENABLED = true
             val config: ModConfig? = ModConfig.config
             credential = OAuth2Credential("twitch", config!!.oauthKey)
 
@@ -43,7 +43,7 @@ object TwitchBot {
                 return 0
             }
             if (twitchClient == null) {
-                addChatMsg(darkGrayText("command.$MODID.connecting", config.username))
+                addChatMsg(darkGrayText("command.$MODID.connecting", config.username.toString()))
                 twitchClient = TwitchClientBuilder.builder()
                     .withEnableHelix(true)
                     .withEnablePubSub(true)
@@ -109,10 +109,12 @@ object TwitchBot {
 
     fun disable(): Int {
         return if (ENABLED) {
-            client.pubSub.close()
-            client.chat.close()
-            client.close()
+//            client.pubSub.close()
+//            client.chat.close()
+            twitchClient?.close()
+            twitchClient = null
             addChatMsg(grayText("command.$MODID.disconnected"))
+            ENABLED = false
             1
         } else {
             addChatMsg(darkGrayText("command.$MODID.not_connected"))
