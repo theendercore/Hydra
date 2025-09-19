@@ -1,10 +1,10 @@
 package com.theendercore.hydra.client.twitch
 
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent
-import com.github.twitch4j.chat.events.channel.SubscriptionEvent
 import com.github.twitch4j.common.enums.CommandPermission
+import com.github.twitch4j.common.enums.SubscriptionPlan
 import com.github.twitch4j.eventsub.events.ChannelFollowEvent
-import com.github.twitch4j.pubsub.events.RewardRedeemedEvent
+import com.github.twitch4j.eventsub.events.EventSubEvent
 import com.theendercore.hydra.client.HydraMod
 import com.theendercore.hydra.client.HydraMod.config
 import com.theendercore.hydra.client.util.*
@@ -25,24 +25,25 @@ object EventListeners {
         addChatMsg(follower.append(after))
     }
 
-    fun subscriptionEventListener(event: SubscriptionEvent) {
+    fun subscriptionEventListener(userName: String, tier: SubscriptionPlan, event: EventSubEvent) {
         HydraMod.LOGGER.info(event.toString())
-        val subscriber = Text.literal(event.user.name).formatted(Formatting.LIGHT_PURPLE)
-        val months = Text.literal(event.months.toString()).formatted(Formatting.LIGHT_PURPLE)
+        val subscriber = Text.literal(userName).formatted(Formatting.LIGHT_PURPLE)
+        val tier = Text.literal(tier.toString()).formatted(Formatting.LIGHT_PURPLE)
         titleMessage(
-            subscriber.append(Text.literal(" Has Subscribed for ")).formatted(Formatting.WHITE).append(months)
-                .append("Months!"), Text.literal(event.message.toString()).formatted(Formatting.GRAY)
+            subscriber.append(Text.literal(" Has Subscribed with ")).formatted(Formatting.WHITE).append(tier)
+                .append("Tier!"),
+            Text.empty()
+//            Text.literal(event.message.toString()).formatted(Formatting.GRAY)
         )
     }
 
-    fun rewardRedeemedListener(event: RewardRedeemedEvent) {
-        val title = event.redemption.reward.title
+    fun channelPointRedemption(title: String, userName: String) {
         val player = MinecraftClient.getInstance().player ?: return
 
         when (title) {
             "Hydrate!" -> titleMessage(
                 Text.literal(title).formatted(Formatting.BLUE),
-                Text.literal("Redeemed by " + event.redemption.user.displayName).formatted(Formatting.GRAY)
+                Text.literal("Redeemed by $userName").formatted(Formatting.GRAY)
             )
 
             "PP" -> HydraMod.LOGGER.info("yoo")
@@ -63,7 +64,7 @@ object EventListeners {
             "Point waste" -> titleMessage(Text.literal("${player.blockPos}"), null)
         }
 
-        val user = Text.literal(event.redemption.user.displayName).formatted(Formatting.DARK_GRAY)
+        val user = Text.literal(userName).formatted(Formatting.DARK_GRAY)
         val text = Text.translatable("listener.${HydraMod.MODID}.reward.redeem").formatted(Formatting.WHITE)
         val eventTitle = darkGrayText(title)
         addChatMsg(user.append(text).append(eventTitle))

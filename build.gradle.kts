@@ -84,6 +84,7 @@ loom {
 }
 
 sourceSets["main"].resources.srcDir("src/main/generated")
+sourceSets["main"].resources.srcDir("src/client/resources")
 
 tasks {
     val targetJavaVersion = 21
