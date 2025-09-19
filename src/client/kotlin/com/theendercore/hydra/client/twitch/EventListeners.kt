@@ -72,7 +72,7 @@ object EventListeners {
 
 
     fun channelMessageListener(event: ChannelMessageEvent) {
-        var messageSender = Text.literal(event.user.name).formatted(config.channelChatColor.get().format)
+        var messageSender = Text.literal(event.user.name).setColor(config.channelChatColor.toInt())
         val messageColor: Formatting? = if (event.isHighlightedMessage) Formatting.RED else null
         var formatPerms = false
         for (p in event.permissions) {

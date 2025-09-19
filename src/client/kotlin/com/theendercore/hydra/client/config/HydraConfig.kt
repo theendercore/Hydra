@@ -7,7 +7,7 @@ import me.fzzyhmstrs.fzzy_config.config.Config
 import me.fzzyhmstrs.fzzy_config.config.ConfigGroup
 import me.fzzyhmstrs.fzzy_config.config.ConfigSection
 import me.fzzyhmstrs.fzzy_config.util.Translatable
-import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedEnum
+import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedColor
 
 @Translatable.Name("Hydra - Twitch Integrations Mod")
 class HydraConfig : Config(id(MODID)) {
@@ -18,7 +18,7 @@ class HydraConfig : Config(id(MODID)) {
 
     @Translatable.Name("Your chat color")
     @Translatable.Desc("The color your name appears in chat")
-    var channelChatColor = ValidatedEnum(Color.BLUE, ValidatedEnum.WidgetType.CYCLING)
+    var channelChatColor = ValidatedColor(91, 110, 225)
 
     @Comment("Valid placeholders : H (hours), m (minutes), s (seconds)")
     var timeFormatting: String = "HH:mm"
@@ -49,9 +49,5 @@ class HydraConfig : Config(id(MODID)) {
 
         @Translatable.Desc("Internal value please don't touch!")
         var broadcasterId = ""
-    }
-
-    override fun onUpdateClient() {
-        super.onUpdateClient()
     }
 }
