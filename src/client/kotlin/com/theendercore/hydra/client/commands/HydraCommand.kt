@@ -4,7 +4,8 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import com.theendercore.hydra.client.config.ModConfig
 import com.theendercore.hydra.client.twitch.TwitchBot
-import com.theendercore.hydra.client.util.Methods
+import com.theendercore.hydra.client.util.addChatMsg
+import com.theendercore.hydra.client.util.playParticle
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.minecraft.particle.ParticleTypes
@@ -15,26 +16,19 @@ object HydraCommand {
         val hydraNode = literal("hydra").build()
         dispatcher.root.addChild(hydraNode)
 
-        val enableNode = literal("enable")
-            .executes { enable() }
-            .build()
+        val enableNode = literal("enable").executes { enable() }.build()
         hydraNode.addChild(enableNode)
 
-        val disableNode = literal("disable")
-            .executes { disable() }
-            .build()
+        val disableNode = literal("disable").executes { disable() }.build()
         hydraNode.addChild(disableNode)
 
-        val testNode = literal("test")
-            .executes { test(it) }
-            .build()
+        val testNode = literal("test").executes(::test).build()
         hydraNode.addChild(testNode)
     }
 
     private fun enable(): Int {
-        var x = 0
-        Thread { x = TwitchBot.enable() }.start()
-        return x
+        Thread { TwitchBot.enable() }.start()
+        return 0
     }
 
     private fun disable(): Int {
@@ -45,8 +39,8 @@ object HydraCommand {
         val source = context.source
         val player = source.player
 
-        Methods.addChatMsg(ModConfig.Companion.config?.username ?: "n")
-        Methods.playParticle(player, ParticleTypes.TOTEM_OF_UNDYING)
+        addChatMsg(ModConfig.config.username ?: "n")
+        playParticle(player, ParticleTypes.TOTEM_OF_UNDYING)
 
         return 1
     }

@@ -11,7 +11,7 @@ import com.github.twitch4j.eventsub.subscriptions.SubscriptionTypes
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent
 import com.theendercore.hydra.client.HydraMod
 import com.theendercore.hydra.client.config.ModConfig
-import com.theendercore.hydra.client.util.Methods
+import com.theendercore.hydra.client.util.addChatMsg
 import com.theendercore.hydra.client.util.darkGrayText
 import com.theendercore.hydra.client.util.grayText
 import com.theendercore.hydra.client.util.redText
@@ -34,15 +34,15 @@ object TwitchBot {
         return if (ENABLED) 0
         else {
             ENABLED = true
-            val config: ModConfig? = ModConfig.Companion.config
-            credential = OAuth2Credential("twitch", config!!.oauthKey)
+            val config: ModConfig = ModConfig.config
+            credential = OAuth2Credential("twitch", config.oauthKey)
 
             if (config.username == "" || config.oauthKey == "") {
-                Methods.addChatMsg(redText("command.${HydraMod.MODID}.error.config"))
+                addChatMsg(redText("command.${HydraMod.MODID}.error.config"))
                 return 0
             }
             if (HydraMod.twitchClient == null) {
-                Methods.addChatMsg(darkGrayText("command.${HydraMod.MODID}.connecting", config.username.toString()))
+                addChatMsg(darkGrayText("command.${HydraMod.MODID}.connecting", config.username))
                 HydraMod.twitchClient = TwitchClientBuilder.builder()
                     .withEnableHelix(true)
                     .withEnablePubSub(true)
@@ -52,13 +52,13 @@ object TwitchBot {
                     .withEnableEventSocket(true)
                     .build()
 
-                Methods.addChatMsg(darkGrayText("command.${HydraMod.MODID}.connected"))
+                addChatMsg(darkGrayText("command.${HydraMod.MODID}.connected"))
             } else {
-                Methods.addChatMsg(darkGrayText("command.${HydraMod.MODID}.connected.already", config.username))
+                addChatMsg(darkGrayText("command.${HydraMod.MODID}.connected.already", config.username))
                 return 0
             }
             if (credential!!.userName == null) {
-                Methods.addChatMsg(redText("command.${HydraMod.MODID}.error.token.incorrect"))
+                addChatMsg(redText("command.${HydraMod.MODID}.error.token.incorrect"))
                 disable()
                 return 0
             }
@@ -96,7 +96,7 @@ object TwitchBot {
 //                twitchClient!!.eventManager.onEvent(FollowingEvent::class.java, EventListeners::followingEventListener)
 
 
-                Methods.addChatMsg(grayText("command.${HydraMod.MODID}.extras.enable"))
+                addChatMsg(grayText("command.${HydraMod.MODID}.extras.enable"))
             }
 
             HydraMod.twitchClient!!.eventManager.onEvent(ChannelMessageEvent::class.java, EventListeners::channelMessageListener)
@@ -112,11 +112,11 @@ object TwitchBot {
 //            client.chat.close()
             HydraMod.twitchClient?.close()
             HydraMod.twitchClient = null
-            Methods.addChatMsg(grayText("command.${HydraMod.MODID}.disconnected"))
+            addChatMsg(grayText("command.${HydraMod.MODID}.disconnected"))
             ENABLED = false
             1
         } else {
-            Methods.addChatMsg(darkGrayText("command.${HydraMod.MODID}.not_connected"))
+            addChatMsg(darkGrayText("command.${HydraMod.MODID}.not_connected"))
             0
         }
     }

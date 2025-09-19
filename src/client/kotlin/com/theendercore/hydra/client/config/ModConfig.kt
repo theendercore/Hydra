@@ -94,12 +94,11 @@ class ModConfig {
         const val DEFAULT_BROADCASTER_ID = ""
 
         private var SINGLE_INSTANCE: ModConfig? = null
-        val config: ModConfig?
+        @JvmStatic
+        val config: ModConfig
             get() {
-                if (SINGLE_INSTANCE == null) {
-                    SINGLE_INSTANCE = ModConfig()
-                }
-                return SINGLE_INSTANCE
+                if (SINGLE_INSTANCE == null) SINGLE_INSTANCE = ModConfig()
+                return SINGLE_INSTANCE!!
             }
     }
 }

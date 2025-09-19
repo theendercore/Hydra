@@ -20,11 +20,6 @@ enum class Color(private val label: String) {
     YELLOW("YELLOW"),
     WHITE("WHITE");
 
-
-    fun getLabel(): String {
-        return this.label
-    }
-
-    val format: Formatting
-        get() = Formatting.valueOf(this.label)
+    fun getLabel(): String = label
+    val format = Formatting.valueOf(label)
 }

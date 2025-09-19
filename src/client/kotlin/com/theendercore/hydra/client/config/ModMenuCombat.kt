@@ -16,7 +16,7 @@ class ModMenuCombat : ModMenuApi {
         return ConfigScreenFactory {
             val builder = ConfigBuilder.create()
             builder.title = Text.translatable("config.${HydraMod.MODID}.title")
-            builder.savingRunnable = Runnable { ModConfig.config?.save() }
+            builder.savingRunnable = Runnable { ModConfig.config.save() }
             val entryBuilder = ConfigEntryBuilder.create()
             val config = ModConfig.config
             val customizationCategory =
@@ -25,7 +25,7 @@ class ModMenuCombat : ModMenuApi {
             customizationCategory.addEntry(entryBuilder
                 .startStrField(
                     Text.translatable("config.${HydraMod.MODID}.customization.prefix"),
-                    config!!.prefix
+                    config.prefix
                 )
                 .setSaveConsumer { prefix: String -> config.prefix = prefix }
                 .setTooltip(Text.translatable("config.${HydraMod.MODID}.customization.prefix.tooltip"))

@@ -47,6 +47,7 @@ dependencies {
     modLocalRuntime(libs.emi)
 
     modImplementation(libs.twitch4j)
+    modImplementation(libs.fzzy.config)
     modImplementation(libs.cloth.config)
 
     modImplementation(libs.creative.works)
