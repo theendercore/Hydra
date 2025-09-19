@@ -2,7 +2,7 @@ package com.theendercore.hydra.client.config
 
 import net.minecraft.util.Formatting
 
-enum class Color(private val label: String) {
+enum class Color(val label: String) {
     BLACK("BLACK"),
     DARK_BLUE("DARK_BLUE"),
     DARK_GREEN("DARK_GREEN"),
@@ -20,6 +20,5 @@ enum class Color(private val label: String) {
     YELLOW("YELLOW"),
     WHITE("WHITE");
 
-    fun getLabel(): String = label
     val format = Formatting.valueOf(label)
 }

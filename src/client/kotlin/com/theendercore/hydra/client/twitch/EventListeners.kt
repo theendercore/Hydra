@@ -6,7 +6,7 @@ import com.github.twitch4j.common.enums.CommandPermission
 import com.github.twitch4j.eventsub.events.ChannelFollowEvent
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent
 import com.theendercore.hydra.client.HydraMod
-import com.theendercore.hydra.client.config.ModConfig
+import com.theendercore.hydra.client.HydraMod.config
 import com.theendercore.hydra.client.util.*
 import net.minecraft.client.MinecraftClient
 import net.minecraft.sound.SoundEvents
@@ -72,8 +72,7 @@ object EventListeners {
 
 
     fun channelMessageListener(event: ChannelMessageEvent) {
-        val c = ModConfig.config
-        var messageSender = Text.literal(event.user.name).formatted(c.channelChatColor?.format)
+        var messageSender = Text.literal(event.user.name).formatted(config.channelChatColor.get().format)
         val messageColor: Formatting? = if (event.isHighlightedMessage) Formatting.RED else null
         var formatPerms = false
         for (p in event.permissions) {
@@ -82,7 +81,7 @@ object EventListeners {
                 break
             }
         }
-        if (event.user.name != c.username) {
+        if (event.user.name != config.credentials.username) {
             val textColor = event.messageEvent.userChatColor.getOrNull()?.let(Color::decode) ?: DEFAULT_CHAT_COLOR
             messageSender = messageSender.setColor(textColor.rgb)
         }

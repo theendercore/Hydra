@@ -1,8 +1,8 @@
 package com.theendercore.hydra.client.init
 
 import com.theendercore.hydra.client.HydraMod
+import com.theendercore.hydra.client.HydraMod.config
 import com.theendercore.hydra.client.commands.HydraCommand
-import com.theendercore.hydra.client.config.ModConfig
 import com.theendercore.hydra.client.twitch.TwitchBot
 import com.theendercore.hydra.client.util.addChatMsg
 import com.theendercore.hydra.client.util.darkGrayText
@@ -22,8 +22,8 @@ object HydraFabricEvents {
         }
 
         ClientPlayConnectionEvents.JOIN.register { _, _, _ ->
-            if (ModConfig.config.autoStart && HydraMod.twitchClient == null) {
-                addChatMsg(darkGrayText("system.${HydraMod.MODID}.auto_load"))
+            if (config.autoStart && HydraMod.twitchClient == null) {
+                addChatMsg(darkGrayText("command.${HydraMod.MODID}.auto_load"))
                 Thread { TwitchBot.enable() }.start()
             }
         }

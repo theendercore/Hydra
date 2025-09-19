@@ -1,6 +1,5 @@
 package com.theendercore.hydra.mixin.client;
 
-import com.theendercore.hydra.client.config.ModConfig;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Date;
 import java.util.Objects;
 
+import static com.theendercore.hydra.client.HydraMod.config;
 import static com.theendercore.hydra.client.HydraMod.twitchClient;
 import static com.theendercore.hydra.client.util.MethodsKt.addTwitchMessage;
 
@@ -19,12 +19,11 @@ import static com.theendercore.hydra.client.util.MethodsKt.addTwitchMessage;
 public class ChatMixin {
     @Inject(method = "handleChatInput", at = @At("HEAD"), cancellable = true)
     public void sendMessage(String text, boolean addToHistory, CallbackInfo ci) {
-        ModConfig config = ModConfig.getConfig();
-        String prefix = config.getPrefix();
+        String prefix = config.prefix;
         if (text.startsWith(prefix) && twitchClient != null) {
             String textWithoutPrefix = text.substring(text.indexOf(prefix) + prefix.length());
-            addTwitchMessage(new Date(), Text.literal(config.getUsername()).formatted(Objects.requireNonNull(config.getChannelChatColor()).getFormat()), textWithoutPrefix, null, true);
-            twitchClient.getChat().sendMessage(config.getUsername(), textWithoutPrefix);
+            addTwitchMessage(new Date(), Text.literal(config.credentials.username).formatted(Objects.requireNonNull(config.getChannelChatColor()).get().getFormat()), textWithoutPrefix, null, true);
+            twitchClient.getChat().sendMessage(config.credentials.username, textWithoutPrefix);
             ci.cancel();
         }
     }

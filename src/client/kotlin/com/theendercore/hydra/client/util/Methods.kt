@@ -1,7 +1,7 @@
 package com.theendercore.hydra.client.util
 
 import com.theendercore.hydra.client.HydraMod.LOGGER
-import com.theendercore.hydra.client.config.ModConfig
+import com.theendercore.hydra.client.HydraMod.config
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.particle.DefaultParticleType
@@ -29,7 +29,7 @@ fun addTwitchMessage(
 ) {
     var message = msg
     val timestampText =
-        Text.literal("[" + SimpleDateFormat(ModConfig.config.timeFormatting).format(date) + "]").formatted(
+        Text.literal("[" + SimpleDateFormat(config.timeFormatting).format(date) + "]").formatted(
             Formatting.GRAY
         )
     val messageBodyText = Text.literal(": ").formatted(Formatting.WHITE)

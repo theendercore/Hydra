@@ -2,7 +2,7 @@ package com.theendercore.hydra.client.commands
 
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
-import com.theendercore.hydra.client.config.ModConfig
+import com.theendercore.hydra.client.HydraMod.config
 import com.theendercore.hydra.client.twitch.TwitchBot
 import com.theendercore.hydra.client.util.addChatMsg
 import com.theendercore.hydra.client.util.playParticle
@@ -39,7 +39,7 @@ object HydraCommand {
         val source = context.source
         val player = source.player
 
-        addChatMsg(ModConfig.config.username ?: "n")
+        addChatMsg(config.credentials.username)
         playParticle(player, ParticleTypes.TOTEM_OF_UNDYING)
 
         return 1

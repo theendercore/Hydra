@@ -10,7 +10,8 @@ import com.github.twitch4j.eventsub.socket.IEventSubSocket
 import com.github.twitch4j.eventsub.subscriptions.SubscriptionTypes
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent
 import com.theendercore.hydra.client.HydraMod
-import com.theendercore.hydra.client.config.ModConfig
+import com.theendercore.hydra.client.HydraMod.LOGGER
+import com.theendercore.hydra.client.HydraMod.config
 import com.theendercore.hydra.client.util.addChatMsg
 import com.theendercore.hydra.client.util.darkGrayText
 import com.theendercore.hydra.client.util.grayText
@@ -34,15 +35,20 @@ object TwitchBot {
         return if (ENABLED) 0
         else {
             ENABLED = true
-            val config: ModConfig = ModConfig.config
-            credential = OAuth2Credential("twitch", config.oauthKey)
+            credential = OAuth2Credential("twitch", config.credentials.oauthKey)
 
-            if (config.username == "" || config.oauthKey == "") {
-                addChatMsg(redText("command.${HydraMod.MODID}.error.config"))
+            val usernameInvalid = config.credentials.username.trim() == ""
+            val oauthKeyInvalid = config.credentials.username.trim() == ""
+            if (usernameInvalid || oauthKeyInvalid) {
+                if (usernameInvalid)
+                    addChatMsg(redText("command.${HydraMod.MODID}.error.config.username"))
+                if (oauthKeyInvalid)
+                    addChatMsg(redText("command.${HydraMod.MODID}.error.config.oauthKey"))
+
                 return 0
             }
             if (HydraMod.twitchClient == null) {
-                addChatMsg(darkGrayText("command.${HydraMod.MODID}.connecting", config.username))
+                addChatMsg(darkGrayText("command.${HydraMod.MODID}.connecting", config.credentials.username))
                 HydraMod.twitchClient = TwitchClientBuilder.builder()
                     .withEnableHelix(true)
                     .withEnablePubSub(true)
@@ -54,7 +60,7 @@ object TwitchBot {
 
                 addChatMsg(darkGrayText("command.${HydraMod.MODID}.connected"))
             } else {
-                addChatMsg(darkGrayText("command.${HydraMod.MODID}.connected.already", config.username))
+                addChatMsg(darkGrayText("command.${HydraMod.MODID}.connected.already", config.credentials.username))
                 return 0
             }
             if (credential!!.userName == null) {
@@ -64,17 +70,24 @@ object TwitchBot {
             }
             if (config.extras) {
                 val fetchedUsers = HydraMod.twitchClient!!.helix
-                    .getUsers(credential!!.accessToken, null, listOf(config.username)).execute()
+                    .getUsers(credential!!.accessToken, null, listOf(config.credentials.username)).execute()
 
-                config.broadcasterId = fetchedUsers.users[0].id
-                config.save()
+                if (fetchedUsers.users.isEmpty()) {
+                    error("Failed to get users! ${fetchedUsers.pagination}")
+                }
+                try {
+                    config.credentials.broadcasterId = fetchedUsers.users[0].id
+                    config.save()
+                } catch (e: Exception) {
+                    LOGGER.error("Filed to set broadcasterId", e)
+                }
 
-                HydraMod.twitchClient!!.pubSub.listenForChannelPointsRedemptionEvents(credential, config.broadcasterId)
+                HydraMod.twitchClient!!.pubSub.listenForChannelPointsRedemptionEvents(credential, config.credentials.broadcasterId)
                 HydraMod.twitchClient!!.eventManager.onEvent(
                     RewardRedeemedEvent::class.java, EventListeners::rewardRedeemedListener
                 )
 
-                HydraMod.twitchClient!!.pubSub.listenForSubscriptionEvents(credential, config.broadcasterId)
+                HydraMod.twitchClient!!.pubSub.listenForSubscriptionEvents(credential, config.credentials.broadcasterId)
                 HydraMod.twitchClient!!.eventManager.onEvent(
                     SubscriptionEvent::class.java, EventListeners::subscriptionEventListener
                 )
@@ -84,7 +97,7 @@ object TwitchBot {
                 // create subscription
                 eventSocket?.register(
                     SubscriptionTypes.CHANNEL_FOLLOW_V2
-                        .prepareSubscription({ it.broadcasterUserId(config.broadcasterId).build() }, null)
+                        .prepareSubscription({ it.broadcasterUserId(config.credentials.broadcasterId).build() }, null)
                 )
 
                 // register event handler
@@ -99,7 +112,10 @@ object TwitchBot {
                 addChatMsg(grayText("command.${HydraMod.MODID}.extras.enable"))
             }
 
-            HydraMod.twitchClient!!.eventManager.onEvent(ChannelMessageEvent::class.java, EventListeners::channelMessageListener)
+            HydraMod.twitchClient!!.eventManager.onEvent(
+                ChannelMessageEvent::class.java,
+                EventListeners::channelMessageListener
+            )
 
             1
         }
