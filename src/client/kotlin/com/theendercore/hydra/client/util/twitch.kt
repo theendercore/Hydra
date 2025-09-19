@@ -8,6 +8,7 @@ import com.theendercore.hydra.client.HydraMod.config
 import com.theendercore.hydra.client.twitch.TwitchBot.eventSocket
 import java.util.function.Consumer
 
+@Suppress("UNCHECKED_CAST")
 fun <C : EventSubCondition, B, E : EventSubEvent> register(
     type: SubscriptionType<C, B, E>, consumer: Consumer<E>,
 ) {
