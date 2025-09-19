@@ -29,9 +29,7 @@ fun addTwitchMessage(
 ) {
     var message = msg
     val timestampText =
-        Text.literal("[" + SimpleDateFormat(config.timeFormatting).format(date) + "]").formatted(
-            Formatting.GRAY
-        )
+        Text.literal(SimpleDateFormat(config.timeFormatting).format(date)).formatted(Formatting.GRAY)
     val messageBodyText = Text.literal(": ").formatted(Formatting.WHITE)
 
     if (!isVIP) message = message.replace(Formatting.FORMATTING_CODE_PREFIX.toString().toRegex(), "$")

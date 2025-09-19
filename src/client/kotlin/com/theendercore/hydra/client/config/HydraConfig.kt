@@ -20,7 +20,7 @@ class HydraConfig : Config(id(MODID)) {
     var channelChatColor = ValidatedColor(91, 110, 225)
 
     @Desc("Valid placeholders : H (hours), m (minutes), s (seconds)")
-    var timeFormatting = "HH:mm"
+    var timeFormatting = "[HH:mm]"
 
     @Desc("Automatically enables the mod as soon as you join a world or server")
     var autoStart = false
