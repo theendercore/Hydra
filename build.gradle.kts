@@ -31,12 +31,12 @@ repositories {
 }
 
 modSettings {
-    entrypoint("client", "com.theendercore.hydra.HydraMod::init")
-    entrypoint("modmenu", "com.theendercore.hydra.config.ModMenuCombat")
+    entrypoint("client", "com.theendercore.hydra.client.HydraMod::init")
+    entrypoint("modmenu", "com.theendercore.hydra.client.config.ModMenuCombat")
 //    entrypoint("fabric-datagen", "org.teamvoided.template.data.gen.TemplateData")
 
-//    mixinFile("${modId()}.client.mixins.json")
-    mixinFile("${modId()}.mixins.json")
+    mixinFile("${modId()}.client.mixins.json")
+//    mixinFile("${modId()}.mixins.json")
 }
 
 dependencies {
