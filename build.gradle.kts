@@ -12,18 +12,20 @@ plugins {
     alias(libs.plugins.iridium.upload)
 }
 
-group = property("maven_group")!!
-version = property("mod_version")!!
-base.archivesName.set(modSettings.modId())
-
-val modrinth_id: String? by project
-val curse_id: String? by project
-
 repositories {
+    maven("https://teamvoided.org/releases") { content { includeGroup("org.teamvoided") } }
+    maven("https://teamvoided.org/snapshots") { content { includeGroup("org.teamvoided") } }
+    maven("https://maven.fzzyhmstrs.me/") { name = "FzzyMaven"; content { includeGroup("me.fzzyhmstrs") } }
+    maven("https://maven.terraformersmc.com/") {
+        name = "Terraformers"
+        content {
+            includeGroup("com.terraformersmc")
+            includeGroup("dev.emi")
+        }
+    }
+    maven("https://api.modrinth.com/maven") { content { includeGroup("maven.modrinth") } }
     maven("https://maven.awakenedredstone.com")
     maven("https://maven.shedaniel.me/")
-    maven("https://maven.terraformersmc.com/releases/")
-    maven("https://maven.teamvoided.org/releases")
     maven("https://minecraft.curseforge.com/api/maven")
     mavenCentral()
 }
@@ -46,11 +48,29 @@ dependencies {
 
     modImplementation(libs.twitch4j)
     modImplementation(libs.cloth.config)
+
+    modImplementation(libs.creative.works)
+    modImplementation(libs.imguimc)
 }
+val username = "vDev"
+val uuid: String? = null
 
 loom {
-//    splitEnvironmentSourceSets()
+    splitEnvironmentSourceSets()
     runs {
+        named("client") {
+            programArgs("--username", username)
+            uuid?.let { programArgs("--uuid", uuid) }
+        }
+
+        create("TestWorld") {
+            client()
+            ideConfigGenerated(true)
+            runDir("run")
+            programArgs("--quickPlaySingleplayer", "test", "--username", username)
+            uuid?.let { programArgs("--uuid", uuid) }
+        }
+
         create("DataGen") {
             client()
             ideConfigGenerated(true)
@@ -58,13 +78,6 @@ loom {
             vmArg("-Dfabric-api.datagen.output-dir=${file("src/main/generated")}")
             vmArg("-Dfabric-api.datagen.modid=${modSettings.modId()}")
             runDir("build/datagen")
-        }
-
-        create("TestWorld") {
-            client()
-            ideConfigGenerated(true)
-            runDir("run")
-            programArgs("--quickPlaySingleplayer", "test")
         }
     }
 }
@@ -96,16 +109,16 @@ tasks {
     }
 }
 
-//publishScript {
-//    releaseRepository("TeamVoided", "https://maven.teamvoided.org/releases")
-//    publication(modSettings.modId(), false)
-//    publishSources(true)
-//}
+publishScript {
+    releaseRepository("TeamVoided", "https://maven.teamvoided.org/releases")
+    publication(modSettings.modId(), false)
+    publishSources(true)
+}
 
 uploadConfig {
 //    debugMode = true
-    modrinthId = modrinth_id
-    curseId = curse_id
+    modrinthId = ""
+//    curseId = ""
 
     // FabricApi
     modrinthDependency("P7dR8mSH", uploadConfig.REQUIRED)
