@@ -8,7 +8,7 @@ import com.theendercore.hydra.client.util.addChatMsg
 import com.theendercore.hydra.client.util.playParticle
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
-import net.minecraft.particle.ParticleTypes
+import net.minecraft.core.particles.ParticleTypes
 
 
 object HydraCommand {
@@ -39,7 +39,7 @@ object HydraCommand {
         val source = context.source
         val player = source.player
 
-        addChatMsg(config.credentials.username)
+//        addChatMsg(config.credentials.username)
         playParticle(player, ParticleTypes.TOTEM_OF_UNDYING)
 
         return 1

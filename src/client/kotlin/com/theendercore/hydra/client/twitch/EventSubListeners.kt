@@ -10,11 +10,11 @@ import com.github.twitch4j.eventsub.events.ChannelSubscriptionMessageEvent
 import com.theendercore.hydra.client.HydraMod
 import com.theendercore.hydra.client.HydraMod.config
 import com.theendercore.hydra.client.util.*
-import net.minecraft.client.MinecraftClient
-import net.minecraft.sound.SoundEvents
-import net.minecraft.text.MutableText
-import net.minecraft.text.Text
-import net.minecraft.util.Formatting
+import net.minecraft.ChatFormatting
+import net.minecraft.client.Minecraft
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.MutableComponent
+import net.minecraft.sounds.SoundEvents
 import java.awt.Color
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
@@ -23,8 +23,8 @@ object EventSubListeners {
     val DEFAULT_CHAT_COLOR = Color(180, 84, 255)
 
     fun followingEventListener(event: ChannelFollowEvent) {
-        val follower = Text.literal(event.userName).formatted(Formatting.AQUA)
-        val after = Text.literal(" just Followed!").formatted(Formatting.WHITE)
+        val follower = Component.literal(event.userName).withStyle(ChatFormatting.AQUA)
+        val after = Component.literal(" just Followed!").withStyle(ChatFormatting.WHITE)
         addChatMsg(follower.append(after))
     }
 
@@ -54,16 +54,16 @@ object EventSubListeners {
         )
     }
 
-    fun getSubEventTitle(user: String, text: String, endText: String): MutableText? {
-        return Text.literal(user).formatted(Formatting.LIGHT_PURPLE)
-            .append(Text.literal(text).formatted(Formatting.WHITE))
-            .append(Text.literal(endText).formatted(Formatting.LIGHT_PURPLE))
+    fun getSubEventTitle(user: String, text: String, endText: String): MutableComponent? {
+        return Component.literal(user).withStyle(ChatFormatting.LIGHT_PURPLE)
+            .append(Component.literal(text).withStyle(ChatFormatting.WHITE))
+            .append(Component.literal(endText).withStyle(ChatFormatting.LIGHT_PURPLE))
     }
 
-    fun getSubEventSmallTitle(user: String, text: String, endText: String): MutableText? {
-        return Text.literal(user).formatted(Formatting.WHITE)
-            .append(Text.literal(text).formatted(Formatting.LIGHT_PURPLE))
-            .append(Text.literal(endText).formatted(Formatting.WHITE))
+    fun getSubEventSmallTitle(user: String, text: String, endText: String): MutableComponent? {
+        return Component.literal(user).withStyle(ChatFormatting.WHITE)
+            .append(Component.literal(text).withStyle(ChatFormatting.LIGHT_PURPLE))
+            .append(Component.literal(endText).withStyle(ChatFormatting.WHITE))
     }
 
     fun SubscriptionPlan.toReadable(): String = name.lowercase().replace(Regex("\\d"), "_$0").split("_")
@@ -71,12 +71,12 @@ object EventSubListeners {
 
 
     fun channelPointEvent(title: String, userName: String) {
-        val player = MinecraftClient.getInstance().player ?: return
+        val player = Minecraft.getInstance().player ?: return
 
         when (title) {
             "Hydrate!" -> titleMessage(
-                Text.literal(title).formatted(Formatting.BLUE),
-                Text.literal("Redeemed by $userName").formatted(Formatting.GRAY)
+                Component.literal(title).withStyle(ChatFormatting.BLUE),
+                Component.literal("Redeemed by $userName").withStyle(ChatFormatting.GRAY)
             )
 
             "PP" -> HydraMod.LOGGER.info("yoo")/* "Random Shader" -> if (!client.isOnThread) {
@@ -91,13 +91,13 @@ object EventSubListeners {
                      throw OffThreadException.INSTANCE
                  }*/
             "Play Random Sound" -> playRandomSound(player)
-            "Creeper Aww Man!" -> player.playSound(SoundEvents.ENTITY_CREEPER_PRIMED)
+            "Creeper Aww Man!" -> player.playSound(SoundEvents.CREEPER_PRIMED)
             "Spawn Random Particle" -> randomParticle(player)
-            "Point waste" -> titleMessage(Text.literal("${player.blockPos}"), null)
+            "Point waste" -> titleMessage(Component.literal("${player.blockPosition()}"), null)
         }
 
-        val user = Text.literal(userName).formatted(Formatting.DARK_GRAY)
-        val text = Text.translatable("listener.${HydraMod.MODID}.reward.redeem").formatted(Formatting.WHITE)
+        val user = Component.literal(userName).withStyle(ChatFormatting.DARK_GRAY)
+        val text = Component.translatable("listener.${HydraMod.MODID}.reward.redeem").withStyle(ChatFormatting.WHITE)
         val eventTitle = darkGrayText(title)
         addChatMsg(user.append(text).append(eventTitle))
 
@@ -105,8 +105,8 @@ object EventSubListeners {
 
 
     fun channelMessageListener(event: ChannelMessageEvent) {
-        var messageSender = Text.literal(event.user.name).setColor(config.channelChatColor.toInt())
-        val messageColor: Formatting? = if (event.isHighlightedMessage) Formatting.RED else null
+        var messageSender = Component.literal(event.user.name).withColor(config.channelChatColor.toInt())
+        val messageColor: ChatFormatting? = if (event.isHighlightedMessage) ChatFormatting.RED else null
         var formatPerms = false
         for (p in event.permissions) {
             if (p == CommandPermission.VIP || p == CommandPermission.MODERATOR) {
@@ -116,7 +116,7 @@ object EventSubListeners {
         }
         if (event.user.name != config.credentials.username) {
             val textColor = event.messageEvent.userChatColor.getOrNull()?.let(Color::decode) ?: DEFAULT_CHAT_COLOR
-            messageSender = messageSender.setColor(textColor.rgb)
+            messageSender = messageSender.withColor(textColor.rgb)
         }
         addTwitchMessage(Date(), messageSender, event.message, messageColor, formatPerms)
     }

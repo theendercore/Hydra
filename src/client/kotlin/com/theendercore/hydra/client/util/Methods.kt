@@ -1,50 +1,53 @@
 package com.theendercore.hydra.client.util
 
+
 import com.theendercore.hydra.client.HydraMod.LOGGER
 import com.theendercore.hydra.client.HydraMod.config
-import net.minecraft.client.MinecraftClient
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.particle.DefaultParticleType
-import net.minecraft.particle.ParticleEffect
-import net.minecraft.particle.ParticleType
-import net.minecraft.registry.Holder
-import net.minecraft.registry.Registries
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvent
-import net.minecraft.text.MutableText
-import net.minecraft.text.Text
-import net.minecraft.util.Formatting
+import net.minecraft.ChatFormatting
+import net.minecraft.client.Minecraft
+import net.minecraft.core.Holder
+import net.minecraft.core.particles.ParticleOptions
+import net.minecraft.core.particles.ParticleType
+import net.minecraft.core.particles.SimpleParticleType
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.MutableComponent
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundSource
+import net.minecraft.world.entity.player.Player
 import java.text.SimpleDateFormat
 import java.util.*
 
-private val client: MinecraftClient = MinecraftClient.getInstance()
+private val client: Minecraft = Minecraft.getInstance()
 
 //    private var random: Random = Random.create()
 fun addTwitchMessage(
-    date: Date?,
-    usernameText: MutableText?,
+    date: Date,
+    usernameText: MutableComponent,
     msg: String,
-    chatColor: Formatting?,
+    chatColor: ChatFormatting?,
     isVIP: Boolean,
 ) {
     var message = msg
     val timestampText =
-        Text.literal(SimpleDateFormat(config.timeFormatting).format(date)).formatted(Formatting.GRAY)
-    val messageBodyText = Text.literal(": ").formatted(Formatting.WHITE)
+        Component.literal(SimpleDateFormat(config.timeFormatting).format(date)).withStyle(ChatFormatting.GRAY)
+    val messageBodyText = Component.literal(": ").withStyle(ChatFormatting.WHITE)
 
-    if (!isVIP) message = message.replace(Formatting.FORMATTING_CODE_PREFIX.toString().toRegex(), "$")
+    if (!isVIP) message = message.replace(ChatFormatting.PREFIX_CODE.toString().toRegex(), "$")
 
-    if (chatColor == null) messageBodyText.append(Text.literal(message))
-    else messageBodyText.append(Text.literal(message).formatted(chatColor, Formatting.BOLD, Formatting.ITALIC))
+    if (chatColor == null) messageBodyText.append(Component.literal(message))
+    else messageBodyText.append(
+        Component.literal(message).withStyle(chatColor, ChatFormatting.BOLD, ChatFormatting.ITALIC)
+    )
 
     addChatMsg(timestampText.append(usernameText).append(messageBodyText))
 }
 
-fun addChatMsg(text: Text) = client.inGameHud.chatHud.addMessage(text)
-fun addChatMsg(text: String) = addChatMsg(Text.of(text))
+fun addChatMsg(text: Component) = client.gui.chat.addMessage(text)
+fun addChatMsg(text: String) = addChatMsg(Component.literal(text))
 
-fun titleMessage(text: Text?, smallText: Text?) {
-    val hud = client.inGameHud
+fun titleMessage(text: Component?, smallText: Component?) {
+    val hud = client.gui
     text?.let(hud::setTitle)
     smallText?.let(hud::setSubtitle)
 }
@@ -59,18 +62,18 @@ fun disableShader() {
 }
 
 
-fun playRandomSound(player: PlayerEntity) =
-    Registries.SOUND_EVENT.getRandom(player.random)?.let { if (it.isPresent) player.playSound(it.get()) }
+fun playRandomSound(player: Player) =
+    BuiltInRegistries.SOUND_EVENT.getRandom(player.random)?.let { if (it.isPresent) player.playSound(it.get()) }
 
-fun PlayerEntity.playSound(sound: Holder.Reference<SoundEvent>) =
-    playSound(Registries.SOUND_EVENT.get(sound.key.get()), SoundCategory.PLAYERS, 1f, 1f)
+fun Player.playSound(sound: Holder.Reference<SoundEvent>) =
+    playNotifySound(BuiltInRegistries.SOUND_EVENT.get(sound.key())!!, SoundSource.PLAYERS, 1f, 1f)
 
-fun playParticle(player: PlayerEntity, particle: ParticleType<*>): Int {
+fun playParticle(player: Player, particle: ParticleType<*>): Int {
     val random = player.random
     try {
         repeat(100) {
-            if (particle is ParticleEffect) {
-                client.particleManager.addParticle(
+            if (particle is ParticleOptions) {
+                client.particleEngine.createParticle(
                     particle,
                     player.x + random.nextGaussian() * 1f,
                     player.y + 1.8 + random.nextGaussian() * 1f,
@@ -88,8 +91,8 @@ fun playParticle(player: PlayerEntity, particle: ParticleType<*>): Int {
     return 1
 }
 
-fun randomParticle(player: PlayerEntity): Int {
-    val particles = Registries.PARTICLE_TYPE.filterIsInstance<DefaultParticleType>()
+fun randomParticle(player: Player): Int {
+    val particles = BuiltInRegistries.PARTICLE_TYPE.filterIsInstance<SimpleParticleType>()
     if (particles.isEmpty()) return 0
     return playParticle(player, particles.random())
 }

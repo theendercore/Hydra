@@ -22,7 +22,7 @@ object HydraFabricEvents {
         ClientTickEvents.END_CLIENT_TICK.register {
             if (timeRemainingInTicks > 0) timeRemainingInTicks-- else disableShader()
 
-            if (isDev() && HydraKeys.testKey.isPressed) runDebugCode()
+            if (isDev() && HydraKeys.testKey.isDown) runDebugCode()
         }
 
         ClientPlayConnectionEvents.JOIN.register { _, _, _ ->

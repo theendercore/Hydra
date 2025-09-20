@@ -2,15 +2,14 @@
 
 package com.theendercore.hydra.client.util
 
-import net.minecraft.text.MutableText
-import net.minecraft.text.Text
-import net.minecraft.util.Formatting
+import net.minecraft.ChatFormatting
+import net.minecraft.network.chat.Component.translatable
+import net.minecraft.network.chat.MutableComponent
 
-fun darkGrayText(key: String): MutableText = Text.translatable(key).formatted(Formatting.DARK_GRAY)
-fun darkGrayText(key: String, vararg args: String): MutableText = Text.translatable(key, *args).formatted(Formatting.DARK_GRAY)
+fun darkGrayText(key: String): MutableComponent = translatable(key).withStyle(ChatFormatting.DARK_GRAY)
+fun darkGrayText(key: String, vararg args: String): MutableComponent = translatable(key, *args).withStyle(ChatFormatting.DARK_GRAY)
 
-
-fun grayText(key: String): MutableText = Text.translatable(key).formatted(Formatting.GRAY)
-fun grayText(key: String, vararg args: String): MutableText = Text.translatable(key, *args).formatted(Formatting.GRAY)
-fun redText(key: String): MutableText = Text.translatable(key).formatted(Formatting.RED)
-fun redText(key: String, vararg args: String): MutableText = Text.translatable(key, *args).formatted(Formatting.RED)
+fun grayText(key: String): MutableComponent = translatable(key).withStyle(ChatFormatting.GRAY)
+fun grayText(key: String, vararg args: String): MutableComponent = translatable(key, *args).withStyle(ChatFormatting.GRAY)
+fun redText(key: String): MutableComponent = translatable(key).withStyle(ChatFormatting.RED)
+fun redText(key: String, vararg args: String): MutableComponent = translatable(key, *args).withStyle(ChatFormatting.RED)

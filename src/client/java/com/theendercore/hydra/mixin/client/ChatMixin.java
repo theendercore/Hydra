@@ -1,7 +1,7 @@
 package com.theendercore.hydra.mixin.client;
 
-import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,7 +21,7 @@ public class ChatMixin {
         String prefix = config.prefix;
         if (text.startsWith(prefix) && twitchClient != null) {
             String textWithoutPrefix = text.substring(text.indexOf(prefix) + prefix.length());
-            addTwitchMessage(new Date(), Text.literal(config.credentials.username).setColor(config.getChannelChatColor().toInt()), textWithoutPrefix, null, true);
+            addTwitchMessage(new Date(), Component.literal(config.credentials.username).withColor(config.getChannelChatColor().toInt()), textWithoutPrefix, null, true);
             twitchClient.getChat().sendMessage(config.credentials.username, textWithoutPrefix);
             ci.cancel();
         }
