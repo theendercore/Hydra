@@ -31,7 +31,7 @@ object HydraMod {
     @Suppress("unused")
     fun init() {
         LOGGER.info("Initializing world takeover!")
-        HydraKeys.init()
+        if (isDev()) HydraKeys.init()
         HydraFabricEvents.init()
     }
 }
