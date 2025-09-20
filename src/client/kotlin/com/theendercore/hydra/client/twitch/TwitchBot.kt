@@ -9,7 +9,7 @@ import com.github.twitch4j.eventsub.subscriptions.SubscriptionTypes
 import com.theendercore.hydra.client.HydraMod
 import com.theendercore.hydra.client.HydraMod.LOGGER
 import com.theendercore.hydra.client.HydraMod.config
-import com.theendercore.hydra.client.twitch.EventSubListeners.channelPointRedemption
+import com.theendercore.hydra.client.twitch.EventSubListeners.channelPointEvent
 import com.theendercore.hydra.client.twitch.EventSubListeners.subEvent
 import com.theendercore.hydra.client.util.*
 
@@ -79,22 +79,32 @@ object TwitchBot {
                 }
 
                 eventSocket = HydraMod.twitchClient!!.getEventSocket()
+                // moderator:read:followers
                 register(SubscriptionTypes.CHANNEL_FOLLOW_V2, EventSubListeners::followingEventListener)
+                // channel:read:redemptions
                 register(SubscriptionTypes.CHANNEL_POINTS_CUSTOM_REWARD_REDEMPTION_ADD) {
-                    channelPointRedemption(it.reward.title, it.userName)
+                    channelPointEvent(it.reward.title, it.userName)
                 }
 
+                // channel:read:subscriptions
                 register(SubscriptionTypes.CHANNEL_SUBSCRIBE) { if (!it.isGift) subEvent(it) }
                 register(SubscriptionTypes.CHANNEL_SUBSCRIPTION_GIFT) { subEvent(it) }
                 register(SubscriptionTypes.CHANNEL_SUBSCRIPTION_MESSAGE) { subEvent(it) }
 
+
                 addChatMsg(grayText("command.${HydraMod.MODID}.extras.enable"))
             }
 
+            // chat:read
+            // chat:edit
             HydraMod.twitchClient!!.eventManager.onEvent(
                 ChannelMessageEvent::class.java,
                 EventSubListeners::channelMessageListener
             )
+
+
+            // Token Link
+            // https://twitchtokengenerator.com/quick/UORVCa74GN
 
             1
         }

@@ -1,6 +1,7 @@
 package com.theendercore.hydra.client.util
 
 import com.github.twitch4j.eventsub.condition.ChannelEventSubCondition
+import com.github.twitch4j.eventsub.condition.ChannelFollowV2Condition
 import com.github.twitch4j.eventsub.condition.EventSubCondition
 import com.github.twitch4j.eventsub.events.EventSubEvent
 import com.github.twitch4j.eventsub.subscriptions.SubscriptionType
@@ -15,6 +16,10 @@ fun <C : EventSubCondition, B, E : EventSubEvent> register(
     eventSocket?.register(
         type.prepareSubscription({
             when (it) {
+                is ChannelFollowV2Condition.ChannelFollowV2ConditionBuilder<*, *> ->
+                    it.broadcasterUserId(config.credentials.broadcasterId)
+                        .moderatorUserId(config.credentials.broadcasterId).build() as C
+
                 is ChannelEventSubCondition.ChannelEventSubConditionBuilder<*, *> ->
                     it.broadcasterUserId(config.credentials.broadcasterId).build() as C
 

@@ -70,7 +70,7 @@ object EventSubListeners {
         .joinToString(" ") { it.replaceFirstChar(Char::uppercaseChar) }
 
 
-    fun channelPointRedemption(title: String, userName: String) {
+    fun channelPointEvent(title: String, userName: String) {
         val player = MinecraftClient.getInstance().player ?: return
 
         when (title) {
