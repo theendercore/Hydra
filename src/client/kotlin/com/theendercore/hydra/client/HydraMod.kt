@@ -6,6 +6,7 @@ import com.theendercore.hydra.client.init.HydraFabricEvents
 import com.theendercore.hydra.client.init.HydraKeys
 import me.fzzyhmstrs.fzzy_config.api.ConfigApi
 import me.fzzyhmstrs.fzzy_config.api.RegisterType
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.util.Identifier
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -24,6 +25,8 @@ object HydraMod {
     var twitchClient: TwitchClient? = null
 
     fun id(path: String): Identifier = Identifier.of(MODID, path)
+
+    fun isDev() = FabricLoader.getInstance().isDevelopmentEnvironment
 
     @Suppress("unused")
     fun init() {

@@ -4,12 +4,15 @@ import com.github.twitch4j.chat.events.channel.ChannelMessageEvent
 import com.github.twitch4j.common.enums.CommandPermission
 import com.github.twitch4j.common.enums.SubscriptionPlan
 import com.github.twitch4j.eventsub.events.ChannelFollowEvent
-import com.github.twitch4j.eventsub.events.EventSubEvent
+import com.github.twitch4j.eventsub.events.ChannelSubscribeEvent
+import com.github.twitch4j.eventsub.events.ChannelSubscriptionGiftEvent
+import com.github.twitch4j.eventsub.events.ChannelSubscriptionMessageEvent
 import com.theendercore.hydra.client.HydraMod
 import com.theendercore.hydra.client.HydraMod.config
 import com.theendercore.hydra.client.util.*
 import net.minecraft.client.MinecraftClient
 import net.minecraft.sound.SoundEvents
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import java.awt.Color
@@ -25,17 +28,47 @@ object EventListeners {
         addChatMsg(follower.append(after))
     }
 
-    fun subscriptionEventListener(userName: String, tier: SubscriptionPlan, event: EventSubEvent) {
-        HydraMod.LOGGER.info(event.toString())
-        val subscriber = Text.literal(userName).formatted(Formatting.LIGHT_PURPLE)
-        val tier = Text.literal(tier.toString()).formatted(Formatting.LIGHT_PURPLE)
+    fun subEvent(event: ChannelSubscribeEvent) {
         titleMessage(
-            subscriber.append(Text.literal(" Has Subscribed with ")).formatted(Formatting.WHITE).append(tier)
-                .append("Tier!"),
-            Text.empty()
-//            Text.literal(event.message.toString()).formatted(Formatting.GRAY)
+            getSubEventTitle(event.userName, " Has subscribed!", ""),
+            getSubEventSmallTitle("With ", event.tier.toReadable(), "")
         )
     }
+
+    fun subEvent(event: ChannelSubscriptionGiftEvent) {
+        titleMessage(
+            getSubEventTitle(if (event.isAnonymous == true) "[Anonymous]" else event.userName, " Has has gifted", ""),
+            getSubEventSmallTitle(
+                event.total.toString(), " " + event.tier.toReadable(), " Sub${if (event.total > 1) "s" else ""}",
+            )
+        )
+    }
+
+    fun subEvent(event: ChannelSubscriptionMessageEvent) {
+        val monthsText = if (event.cumulativeMonths > 1) " ${event.cumulativeMonths} Months" else " a Month"
+        @Suppress("UNNECESSARY_SAFE_CALL")
+        titleMessage(
+            getSubEventTitle(event.userName, " Has subscribed for", monthsText),
+            if (event?.message?.text?.isEmpty() == true) getSubEventSmallTitle("With ", event.tier.toReadable(), "")
+            else getSubEventSmallTitle("", event.message.text, "")
+        )
+    }
+
+    fun getSubEventTitle(user: String, text: String, endText: String): MutableText? {
+        return Text.literal(user).formatted(Formatting.LIGHT_PURPLE)
+            .append(Text.literal(text).formatted(Formatting.WHITE))
+            .append(Text.literal(endText).formatted(Formatting.LIGHT_PURPLE))
+    }
+
+    fun getSubEventSmallTitle(user: String, text: String, endText: String): MutableText? {
+        return Text.literal(user).formatted(Formatting.WHITE)
+            .append(Text.literal(text).formatted(Formatting.LIGHT_PURPLE))
+            .append(Text.literal(endText).formatted(Formatting.WHITE))
+    }
+
+    fun SubscriptionPlan.toReadable(): String = name.lowercase().replace(Regex("\\d"), "_$0").split("_")
+        .joinToString(" ") { it.replaceFirstChar(Char::uppercaseChar) }
+
 
     fun channelPointRedemption(title: String, userName: String) {
         val player = MinecraftClient.getInstance().player ?: return
@@ -46,8 +79,7 @@ object EventListeners {
                 Text.literal("Redeemed by $userName").formatted(Formatting.GRAY)
             )
 
-            "PP" -> HydraMod.LOGGER.info("yoo")
-            /* "Random Shader" -> if (!client.isOnThread) {
+            "PP" -> HydraMod.LOGGER.info("yoo")/* "Random Shader" -> if (!client.isOnThread) {
                      client.execute {
                          try {
                              setRandomShader()

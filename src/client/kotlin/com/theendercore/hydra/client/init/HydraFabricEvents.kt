@@ -2,11 +2,13 @@ package com.theendercore.hydra.client.init
 
 import com.theendercore.hydra.client.HydraMod
 import com.theendercore.hydra.client.HydraMod.config
+import com.theendercore.hydra.client.HydraMod.isDev
 import com.theendercore.hydra.client.commands.HydraCommand
 import com.theendercore.hydra.client.twitch.TwitchBot
 import com.theendercore.hydra.client.util.addChatMsg
 import com.theendercore.hydra.client.util.darkGrayText
 import com.theendercore.hydra.client.util.disableShader
+import com.theendercore.hydra.client.util.runDebugCode
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents.ClientStopping
@@ -19,6 +21,8 @@ object HydraFabricEvents {
     fun init() {
         ClientTickEvents.END_CLIENT_TICK.register {
             if (timeRemainingInTicks > 0) timeRemainingInTicks-- else disableShader()
+
+            if (isDev() && HydraKeys.testKey.isPressed) runDebugCode()
         }
 
         ClientPlayConnectionEvents.JOIN.register { _, _, _ ->
@@ -36,3 +40,4 @@ object HydraFabricEvents {
         ClientCommandRegistrationCallback.EVENT.register { dispatcher, _ -> HydraCommand.register(dispatcher) }
     }
 }
+

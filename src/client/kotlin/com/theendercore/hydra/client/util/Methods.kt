@@ -45,11 +45,8 @@ fun addChatMsg(text: String) = addChatMsg(Text.of(text))
 
 fun titleMessage(text: Text?, smallText: Text?) {
     val hud = client.inGameHud
-    if (text != null) {
-        hud.setTitle(text)
-    } else {
-        hud.setSubtitle(smallText)
-    }
+    text?.let(hud::setTitle)
+    smallText?.let(hud::setSubtitle)
 }
 
 @Suppress("unused")

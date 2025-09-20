@@ -3,10 +3,14 @@
   "minVersion": "0.8",
   "package": "com.theendercore.hydra.mixin.client",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [
-  ],
+  "mixins": [],
   "client": [
-    "ChatMixin"
+    "debug.ChannelSubscribeEventAccessor",
+    "debug.ChannelSubscriptionGiftEventAccessor",
+    "debug.ChannelSubscriptionMessageEventAccessor",
+    "ChatMixin",
+    "debug.EventSubUserChannelEventAccessor",
+    "debug.SubMessageAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

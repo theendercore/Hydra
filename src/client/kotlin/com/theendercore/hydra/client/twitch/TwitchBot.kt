@@ -9,7 +9,8 @@ import com.github.twitch4j.eventsub.subscriptions.SubscriptionTypes
 import com.theendercore.hydra.client.HydraMod
 import com.theendercore.hydra.client.HydraMod.LOGGER
 import com.theendercore.hydra.client.HydraMod.config
-import com.theendercore.hydra.client.twitch.EventListeners.subscriptionEventListener
+import com.theendercore.hydra.client.twitch.EventListeners.channelPointRedemption
+import com.theendercore.hydra.client.twitch.EventListeners.subEvent
 import com.theendercore.hydra.client.util.*
 
 object TwitchBot {
@@ -80,21 +81,12 @@ object TwitchBot {
                 eventSocket = HydraMod.twitchClient!!.getEventSocket()
                 register(SubscriptionTypes.CHANNEL_FOLLOW_V2, EventListeners::followingEventListener)
                 register(SubscriptionTypes.CHANNEL_POINTS_CUSTOM_REWARD_REDEMPTION_ADD) {
-                    EventListeners.channelPointRedemption(it.reward.title, it.userName)
+                    channelPointRedemption(it.reward.title, it.userName)
                 }
-                try {
-                    register(SubscriptionTypes.CHANNEL_SUBSCRIBE) {
-                        subscriptionEventListener(it.userName, it.tier, it)
-                    }
-                    register(SubscriptionTypes.CHANNEL_SUBSCRIPTION_GIFT) {
-                        subscriptionEventListener(it.userName, it.tier, it)
-                    }
-                    register(SubscriptionTypes.CHANNEL_SUBSCRIPTION_MESSAGE) {
-                        subscriptionEventListener(it.userName, it.tier, it)
-                    }
-                } catch (e: Error) {
-                    LOGGER.error("bad", e)
-                }
+
+                register(SubscriptionTypes.CHANNEL_SUBSCRIBE) { if (!it.isGift) subEvent(it) }
+                register(SubscriptionTypes.CHANNEL_SUBSCRIPTION_GIFT) { subEvent(it) }
+                register(SubscriptionTypes.CHANNEL_SUBSCRIPTION_MESSAGE) { subEvent(it) }
 
                 addChatMsg(grayText("command.${HydraMod.MODID}.extras.enable"))
             }
