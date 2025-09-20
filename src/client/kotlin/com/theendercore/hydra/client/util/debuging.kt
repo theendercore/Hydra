@@ -6,7 +6,7 @@ import com.github.twitch4j.eventsub.events.ChannelSubscribeEvent
 import com.github.twitch4j.eventsub.events.ChannelSubscriptionGiftEvent
 import com.github.twitch4j.eventsub.events.ChannelSubscriptionMessageEvent
 import com.github.twitch4j.eventsub.events.EventSubUserChannelEvent
-import com.theendercore.hydra.client.twitch.EventListeners.subEvent
+import com.theendercore.hydra.client.twitch.EventSubListeners.subEvent
 import com.theendercore.hydra.mixin.client.debug.ChannelSubscribeEventAccessor
 import com.theendercore.hydra.mixin.client.debug.ChannelSubscriptionGiftEventAccessor
 import com.theendercore.hydra.mixin.client.debug.ChannelSubscriptionMessageEventAccessor

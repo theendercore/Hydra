@@ -19,7 +19,7 @@ import java.awt.Color
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
-object EventListeners {
+object EventSubListeners {
     val DEFAULT_CHAT_COLOR = Color(180, 84, 255)
 
     fun followingEventListener(event: ChannelFollowEvent) {

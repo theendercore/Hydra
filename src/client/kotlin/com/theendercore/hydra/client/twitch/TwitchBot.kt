@@ -9,8 +9,8 @@ import com.github.twitch4j.eventsub.subscriptions.SubscriptionTypes
 import com.theendercore.hydra.client.HydraMod
 import com.theendercore.hydra.client.HydraMod.LOGGER
 import com.theendercore.hydra.client.HydraMod.config
-import com.theendercore.hydra.client.twitch.EventListeners.channelPointRedemption
-import com.theendercore.hydra.client.twitch.EventListeners.subEvent
+import com.theendercore.hydra.client.twitch.EventSubListeners.channelPointRedemption
+import com.theendercore.hydra.client.twitch.EventSubListeners.subEvent
 import com.theendercore.hydra.client.util.*
 
 object TwitchBot {
@@ -79,7 +79,7 @@ object TwitchBot {
                 }
 
                 eventSocket = HydraMod.twitchClient!!.getEventSocket()
-                register(SubscriptionTypes.CHANNEL_FOLLOW_V2, EventListeners::followingEventListener)
+                register(SubscriptionTypes.CHANNEL_FOLLOW_V2, EventSubListeners::followingEventListener)
                 register(SubscriptionTypes.CHANNEL_POINTS_CUSTOM_REWARD_REDEMPTION_ADD) {
                     channelPointRedemption(it.reward.title, it.userName)
                 }
@@ -93,7 +93,7 @@ object TwitchBot {
 
             HydraMod.twitchClient!!.eventManager.onEvent(
                 ChannelMessageEvent::class.java,
-                EventListeners::channelMessageListener
+                EventSubListeners::channelMessageListener
             )
 
             1
