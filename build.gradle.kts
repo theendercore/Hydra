@@ -32,7 +32,6 @@ repositories {
 
 modSettings {
     entrypoint("client", "com.theendercore.hydra.client.HydraMod::init")
-//    entrypoint("modmenu", "com.theendercore.hydra.client.config.ModMenuCombat")
 //    entrypoint("fabric-datagen", "org.teamvoided.template.data.gen.TemplateData")
 
     mixinFile("${modId()}.client.mixins.json")
@@ -84,7 +83,6 @@ loom {
 }
 
 sourceSets["main"].resources.srcDir("src/main/generated")
-sourceSets["main"].resources.srcDir("src/client/resources")
 
 tasks {
     val targetJavaVersion = 21
