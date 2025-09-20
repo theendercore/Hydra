@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper.registerKey
 import net.minecraft.client.option.KeyBind
 import org.lwjgl.glfw.GLFW
 
-object KeyBindingRegistry {
+object HydraKeys {
     fun init() = Unit
 
     @Suppress("unused")

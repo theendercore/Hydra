@@ -3,7 +3,7 @@ package com.theendercore.hydra.client
 import com.github.twitch4j.TwitchClient
 import com.theendercore.hydra.client.config.HydraConfig
 import com.theendercore.hydra.client.init.HydraFabricEvents
-import com.theendercore.hydra.client.init.KeyBindingRegistry
+import com.theendercore.hydra.client.init.HydraKeys
 import me.fzzyhmstrs.fzzy_config.api.ConfigApi
 import me.fzzyhmstrs.fzzy_config.api.RegisterType
 import net.minecraft.util.Identifier
@@ -28,7 +28,7 @@ object HydraMod {
     @Suppress("unused")
     fun init() {
         LOGGER.info("Initializing world takeover!")
-        KeyBindingRegistry.init()
+        HydraKeys.init()
         HydraFabricEvents.init()
     }
 }
