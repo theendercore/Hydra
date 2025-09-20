@@ -36,6 +36,8 @@ modSettings {
 
     mixinFile("${modId()}.client.mixins.json")
 //    mixinFile("${modId()}.mixins.json")
+    dependency("twitch4j", "*")
+    dependency("fzzy_config", "*")
 }
 
 dependencies {
