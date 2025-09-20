@@ -23,7 +23,8 @@ To use this mod you need a Twitch OAth token which you can get here: https://twi
 - A good amount of the mod can be configured
     - An Option to let the mod turn on automatically
 
-***Note that I'm planing to add way more features. And make this mod more customizable these are just the first public releases***
+## Future of the mod?
+I want to work on adding a lot more features to this mod but im very busy with a lot of stuff. So please be patient.
 
 ## Notes
 This mod is an early Alpha and will have lots of bugs. If you find any please report them to me, so I could fix them.<br>And if you want to see any features added please join [my discord](https://discord.gg/KZ5Q364hEg) and suggest them!
