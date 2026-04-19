@@ -30,7 +30,8 @@ fun addTwitchMessage(
 ) {
     var message = msg
     val timestampText =
-        Component.literal(SimpleDateFormat(config.timeFormatting).format(date)).withStyle(ChatFormatting.GRAY)
+        if (config.timeFormatting.isEmpty()) Component.literal("")
+        else Component.literal(SimpleDateFormat(config.timeFormatting).format(date)).withStyle(ChatFormatting.GRAY)
     val messageBodyText = Component.literal(": ").withStyle(ChatFormatting.WHITE)
 
     if (!isVIP) message = message.replace(ChatFormatting.PREFIX_CODE.toString().toRegex(), "$")
@@ -43,7 +44,16 @@ fun addTwitchMessage(
     addChatMsg(timestampText.append(usernameText).append(messageBodyText))
 }
 
-fun addChatMsg(text: Component) = client.gui.chat.addMessage(text)
+fun addChatMsg(text: Component) {
+    client.execute {
+        try {
+            client.gui.chat.addMessage(text)
+        } catch (e: Throwable) {
+            LOGGER.error("Message could not Send!", e)
+        }
+    }
+}
+
 fun addChatMsg(text: String) = addChatMsg(Component.literal(text))
 
 fun titleMessage(text: Component?, smallText: Component?) {
@@ -63,10 +73,10 @@ fun disableShader() {
 
 
 fun playRandomSound(player: Player) =
-    BuiltInRegistries.SOUND_EVENT.getRandom(player.random)?.let { if (it.isPresent) player.playSound(it.get()) }
+    BuiltInRegistries.SOUND_EVENT.getRandom(player.random).let { if (it.isPresent) player.playSound(it.get()) }
 
 fun Player.playSound(sound: Holder.Reference<SoundEvent>) =
-    playNotifySound(BuiltInRegistries.SOUND_EVENT.get(sound.key())!!, SoundSource.PLAYERS, 1f, 1f)
+    level().playLocalSound(x, y, z, sound.value(), SoundSource.PLAYERS, 1f, 1f, false)
 
 fun playParticle(player: Player, particle: ParticleType<*>): Int {
     val random = player.random

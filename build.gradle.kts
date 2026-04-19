@@ -44,15 +44,14 @@ dependencies {
     modImplementation(fileTree("libs"))
     modImplementation(libs.modmenu)
 
-    modCompileOnly("${libs.emi.get()}:api")
-    modLocalRuntime(libs.emi)
+//    modCompileOnly("${libs.emi.get()}:api")
+//    modLocalRuntime(libs.emi)
 
     modImplementation(libs.twitch4j)
     modImplementation(libs.fzzy.config)
     modImplementation(libs.cloth.config)
 
     modImplementation(libs.creative.works)
-    modImplementation(libs.imguimc)
 }
 val username = "vDev"
 val uuid: String? = null

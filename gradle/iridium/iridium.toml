@@ -1,14 +1,14 @@
 projectTitle = "Hydra"
 modId = "hydra"
-modVersion = "0.7.0"
+modVersion = "0.8.0"
 group = "com.theendercore"
 githubRepo = "theendercore/Hydra"
 discordServerInviteId = "KZ5Q364hEg"
 authors = [ "TheEnderCore" ]
-majorMinecraftVersion = ">=1.21.1"
-minecraftVersion = "1.21.1"
-fabricLoaderVersion = "0.17.2"
-fabricApiVersion = "0.116.6+1.21.1"
+majorMinecraftVersion = ">=1.21.11"
+minecraftVersion = "1.21.11"
+fabricLoaderVersion = "0.19.2"
+fabricApiVersion = "0.141.3+1.21.11"
 fabricLangKotlinVersion = "1.13.6+kotlin.2.2.20"
 license = "MIT"
 modules = [ ]
@@ -27,4 +27,4 @@ disableKotlin = false
     # MOJYARN: Yarn layered on top of the official Mojang mappings
     # CUSTOM: Custom mapping jar. Uses mappings version as file location
     type = "MOJANG"
-    version = "1.21.1"
+    version = "1.21.11"

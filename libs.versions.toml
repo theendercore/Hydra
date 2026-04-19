@@ -1,17 +1,16 @@
 [versions]
 kotlin = "2.2.20"
-fabric-loom = "1.11-SNAPSHOT"
+fabric-loom = "1.15-SNAPSHOT"
 iridium = "3.5.0"
 # Dependencies
-fzzy-config = "0.7.2+1.21"
-cloth-config = "15.0.130"
+fzzy-config = "0.7.6+1.21.11"
+cloth-config = "21.11.153"
 twitch4j = "1.25.0+1.11.0"
 # QoL
-modmenu = "11.0.3"
-emi = "1.1.22+1.21.1"
+modmenu = "17.0.0"
+#emi = "1.1.22+1.21.1"
 # Testing
-creative-works = "0.5.0"
-imguimc = "1.21.1-1.0.8"
+creative-works = "0.5.1+1.21.11"
 
 [libraries]
 # Dependencies
@@ -20,10 +19,9 @@ cloth-config = { module = "me.shedaniel.cloth:cloth-config-fabric", version.ref 
 twitch4j = { module = "com.github.twitch4j:twitch4j-fabric", version.ref = "twitch4j" }
 # QoL
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
-emi = { module = "dev.emi:emi-fabric", version.ref = "emi" }
+#emi = { module = "dev.emi:emi-fabric", version.ref = "emi" }
 # Testing
 creative-works = { module = "org.teamvoided:creative_works", version.ref = "creative-works" }
-imguimc = { module = "maven.modrinth:imgui-mc", version.ref = "imguimc" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
