@@ -29,10 +29,10 @@ fun addTwitchMessage(
     isVIP: Boolean,
 ) {
     var message = msg
-    val timestampText =
-        if (config.timeFormatting.isEmpty()) Component.literal("")
-        else Component.literal(SimpleDateFormat(config.timeFormatting).format(date)).withStyle(ChatFormatting.GRAY)
-    val messageBodyText = Component.literal(": ").withStyle(ChatFormatting.WHITE)
+    val timestampText = timeMsg(
+        Component.literal(SimpleDateFormat(config.timeFormatting).format(date)).withStyle(ChatFormatting.GRAY)
+    )
+    val messageBodyText = timeMsg(Component.literal(": ").withStyle(ChatFormatting.WHITE))
 
     if (!isVIP) message = message.replace(ChatFormatting.PREFIX_CODE.toString().toRegex(), "$")
 
@@ -43,6 +43,9 @@ fun addTwitchMessage(
 
     addChatMsg(timestampText.append(usernameText).append(messageBodyText))
 }
+
+fun timeMsg(ts: MutableComponent): MutableComponent =
+    if (config.timeFormatting.isEmpty()) Component.literal("") else ts
 
 fun addChatMsg(text: Component) {
     client.execute {
